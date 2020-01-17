@@ -1,0 +1,97 @@
+.cover-page{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.top-image{
+    flex: 2;
+    background: rgb(185, 185, 185);
+    width: 100%;
+    background-image: url('/assets/top-bg.jpg');
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+}
+.profile-container{
+    width: 100%;
+    position: relative;
+    flex: 0;
+    height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile{
+    z-index: 2;
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    border-radius: 999px;
+    position: absolute;
+    border: 5px solid #9c9c9c;
+    box-shadow: 0px 7px 10px -3px rgba(0,0,0,.4);
+    background-image: url('/assets/headshot.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.bottom{
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,.5);
+    flex: 4;
+    background: rgb(94, 94, 94);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: rgb(106,106,106);
+    background: radial-gradient(circle at bottom, rgba(106,106,106,1) 0%, rgba(68,68,68,1) 100%);
+}
+.bottom h1{
+    color: rgb(241, 241, 241);
+    font-weight: lighter;
+    user-select: none;
+    font-size: 50px;
+}
+.bottom-text-container{
+    flex: 1;
+    margin-top: 200px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.sections{
+    flex: 1;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;    
+    align-items: center;
+    justify-content: center;
+}
+.sections h2{
+    -webkit-box-flex: 1;
+    flex: 1;
+    color: white;
+    font-weight: 100;
+    user-select: none;
+    cursor: pointer;
+    transition: color .3s;
+    font-size: 25px;
+}
+.sections h2:hover{
+    color: #96ffb9;
+    text-shadow: 0px 0px 5px #00000000;
+}
+@media only screen and (max-width: 1000px){
+    .sections h2{font-size: 20px}
+}
+@media only screen and (max-width: 800px){
+    .profile{width: 200px; height: 200px;}
+    .bottom-text-container{margin-top: 130px;}
+    .top-image{flex:1;}
+    .bottom{flex: 3;}
+    .sections h2{flex: 0; margin: 10px;}
+    .sections{flex-direction: column; padding: 30px;}
+}
+@media only screen and (max-width: 400px){
+    .profile{width: 150px; height: 150px;}
+    .bottom-text-container{margin-top: 90px;}
+}
