@@ -28,7 +28,7 @@
     background-color: white;
     border-radius: 999px;
     position: absolute;
-    border: 5px solid #9c9c9c;
+    border: 5px solid #39414a;
     box-shadow: 0px 7px 10px -3px rgba(0,0,0,.4);
     background-image: url('/assets/headshot.jpg');
     background-size: cover;
@@ -42,11 +42,11 @@
     display: flex;
     flex-direction: column;
     background: rgb(106,106,106);
-    background: radial-gradient(circle at bottom, rgba(106,106,106,1) 0%, rgba(68,68,68,1) 100%);
+    background: radial-gradient(circle at bottom, #bdbdbd 0%, #9e9e9e 100%);
 }
 .bottom h1{
-    color: rgb(241, 241, 241);
-    font-weight: lighter;
+    color: #47525E;
+    font-weight: normal;
     user-select: none;
     font-size: 50px;
 }
@@ -69,8 +69,8 @@
 .sections h2{
     -webkit-box-flex: 1;
     flex: 1;
-    color: white;
-    font-weight: 100;
+    color: #47525E;
+    font-weight: normal;
     user-select: none;
     cursor: pointer;
     transition: color .3s;
