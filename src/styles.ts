@@ -24,4 +24,9 @@ export const MainStyles = css`
 
     --font-stack: 'Fira Mono', monospace;
   }
+
+  * {
+    font-family: var(--font-stack);
+    color: var(--primary);
+  }
 `;

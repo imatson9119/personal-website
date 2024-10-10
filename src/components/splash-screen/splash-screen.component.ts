@@ -91,6 +91,13 @@ export class SplashScreenComponent extends LitElement {
           />
           <div class="noise"></div>
         </div>
+        <div class="arrow-text-container">
+          <div class="arrow-text">free-range software developer!</div>
+          <img class="arrow" src='assets/arrow.svg'/>
+        </div>
+        <div class="lower-text">
+          <p>Scroll down to learn more</p>
+        </div>
       </div>
     `;
   }
