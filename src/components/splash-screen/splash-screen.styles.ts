@@ -12,10 +12,4 @@ export const ComponentStyles = css`
     box-sizing: border-box;
     overflow: hidden;
   }
-
-  #canvas {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-  }
-`
+`;
