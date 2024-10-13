@@ -19,8 +19,19 @@ export class SplashScreenComponent extends LitElement {
   render() {
     return html`
       <div class='main-container'>
-        <div class = 'name-text'>
-          <h1>IAN<br>MAT<br>SON.</h1>
+        <div class='header'>
+          <a href='#about'>about</a>
+          <a href='#contact'>contact</a>
+          <a href='#projects'>portfolio</a>
+        </div>
+        <div class='main-body'>
+          <div class='name-text'>
+            <h1>IAN<br>MAT<br>SON<span class='accent'>.</span></h1>
+          </div>
+          <div class='portrait'></div>
+        </div>
+        <div class='footer'>
+          <img src='assets/keyboard_arrow_down.svg' alt='scroll down'>
         </div>
       </div>
     `;

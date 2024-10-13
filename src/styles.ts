@@ -25,8 +25,19 @@ export const MainStyles = css`
     --font-stack: 'Fira Mono', monospace;
   }
 
+  body {
+    color: var(--primary);
+  }
+
   * {
     font-family: var(--font-stack);
-    color: var(--primary);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
   }
 `;
