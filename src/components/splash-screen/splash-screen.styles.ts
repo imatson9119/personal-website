@@ -13,7 +13,26 @@ export const ComponentStyles = css`
     box-sizing: border-box;
     overflow: hidden;
     background: #3C3C3C;
+
+
+    background: repeating-linear-gradient(
+      45deg, 
+      #3C3C3C 0px,
+      #3C3C3C 25px,
+      #393939 25px,
+      #393939 75px,
+      #3C3C3C 75px,
+      #3C3C3C 100px
+    );
+    background-attachment: fixed;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: 100px 100px;
     color: var(--secondary-one);
+    background-color: #393939;
+    background-image:  linear-gradient(#3F3F3F 2px, transparent 2px), linear-gradient(90deg, #3F3F3F 2px, transparent 2px), linear-gradient(#3F3F3F 1px, transparent 1px), linear-gradient(90deg, #3F3F3F 1px, #393939 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
   }
 
   .header {
@@ -56,17 +75,22 @@ export const ComponentStyles = css`
   }
 
   .name-text h1 {
-    color: #343434;
+    position: relative;
+    color: #00000031;
     font-size: 12rem;
     line-height: 8.31rem;
     -webkit-text-stroke: 1px var(--accent);
     transform: translateY(23px);
   }
 
-  .name-text h1 .accent {
-    color: var(--accent);
-    -webkit-text-stroke: none;
-    font-size: 4rem;
+  .name-text div.accent {
+    background: var(--accent);
+    position: absolute;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    right: -30px;
   }
 
   .footer {
@@ -79,12 +103,27 @@ export const ComponentStyles = css`
   }
 
   @media (max-width: 1000px) {
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      justify-content: space-evenly;
+    }
+
+    .header a {
+      font-size: .8rem;
+    }
+
     .main-body {
-      flex-direction: column;
+      flex-wrap: wrap-reverse;
+      height: 100%;
+      align-items: flex-end;
     }
 
     .portrait {
       width: 100%;
+      height: 200px;
       border-radius: 0px;
       border-left: none;
       margin-left: 0px;
@@ -92,13 +131,14 @@ export const ComponentStyles = css`
 
     .name-text {
       width: 100%;
+      flex-grow: 1;
     }
 
     .name-text h1 {
       font-size: 8rem;
         margin: 0px;
         margin-bottom: 1rem;
-        line-height: 6.31rem;
+        line-height: 5.5556rem;
         transform: none;
     }
   }
