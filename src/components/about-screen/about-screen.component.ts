@@ -46,14 +46,22 @@ export class AboutScreenComponent extends LitElement {
   }
 
   static animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
-    const material = new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0});
-    let mousePos = [0, 0];
-    let cameraOffsetFactor = [0, 0];
-    let scrollY = window.scrollY;
+    const texture: THREE.Texture = new THREE.TextureLoader().load('assets/portrait.png');
+    const materials = [
+      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0}),
+      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0}),
+      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0}), 
+      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0})
+    ];
+    let mousePos = [window.innerWidth/2, window.innerWidth/2];
+    let cameraOffsetFactor = [.5, .5];
     const flicker_lower_bound = 0.1;
     const flicker_upper_bound = 0.4;
-    const flicker_likelihood = 0.001;
+    const flicker_likelihood = 0.0015;
     const flickerShake = 1;
+    let leftFace = null;
+    let centerFace = null;
+    let rightFace = null;
     let flickerTime = 0;
 
     window.addEventListener('mousemove', (event) => {
@@ -61,13 +69,28 @@ export class AboutScreenComponent extends LitElement {
     });
 
 
-
-
     mug.traverse((child) => {
-      console.log(child);
       if (child instanceof THREE.Mesh) {
-        child.geometry.computeVertexNormals();
-        child.material = material;
+        const color = Math.floor(Math.random()*16777215);
+        console.log(child);
+        console.log(color);
+        switch (child.name) {
+          case 'Cube001_2':
+            rightFace = child;
+            child.material = materials[3];
+            break;
+          case 'Cube001_3':
+            centerFace = child;
+            child.material = materials[2];
+            break;
+          case 'Cube001_4':
+            leftFace = child;
+            child.material = materials[1];
+            break;
+          default:
+            child.material = materials[0];
+            break;
+        }
       }
     });
 
@@ -76,9 +99,6 @@ export class AboutScreenComponent extends LitElement {
     mug.position.x = 0;
     mug.position.y = 0;
 
-    window.addEventListener('scroll', () => {
-      scrollY = window.scrollY;
-    });
 
     const clock = new THREE.Clock();
 
@@ -100,8 +120,10 @@ export class AboutScreenComponent extends LitElement {
           mug.position.x = 0;
           mug.position.y = 0;
           mug.position.z = -5;
-          material.color.setHex(0xeaf0ce);
-          material.wireframe = false;
+          materials.forEach((material) => {
+            material.color.setHex(0xeaf0ce);
+            material.wireframe = false;
+          });
         } else {
           const r = Math.random() * 155 + 100;
           const g = Math.random() * 155 + 100;
@@ -109,13 +131,17 @@ export class AboutScreenComponent extends LitElement {
           const color = (r << 16) | (g << 8) | b;
 
   
-          material.color.setHex(color);
+          materials.forEach((material) => {
+            material.color.setHex(color);
+          });
           mug.position.x = Math.random() * flickerShake;
           mug.position.y = Math.random() * flickerShake;
           mug.position.z = -5 + Math.random() * flickerShake;
         }
       } else if (Math.random() < flicker_likelihood) {
-        material.wireframe = true;
+        materials.forEach((material) => {
+          material.wireframe = true;
+        });
         flickerTime = Math.random() * (flicker_upper_bound - flicker_lower_bound) + flicker_lower_bound;
       }
 
@@ -139,29 +165,45 @@ export class AboutScreenComponent extends LitElement {
       console.error( error );
     });
 
-    camera.position.z = 10;
+    camera.position.z = isMobileViewport() ? 20 : 10;
     // set ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff, .5);
     scene.add(ambientLight);
-
 
     // set directional light
     const light = new THREE.DirectionalLight(0xffffff, 2);
     light.position.set(0, 10, 5);
     scene.add(light);
+
+    // Fix aspect ratio on resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth - 6, window.innerHeight - 6);
+      camera.position.z = window.innerWidth > 768 ? 10 : 20;
+    });
   }
-  
 
   render() {
     return html`
       <div class='main-container'>
-        about
+        <div class='html-content'>
+          <div class='header'>
+            about me<span class='accent'>.</span>
+          </div>
+          <div class='body'>
+            <span>I'm a freelance <span class='accent'>software engineer</span> born and raised in <span class='accent'>Dallas, TX</span>. I'm always looking to <span class='accent'>learn</span>, and have a deep apprecitation for a <span class='accent'>good challenge</span>. Reach out and say hi!</span>
+          </div>
+        </div>
         <canvas id='canvas'></canvas>
-
       </div>
       <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     `;
   }
+}
+
+function isMobileViewport() {
+  return window.innerWidth < 768;
 }
 
 declare global {
