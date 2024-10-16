@@ -39,15 +39,24 @@ export class SplashScreenComponent extends LitElement {
     }
     updateBackground();
   }
+
   
+  _emitScrollEvent(id: string) {
+    const scrollEvent = new CustomEvent('scrollTo', {
+      detail: id,
+      bubbles: false,
+      composed: true
+    });
+    this.dispatchEvent(scrollEvent);
+  }
 
   render() {
     return html`
       <div class='main-container'>
         <div class='header'>
-          <a href='#about'>about</a>
-          <a href='#contact'>contact</a>
-          <a href='#projects'>portfolio</a>
+          <a href='#about' @click=${() => this._emitScrollEvent('about')}>about</a>
+          <a href='#contact' @click=${() => this._emitScrollEvent('contacts')}>contact</a>
+          <a href='#projects' @click=${() => this._emitScrollEvent('portfolio')}>portfolio</a>
         </div>
         <div class='main-body'>
           <div class='name-text'>
@@ -56,12 +65,8 @@ export class SplashScreenComponent extends LitElement {
           <div class='portrait'></div>
         </div>
         <div class='footer'>
-          <img src='assets/keyboard_arrow_down.svg' alt='scroll down'>
+          <img @click=${() => this._emitScrollEvent('about')} src='assets/keyboard_arrow_down.svg' alt='scroll down'>
         </div>
-      </div>
-      <div class='test'>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
       </div>
     `;
   }

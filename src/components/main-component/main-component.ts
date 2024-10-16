@@ -75,13 +75,21 @@ export class MainA extends LitElement {
     
     resize();
   }
+  
+  _scrollToId(id: string) {
+    const element = this.shadowRoot?.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   render() {
     return html`
       <svg id="cursor-trail" viewBox='0 0 1 1'>
         <path stroke='#eaf0ce' id="cursor-path" d="" />
       </svg>
-      <splash-screen></splash-screen>
+      <splash-screen @scrollTo=${(event: CustomEvent) => this._scrollToId(event.detail)}></splash-screen>
+      <about-screen id='about'></about-screen>
     `;
   }
 }

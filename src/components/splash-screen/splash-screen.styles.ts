@@ -6,7 +6,7 @@ export const ComponentStyles = css`
     flex-direction: column;
     justify-content: space-between;
     align-items: stretch;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     position: relative;
     border: 3px solid var(--secondary-one);
@@ -99,6 +99,7 @@ export const ComponentStyles = css`
   }
 
   .footer img {
+    cursor: pointer;
     width: 2rem;
   }
 
