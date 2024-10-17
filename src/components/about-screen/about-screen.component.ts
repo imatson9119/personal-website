@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { GUI } from 'dat.gui';
 
+const imageFaceNames = ['Cube001_2', 'Cube001_3', 'Cube001_4'];
 
 @customElement('about-screen')
 export class AboutScreenComponent extends LitElement {
@@ -45,24 +46,27 @@ export class AboutScreenComponent extends LitElement {
     updateBackground();
   }
 
-  static animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
-    const texture: THREE.Texture = new THREE.TextureLoader().load('assets/portrait.png');
+ animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
+    const nTextures = 8;
+    const textures = Array.from({length: nTextures}, (_, i) => i + 1).map((i) => getMugTexture(`${i}`));
     const materials = [
-      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0}),
-      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0}),
-      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0}), 
-      new THREE.MeshStandardMaterial({color: 0xeaf0ce, flatShading: true, roughness: 0})
+      new THREE.MeshStandardMaterial({color: 0xe6e3b3, flatShading: true, roughness: 0}),
+      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: textures[Math.floor(Math.random() * textures.length)]}),
+      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: textures[Math.floor(Math.random() * textures.length)]}),
+      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: textures[Math.floor(Math.random() * textures.length)]}),
     ];
+
     let mousePos = [window.innerWidth/2, window.innerWidth/2];
     let cameraOffsetFactor = [.5, .5];
     const flicker_lower_bound = 0.1;
     const flicker_upper_bound = 0.4;
     const flicker_likelihood = 0.0015;
     const flickerShake = 1;
-    let leftFace = null;
-    let centerFace = null;
-    let rightFace = null;
+    let leftFace: THREE.Mesh | null = null;
+    let centerFace: THREE.Mesh | null = null;
+    let rightFace: THREE.Mesh | null = null;
     let flickerTime = 0;
+
 
     window.addEventListener('mousemove', (event) => {
       mousePos = [event.clientX, event.clientY];
@@ -98,7 +102,9 @@ export class AboutScreenComponent extends LitElement {
     mug.position.z = -5;
     mug.position.x = 0;
     mug.position.y = 0;
-
+    
+    let newGui = new GUI();
+    newGui.add(mug.rotation, 'y', 0, 6.3);
 
     const clock = new THREE.Clock();
 
@@ -111,7 +117,7 @@ export class AboutScreenComponent extends LitElement {
       cameraOffsetFactor[1] += (y - cameraOffsetFactor[1]) * 0.03;
 
       camera.position.x = -3 * cameraOffsetFactor[0] + 1.5;
-      camera.position.y = 5 + (3 * cameraOffsetFactor[1]) - 14 * (window.scrollY - window.innerHeight) / window.innerHeight;
+      camera.position.y = 2 + (3 * cameraOffsetFactor[1]) - 14 * (window.scrollY - window.innerHeight) / window.innerHeight;
       camera.lookAt(0, 0, 0);
 
       if (flickerTime > 0) {
@@ -120,8 +126,8 @@ export class AboutScreenComponent extends LitElement {
           mug.position.x = 0;
           mug.position.y = 0;
           mug.position.z = -5;
-          materials.forEach((material) => {
-            material.color.setHex(0xeaf0ce);
+          materials.forEach((material, index) => {
+            index === 0 ? material.color.setHex(0xe6e3b3) : material.color.setHex(0xffffff);
             material.wireframe = false;
           });
         } else {
@@ -146,7 +152,26 @@ export class AboutScreenComponent extends LitElement {
       }
 
       renderer.render( scene, camera );
-      mug.rotation.y += 0.5 * delta;
+      const rotation = mug.rotation.y / Math.PI % 2;
+      mug.rotation.y += .5 * delta;
+      const newRotation =  mug.rotation.y / Math.PI % 2;
+
+      if (newRotation < rotation) {
+        const material = (leftFace!.material as THREE.MeshStandardMaterial);
+        material.map = textures[Math.floor(Math.random() * textures.length)];
+        material.needsUpdate = true;
+      } else if (rotation < 1.5 && newRotation > 1.5) {
+        const material = (centerFace!.material as THREE.MeshStandardMaterial);
+        material.map = textures[Math.floor(Math.random() * textures.length)];
+        material.needsUpdate = true;
+      } else if (rotation < 1 && newRotation > 1) {
+        const material = (rightFace!.material as THREE.MeshStandardMaterial);
+        material.map = textures[Math.floor(Math.random() * textures.length)];
+        material.needsUpdate = true;
+      }
+      
+
+      
     }
     renderer.setAnimationLoop( animate );
 
@@ -159,19 +184,20 @@ export class AboutScreenComponent extends LitElement {
     renderer.setSize(window.innerWidth - 6, window.innerHeight - 6);
 
     const loader = new GLTFLoader();
+    const x = this;
     loader.load( 'assets/mug.glb', function ( gltf ) {
-      AboutScreenComponent.animateMug(gltf.scene, scene, camera, renderer);
+      x.animateMug(gltf.scene, scene, camera, renderer);
     }, undefined, function ( error ) {
       console.error( error );
     });
 
     camera.position.z = isMobileViewport() ? 20 : 10;
     // set ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, .5);
+    const ambientLight = new THREE.AmbientLight(0xffffff,1);
     scene.add(ambientLight);
 
     // set directional light
-    const light = new THREE.DirectionalLight(0xffffff, 2);
+    const light = new THREE.DirectionalLight(0xffffff, 3);
     light.position.set(0, 10, 5);
     scene.add(light);
 
@@ -204,6 +230,13 @@ export class AboutScreenComponent extends LitElement {
 
 function isMobileViewport() {
   return window.innerWidth < 768;
+}
+
+function getMugTexture(name: string) {
+  const texture = new THREE.TextureLoader().load(`assets/mugs/${name}.png`);
+  texture.flipY = false;  
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
 }
 
 declare global {

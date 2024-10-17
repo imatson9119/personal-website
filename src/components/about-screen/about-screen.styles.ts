@@ -15,7 +15,7 @@ export const ComponentStyles = css`
     overflow: hidden;
     color: var(--secondary-one);
     background-color: #393939;
-    background-image:  linear-gradient(#29262e 2px, transparent 2px), linear-gradient(90deg, #29262e 2px, transparent 2px), linear-gradient(#29262e 1px, transparent 1px), linear-gradient(90deg, #29262e 1px, #25212a 1px);
+    background-image: linear-gradient(#29262e 2px, transparent 2px), linear-gradient(90deg, #29262e 2px, transparent 2px), linear-gradient(#29262e 1px, transparent 1px), linear-gradient(90deg, #29262e 1px, #25212a 1px);
     background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
     background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
   }
@@ -58,7 +58,16 @@ export const ComponentStyles = css`
     margin-bottom: 4rem;
     text-align: center;
     line-height: 2rem;
-}
+  }
+
+  .textures canvas {
+  }
+
+  #texture1 {
+    background-color: #393939;
+    color: var(--secondary-one);
+    padding: 1rem;
+  }
 
   @media (max-width: 768px) {
     .header {
