@@ -51,9 +51,9 @@ export class AboutScreenComponent extends LitElement {
     const textures = Array.from({length: nTextures}, (_, i) => i + 1).map((i) => getMugTexture(`${i}`));
     const materials = [
       new THREE.MeshStandardMaterial({color: 0xe6e3b3, flatShading: true, roughness: 0}),
-      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: textures[Math.floor(Math.random() * textures.length)]}),
-      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: textures[Math.floor(Math.random() * textures.length)]}),
-      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: textures[Math.floor(Math.random() * textures.length)]}),
+      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: pickRandom(textures)}),
+      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: pickRandom(textures)}),
+      new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: pickRandom(textures)}),
     ];
 
     let mousePos = [window.innerWidth/2, window.innerWidth/2];
@@ -66,7 +66,6 @@ export class AboutScreenComponent extends LitElement {
     let centerFace: THREE.Mesh | null = null;
     let rightFace: THREE.Mesh | null = null;
     let flickerTime = 0;
-
 
     window.addEventListener('mousemove', (event) => {
       mousePos = [event.clientX, event.clientY];
@@ -103,8 +102,6 @@ export class AboutScreenComponent extends LitElement {
     mug.position.x = 0;
     mug.position.y = 0;
     
-    let newGui = new GUI();
-    newGui.add(mug.rotation, 'y', 0, 6.3);
 
     const clock = new THREE.Clock();
 
@@ -145,8 +142,11 @@ export class AboutScreenComponent extends LitElement {
           mug.position.z = -5 + Math.random() * flickerShake;
         }
       } else if (Math.random() < flicker_likelihood) {
-        materials.forEach((material) => {
+        materials.forEach((material, index) => {
           material.wireframe = true;
+          if (index !== 0) {
+            material.map = pickRandom(textures);  
+          }
         });
         flickerTime = Math.random() * (flicker_upper_bound - flicker_lower_bound) + flicker_lower_bound;
       }
@@ -158,20 +158,17 @@ export class AboutScreenComponent extends LitElement {
 
       if (newRotation < rotation) {
         const material = (leftFace!.material as THREE.MeshStandardMaterial);
-        material.map = textures[Math.floor(Math.random() * textures.length)];
+        material.map = pickRandom(textures); 
         material.needsUpdate = true;
       } else if (rotation < 1.5 && newRotation > 1.5) {
         const material = (centerFace!.material as THREE.MeshStandardMaterial);
-        material.map = textures[Math.floor(Math.random() * textures.length)];
+        material.map = pickRandom(textures); 
         material.needsUpdate = true;
       } else if (rotation < 1 && newRotation > 1) {
         const material = (rightFace!.material as THREE.MeshStandardMaterial);
-        material.map = textures[Math.floor(Math.random() * textures.length)];
+        material.map = pickRandom(textures); 
         material.needsUpdate = true;
-      }
-      
-
-      
+      } 
     }
     renderer.setAnimationLoop( animate );
 
@@ -181,6 +178,9 @@ export class AboutScreenComponent extends LitElement {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({canvas: this.canvas, alpha: true});
+    const defaultCameraOffset = 10;
+    const mobileCameraOffset = 10;
+
     renderer.setSize(window.innerWidth - 6, window.innerHeight - 6);
 
     const loader = new GLTFLoader();
@@ -191,7 +191,7 @@ export class AboutScreenComponent extends LitElement {
       console.error( error );
     });
 
-    camera.position.z = isMobileViewport() ? 20 : 10;
+    camera.position.z = isMobileViewport() ? mobileCameraOffset : defaultCameraOffset;
     // set ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff,1);
     scene.add(ambientLight);
@@ -206,7 +206,7 @@ export class AboutScreenComponent extends LitElement {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth - 6, window.innerHeight - 6);
-      camera.position.z = window.innerWidth > 768 ? 10 : 20;
+      camera.position.z = isMobileViewport() ? mobileCameraOffset : defaultCameraOffset;
     });
   }
 
@@ -230,6 +230,10 @@ export class AboutScreenComponent extends LitElement {
 
 function isMobileViewport() {
   return window.innerWidth < 768;
+}
+
+function pickRandom<T>(array: T[]): T {
+  return array[Math.floor(Math.random() * array.length)];
 }
 
 function getMugTexture(name: string) {
