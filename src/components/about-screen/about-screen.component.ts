@@ -64,6 +64,7 @@ export class AboutScreenComponent extends LitElement {
  animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
 
     let mousePos = [window.innerWidth/2, window.innerWidth/2];
+    mug.rotation.y = -0.5 * Math.PI;
     let cameraOffsetFactor = [.5, .5];
     const flicker_lower_bound = 0.2;
     const flicker_upper_bound = 0.5;
