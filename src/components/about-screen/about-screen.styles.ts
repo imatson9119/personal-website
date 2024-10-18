@@ -7,12 +7,16 @@ export const ComponentStyles = css`
     justify-content: space-between;
     align-items: stretch;
     width: 100%;
-    height: calc(100vh - 3px);
+    height: 100vh;
     position: relative;
     border: 3px solid var(--secondary-one);
-    border-top: 0;
+    border-top: none;
     box-sizing: border-box;
     overflow: hidden;
+    background-attachment: fixed;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: 100px 100px;
     color: var(--secondary-one);
     background-color: #393939;
     background-image: linear-gradient(#29262e 2px, transparent 2px), linear-gradient(90deg, #29262e 2px, transparent 2px), linear-gradient(#29262e 1px, transparent 1px), linear-gradient(90deg, #29262e 1px, #25212a 1px);
@@ -58,9 +62,6 @@ export const ComponentStyles = css`
     margin-bottom: 4rem;
     text-align: center;
     line-height: 2rem;
-  }
-
-  .textures canvas {
   }
 
   #texture1 {

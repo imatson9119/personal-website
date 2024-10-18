@@ -62,7 +62,7 @@ export const ComponentStyles = css`
     overflow: hidden;
     border: 3px solid var(--secondary-one);
     border-right: none;
-    background-image: url(assets/portrait.png);
+    background-image: url(assets/portrait-min.png);
     background-size: cover;
     background-position: right;
   }
