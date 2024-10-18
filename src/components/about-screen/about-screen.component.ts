@@ -15,6 +15,8 @@ export class AboutScreenComponent extends LitElement {
   @query('#canvas') canvas!: HTMLCanvasElement;
 
   spinSpeed = 0.5;
+  spinBoostSpeed = 30;
+  spinDeccelerationMultiplier = 0.98;
   storyMode = false;
   startedStoryMode = false;
   nTextures = 32;
@@ -164,7 +166,7 @@ export class AboutScreenComponent extends LitElement {
       const newRotation =  mug.rotation.y / Math.PI % 2;
 
       if (delta > 0 && ref.spinSpeed > .5){ 
-        ref.spinSpeed = Math.max(.5,  ref.spinSpeed * .99);
+        ref.spinSpeed = Math.max(.5,  ref.spinSpeed * ref.spinDeccelerationMultiplier);
       }
 
       if (rotation < newRotation) {
@@ -233,7 +235,7 @@ export class AboutScreenComponent extends LitElement {
   }
 
   boostSpin() {
-    this.spinSpeed = 30;
+    this.spinSpeed = this.spinBoostSpeed;
   }
 
   getNextTexture(): THREE.Texture {
