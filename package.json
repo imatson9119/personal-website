@@ -14,7 +14,7 @@
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server\"",
-    "deploy": "gh-pages -d dist --cname ian-matson.com"
+    "deploy": "yarn build && gh-pages -d dist --cname ian-matson.com"
   },
   "dependencies": {
     "lit": "^3.1.4",

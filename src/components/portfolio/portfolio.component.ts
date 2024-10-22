@@ -1,11 +1,14 @@
 import { html, LitElement } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 import { MainStyles } from '../../styles.js';
-import { ComponentStyles } from './splash-screen.styles.js';
+import { ComponentStyles } from './portfolio.styles.js';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+const imageFaceNames = ['Cube001_2', 'Cube001_3', 'Cube001_4'];
 
-@customElement('splash-screen')
-export class SplashScreenComponent extends LitElement {
+@customElement('app-portfolio')
+export class PortfolioComponent extends LitElement {
   static styles = [MainStyles, ComponentStyles];
 
   @query('.main-container') mainContainer!: HTMLElement;
@@ -13,7 +16,7 @@ export class SplashScreenComponent extends LitElement {
   constructor() {
     super();
 
-    this.updateComplete.then(() => {
+    this.updateComplete.then(() => { 
       this.backgroundAnimation();
     });
   }
@@ -40,32 +43,11 @@ export class SplashScreenComponent extends LitElement {
     updateBackground();
   }
 
-  
-  _emitScrollEvent(id: string) {
-    const scrollEvent = new CustomEvent('scrollTo', {
-      detail: id,
-      bubbles: false,
-      composed: true
-    });
-    this.dispatchEvent(scrollEvent);
-  }
-
   render() {
     return html`
       <div class='main-container'>
         <div class='header'>
-          <a href='#about' @click=${() => this._emitScrollEvent('about')}>about</a>
-          <a href='#projects' @click=${() => this._emitScrollEvent('portfolio')}>portfolio</a>
-          <a href='#contact' @click=${() => this._emitScrollEvent('contacts')}>contact</a>
-        </div>
-        <div class='main-body'>
-          <div class='name-text'>
-            <h1>IAN<br>MAT<br>SON<div class="accent"></div></h1>
-          </div>
-          <div class='portrait'></div>
-        </div>
-        <div class='footer'>
-          <img @click=${() => this._emitScrollEvent('about')} src='assets/keyboard_arrow_down.svg' alt='scroll down'>
+          portfolio<span class='accent'>.</span>
         </div>
       </div>
     `;
@@ -74,6 +56,6 @@ export class SplashScreenComponent extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'splash-screen': SplashScreenComponent;
+    'app-porfolio': PortfolioComponent;
   }
 }

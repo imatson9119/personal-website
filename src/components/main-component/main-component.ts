@@ -90,6 +90,7 @@ export class MainA extends LitElement {
       </svg>
       <splash-screen @scrollTo=${(event: CustomEvent) => this._scrollToId(event.detail)}></splash-screen>
       <about-screen id='about'></about-screen>
+      <app-portfolio id='portfolio'></app-portfolio>
     `;
   }
 }

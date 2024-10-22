@@ -264,7 +264,6 @@ export class AboutScreenComponent extends LitElement {
         </div>
         <canvas id='canvas' @click=${this.boostSpin}></canvas>
       </div>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     `;
   }
 }
