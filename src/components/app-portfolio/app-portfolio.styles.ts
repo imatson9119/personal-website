@@ -1,7 +1,7 @@
 import { css } from 'lit';
 
 export const ComponentStyles = css`
-  .splash-screen {
+  .about-screen {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -19,7 +19,7 @@ export const ComponentStyles = css`
     height: 60vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: flex-start;
   }
 
@@ -58,31 +58,31 @@ export const ComponentStyles = css`
 
   .wave {
     position: absolute;
-    bottom: -1px;
+    top: 0px;
     z-index: 0;
   }
 
   .wave.two {
-    bottom: 80px;
+    top: 20px;
   }
 
   .wave.three {
-    bottom: 100px;
+    top: 20px; 
   }
 
   .rectangle {
     position: absolute;
-    bottom: 0;
+    top: 0;
     width: 100%;
     z-index: 0;
-    background: rgba(234, 240, 206, 0.1);
+    background: #EAF0CE1A;
   }
 
   .rectangle.one {
-    height: 100px;
+    height: 20px;
   }
 
   .rectangle.two {
-    height: 80px;
+    height: 20px;
   }
 `;
