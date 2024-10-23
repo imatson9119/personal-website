@@ -1,14 +1,14 @@
 import { html, LitElement } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 import { MainStyles } from '../../styles.js';
-import { ComponentStyles } from './about-screen.styles.js';
+import { ComponentStyles } from './app-about.styles.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const imageFaceNames = ['Cube001_2', 'Cube001_3', 'Cube001_4'];
 
-@customElement('about-screen')
-export class AboutScreenComponent extends LitElement {
+@customElement('app-about')
+export class AboutComponent extends LitElement {
   static styles = [MainStyles, ComponentStyles];
 
   @query('.main-container') mainContainer!: HTMLElement;
@@ -22,6 +22,9 @@ export class AboutScreenComponent extends LitElement {
   nTextures = 32;
   curStoryTexture = 0;
   nStoryTextures = 9;
+  canvasHeight = 500;
+  mugEvenHeight = 300;
+
   mug: THREE.Object3D | null = null;
   textures = Array.from({length: this.nTextures}, (_, i) => i + 1).map((i) => getMugTexture(`${i}`));
   materials = [
@@ -36,31 +39,8 @@ export class AboutScreenComponent extends LitElement {
     super();
 
     this.updateComplete.then(() => { 
-      this.backgroundAnimation();
       this.init3JS();
     });
-  }
-
-  backgroundAnimation() {
-    let mousePos = [0, 0];
-    let backgroundPos = [0, 0];
-
-    window.addEventListener('mousemove', (event) => {
-      mousePos = [event.clientX, event.clientY];
-    });
-
-    const updateBackground = () => {
-      const x = mousePos[0] / window.innerWidth;
-      const y = mousePos[1] / window.innerHeight;
-
-      // lerp background position
-      backgroundPos[0] += (x - backgroundPos[0]) * 0.03;
-      backgroundPos[1] += (y - backgroundPos[1]) * 0.03;
-      this.mainContainer.style.backgroundPosition = `${-backgroundPos[0] * 50}px ${-backgroundPos[1] * 50}px`;
-
-      requestAnimationFrame(updateBackground);
-    }
-    updateBackground();
   }
 
  animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
@@ -122,8 +102,8 @@ export class AboutScreenComponent extends LitElement {
       cameraOffsetFactor[0] += (x - cameraOffsetFactor[0]) * 0.03;
       cameraOffsetFactor[1] += (y - cameraOffsetFactor[1]) * 0.03;
 
-      camera.position.x = -3 * cameraOffsetFactor[0] + 1.5;
-      camera.position.y = 2 + (3 * cameraOffsetFactor[1]) - 14 * (window.scrollY - window.innerHeight) / window.innerHeight;
+      camera.position.x = -2 * cameraOffsetFactor[0] + 1.5;
+      camera.position.y = 2 + (2 * cameraOffsetFactor[1]) - 4 * (window.scrollY - ref.mugEvenHeight) / ref.mugEvenHeight;
       camera.lookAt(0, 0, 0);
 
       if (flickerTime > 0) {
@@ -198,13 +178,14 @@ export class AboutScreenComponent extends LitElement {
 
   init3JS() {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth/2 / this.canvasHeight, 0.1, 1000);
+
     const renderer = new THREE.WebGLRenderer({canvas: this.canvas, alpha: true, antialias: true});
     renderer.setPixelRatio(window.devicePixelRatio);
     const defaultCameraOffset = 10;
     const mobileCameraOffset = 10;
 
-    renderer.setSize(window.innerWidth - 6, window.innerHeight - 6);
+    renderer.setSize(window.innerWidth/2, this.canvasHeight);
 
     const loader = new GLTFLoader();
     const x = this;
@@ -227,9 +208,9 @@ export class AboutScreenComponent extends LitElement {
 
     // Fix aspect ratio on resize
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.aspect = window.innerWidth/2 / this.canvasHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth - 6, window.innerHeight - 6);
+      renderer.setSize(window.innerWidth/2, this.canvasHeight);
       camera.position.z = isMobileViewport() ? mobileCameraOffset : defaultCameraOffset;
     });
   }
@@ -253,16 +234,15 @@ export class AboutScreenComponent extends LitElement {
 
   render() {
     return html`
-      <div class='main-container'>
-        <div class='html-content'>
-          <div class='header'>
-            about me<span class='accent'>.</span>
-          </div>
-          <div class='body'>
-            <span>I'm a freelance <span class='accent'>software engineer</span> born and raised in <span class='accent'>Dallas, TX</span>. I'm always looking to <span class='accent'>learn</span>, and have a deep appreciation for a <span class='accent'>good challenge</span>. Reach out and say hi!</span>
-          </div>
-        </div>
+      <div class='about-container'>
         <canvas id='canvas' @click=${this.boostSpin}></canvas>
+        <div class="text">
+          <div class='title'>
+            <h1>A little about me</h1>
+          </div>
+          <br>
+          <p>I'm a freelance software engineer born and raised in Dallas, TX. I'm always looking to learn, and have a deep appreciation for a good challenge. Reach out and say hi!</p>
+        </div>
       </div>
     `;
   }
@@ -285,6 +265,6 @@ function getMugTexture(name: string) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'about-screen': AboutScreenComponent;
+    'app-about': AboutComponent;
   }
 }

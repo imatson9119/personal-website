@@ -7,8 +7,7 @@ import { MainStyles } from '../../styles.js';
 export class MainA extends LitElement {
   @property({ type: String }) header = 'My app';
 
-  @query('#cursor-trail') trail: SVGElement | undefined;
-  @query('#cursor-path') path: SVGClipPathElement | undefined;
+  @query('.main-container') mainContainer!: HTMLElement;
 
   static styles = [MainStyles, ComponentStyles];
 
@@ -16,81 +15,43 @@ export class MainA extends LitElement {
     super();
 
     this.updateComplete.then(() => {
-      this.cursorTrail(); 
+      this.backgroundAnimation();
     })
   }
 
-  cursorTrail() {
-    let points: Array<Array<number>> = []
-    let mousePos = [0,0];
-    const nSegments = 100;
+  backgroundAnimation() {
+    let mousePos = [0, 0];
+    let backgroundPos = [0, 0];
 
-    const drawPath = () => {
-
-      let pos = mousePos;
-      let totalDistance = 0;
-
-      for(let i = 0; i < nSegments; i++) {
-        points[i] = pos;
-
-        if (i !== points.length - 1) {
-          pos = [
-            pos[0] - (pos[0] - points[i + 1][0]) * 0.3,
-            pos[1] - (pos[1] - points[i + 1][1]) * 0.3
-          ]
-        }
-        totalDistance += Math.sqrt((points[i][0] - pos[0]) ** 2 + (points[i][1] - pos[1]) ** 2);
-      }
-
-      if (points.length !== 0) {
-        this.path?.setAttribute('d', `M ${points.map(point => point.join(' ')).join(' L ')}`);
-        // Set color based on totalDistance of path - the longer the path, the darker the color
-        this.path?.setAttribute('stroke', `rgba(234, 240, 206, ${Math.min(1, totalDistance / 1000)})`);
-      }
-
-      requestAnimationFrame(drawPath);
-    }
-    
-    
     window.addEventListener('mousemove', (event) => {
       mousePos = [event.clientX, event.clientY];
-
-      if (points.length === 0) {
-        for(let i = 0; i < nSegments; i++) {
-          points.push(mousePos);
-        }
-        drawPath();
-      }
     });
 
-    const resize = () => {
-      if (this.trail) {
-        this.trail.style.width = `${window.innerWidth}px`
-        this.trail.style.height = `${window.innerHeight}px`
-        this.trail.setAttribute("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`)
-      }
-    }
+    const updateBackground = () => {
+      const x = mousePos[0] / window.innerWidth;
+      const y = mousePos[1] / window.innerHeight;
 
-    window.addEventListener('resize', resize);
-    
-    resize();
+      // lerp background position
+      backgroundPos[0] += (x - backgroundPos[0]) * 0.03;
+      backgroundPos[1] += (y - backgroundPos[1]) * 0.03;
+      this.mainContainer.style.backgroundPosition = `${-backgroundPos[0] * 50}px ${-backgroundPos[1] * 50}px`;
+
+      requestAnimationFrame(updateBackground);
+    }
+    updateBackground();
   }
+
   
-  _scrollToId(id: string) {
-    const element = this.shadowRoot?.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
   render() {
     return html`
-      <svg id="cursor-trail" viewBox='0 0 1 1'>
-        <path stroke='#eaf0ce' id="cursor-path" d="" />
-      </svg>
-      <splash-screen @scrollTo=${(event: CustomEvent) => this._scrollToId(event.detail)}></splash-screen>
-      <about-screen id='about'></about-screen>
-      <app-portfolio id='portfolio'></app-portfolio>
+      <div class='main-container'>
+        <app-cursor-trail></app-cursor-trail>
+        <app-navbar></app-navbar>
+        <div class="spacer"></div>
+        <app-splash-screen></app-splash-screen>
+        <app-about></app-about>
+        <app-portfolio></app-portfolio>
+      </div>
     `;
   }
 }

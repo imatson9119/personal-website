@@ -23,10 +23,22 @@ export const MainStyles = css`
     --secondary-three-light: #959ca8;
 
     --font-stack: 'Fira Mono', monospace;
+    --header-font-stack: "Krona One", sans-serif;
   }
 
   body {
     color: var(--primary);
+  }
+
+  .accent {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--header-font-stack);
+    font-weight: 300;
+    margin: 0;
+    font-size: 2rem;
   }
 
   * {
