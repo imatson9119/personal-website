@@ -51,6 +51,7 @@ export class MainA extends LitElement {
         <app-splash-screen></app-splash-screen>
         <app-about></app-about>
         <app-portfolio></app-portfolio>
+        <app-footer></app-footer>
       </div>
     `;
   }

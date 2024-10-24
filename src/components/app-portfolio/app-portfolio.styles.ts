@@ -58,31 +58,66 @@ export const ComponentStyles = css`
 
   .wave {
     position: absolute;
-    top: 0px;
     z-index: 0;
   }
 
-  .wave.two {
+  .wave.top{
+    top: 0px;
+  }
+
+  .wave.top.two {
     top: 20px;
   }
 
-  .wave.three {
+  .wave.top.three {
     top: 20px; 
   }
 
+  .wave.bottom {
+    bottom: -1px;
+  }
+
+  .wave.bottom.two {
+    bottom: 80px;
+  }
+
+  .wave.bottom.three {
+    bottom: 100px; 
+  }
+
+  .wave-container.bottom {
+    margin-top: 300px;
+  }
+
+
   .rectangle {
     position: absolute;
-    top: 0;
     width: 100%;
     z-index: 0;
     background: #EAF0CE1A;
   }
 
-  .rectangle.one {
+  .rectangle.top {
+    top: 0;
+  }
+
+  .rectangle.bottom {
+    bottom: 0;
+  }
+
+  .rectangle.top.one {
     height: 20px;
   }
 
-  .rectangle.two {
+  .rectangle.top.two {
     height: 20px;
+  }
+
+  .rectangle.bottom.one {
+    height: 80px;
+  }
+
+  .rectangle.bottom.two {
+    height: 100px;
   }
 `;

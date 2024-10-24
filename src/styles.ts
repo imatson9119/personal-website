@@ -52,4 +52,11 @@ export const MainStyles = css`
     'GRAD' 0,
     'opsz' 24
   }
+
+  button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
 `;
