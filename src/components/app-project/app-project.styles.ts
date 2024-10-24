@@ -56,6 +56,10 @@ export const ComponentStyles = css`
     align-items: center;
   }
 
+  h2 {
+    font-size: 1.3rem;
+  }
+
   .links {
     display: flex;
     gap: 1rem;

@@ -54,7 +54,6 @@ export const ComponentStyles = css`
       width: 100%;
       max-width: 500px;
       padding: 1rem;
-      padding-right: 0;
     }
   }
 `;

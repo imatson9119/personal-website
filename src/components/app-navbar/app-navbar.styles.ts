@@ -25,4 +25,14 @@ export const ComponentStyles = css`
   .accent {
     color: var(--accent);
   }
+
+  @media (max-width: 512px) {
+    .navbar .links {
+      gap: 1rem;
+    }
+
+    .navbar button {
+      font-size: 1rem;
+    }
+  }
 `;

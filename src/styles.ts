@@ -24,12 +24,11 @@ export const MainStyles = css`
 
     --font-stack: 'Fira Mono', monospace;
     --header-font-stack: "Krona One", sans-serif;
-
-    --max-inner-width: 1000px;
   }
 
   body {
     color: var(--primary);
+    font-size: 1rem;
   }
 
   .accent {
@@ -43,8 +42,11 @@ export const MainStyles = css`
     font-size: 2rem;
   }
 
+
+
   * {
     font-family: var(--font-stack);
+    box-sizing: border-box;
   }
 
   .material-symbols-outlined {
@@ -62,4 +64,13 @@ export const MainStyles = css`
     margin: 0;
   }
 
+  @media (max-width: 512px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    * {
+      font-size: 0.875rem;
+    }
+  }
 `;
