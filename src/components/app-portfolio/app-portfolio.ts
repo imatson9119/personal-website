@@ -30,8 +30,9 @@ export class PortfolioComponent extends LitElement {
             <h1>👨‍💻 Projects</h1>
           </div>
           <br>
-          <p>I'm <span class='accent'>Ian Matson</span>.</p>
-          <p>I will put some more text here eventually but for the time being this is just filler to give a good idea of what the page will look like when there’s more content.</p>
+          <p>
+            Few things excite me more than <span class='accent'>building new things</span>. Below are some of my recent projects - check them out!
+          </p>
         </div>
       </div>
       <app-project></app-project>

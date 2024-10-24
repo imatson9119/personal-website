@@ -7,8 +7,9 @@ interface Project {
   title: string;
   description: string;
   date: string;
-  link: string | null;
   image: string;
+  link?: string;
+  github?: string;
 }
 
 @customElement('app-project')
@@ -22,6 +23,7 @@ export class ProjectComponent extends LitElement {
       description: 'A web application for diff-driven Bible memorization supporting 9+ translations. Designed with the memorization of larger passages in mind, Pericopy features automatic passage detection, heatmap mistake visualization, and speech-to-text functionality.',
       date: 'Sept 2024',
       link: 'https://www.pericopy.net',
+      github: 'https://github.com/imatson9119/Pericopy',
       image: 'assets/projects/img0.png'
     },
     {
@@ -29,6 +31,7 @@ export class ProjectComponent extends LitElement {
       description: 'An interactive puzzle-based website to prevent my friends from RSVPing to a fancy dinner I hosted. The site features a series of custom-built puzzles that users must solve to RSVP.',
       date: 'Sept 2024',
       link: 'https://dinner-club.org/',
+      github: 'https://github.com/imatson9119/dinner-club',
       image: 'assets/projects/img1.png'
     }
   ]
@@ -72,7 +75,10 @@ export class ProjectComponent extends LitElement {
           </div>
           <p>${this.curProject.description}</p>
           <br>
-          ${this.curProject.link ? html`<a href="${this.curProject.link}" target="_blank">View Project</a>` : ''}
+          <div class = "links">
+            ${this.curProject.link ? html`<a class='link' href="${this.curProject.link}" target="_blank" rel="noopener noreferrer">View Project</a>` : ''}
+            ${this.curProject.github ? html`<a class='github' href="${this.curProject.github}" target="_blank" rel="noopener noreferrer">View Code</a>` : ''}
+          </div>
         </div>
       </div>
     `;

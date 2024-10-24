@@ -24,7 +24,10 @@ export class SplashScreenComponent extends LitElement {
           </div>
           <br>
           <p>I'm <span class='accent'>Ian Matson</span>.</p>
-          <p>I will put some more text here eventually but for the time being this is just filler to give a good idea of what the page will look like when there’s more content.</p>
+          <p>
+            If you're looking for a <span class='accent'>developer</span> who loves to create, you're in the right place.
+            Let's <span class='accent'>build something amazing</span> together!
+          </p>
         </div>
         <div class="image">
           <img src="assets/portrait-min.png" alt="Self-portrait">

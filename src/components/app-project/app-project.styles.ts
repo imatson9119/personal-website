@@ -16,20 +16,6 @@ export const ComponentStyles = css`
     font-family: var(--header-font-stack);
   }
 
-  a {
-    color: #bbbe64;
-    text-decoration: none;
-    background: #bbbe6433;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
-
-  a:hover {
-    background: #bbbe64;
-    color: white;
-  }
-
   .project-container {
     margin: 0 10%;
     margin-top: 10rem;
@@ -69,4 +55,34 @@ export const ComponentStyles = css`
     justify-content: space-between;
     align-items: center;
   }
+
+  .links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  a {
+    color: #bbbe64;
+    text-decoration: none;
+    background: #bbbe6433;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  a:hover {
+    background: #bbbe64;
+    color: white;
+  }
+
+  .github {
+    background: #af93cc33;
+    color: #af93cc;
+  }
+
+  .github:hover {
+    background: #af93cc;
+    color: white;
+  }
+
 `;
