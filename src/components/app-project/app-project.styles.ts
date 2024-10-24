@@ -85,4 +85,29 @@ export const ComponentStyles = css`
     color: white;
   }
 
+
+  @media (max-width: 1024px) {
+    .project-container {
+      flex-direction: column;
+      margin: 0 5%;
+      margin-top: 5rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .left {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .left img {
+      max-width: 500px;
+    }
+
+    .right {
+      width: 100%;
+      max-width: 500px;
+    }
+  }
 `;

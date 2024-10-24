@@ -25,9 +25,9 @@ export class FooterComponent extends LitElement {
             </div>
           </div>
           <div class="right">
-            <span>howdy@ian-matson.com</span>
-            <span>linkedin.com/in/ianmatson</span>
-            <span>+1(832)-364-3437</span>
+            <a target="_blank" rel="noopener noreferrer" href="mailto:howdy@ian-matson.com">howdy@ian-matson.com</a>
+            <a target="_blank" rel="noopener noreferrer" href='https://linkedin.com/in/ianmatson'>linkedin.com/in/ianmatson</a>
+            <a target="_blank" rel="noopener noreferrer" href="tel:+18323643437">+1(832)-364-3437</a>
           </div>
         </div>
         <span class="footer-text">© 2024 Ian Matson. All rights reserved.</span>

@@ -15,8 +15,8 @@ export const ComponentStyles = css`
   }
 
   .text {
+    padding-top: 30vw;
     width: 50%;
-    height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -52,72 +52,18 @@ export const ComponentStyles = css`
     border-radius: 12px;
   }
 
-  .wave-container {
-    position: relative;
-  }
+  @media (max-width: 1024px) {
+    .about-screen {
+      flex-direction: column;
+    }
 
-  .wave {
-    position: absolute;
-    z-index: 0;
-  }
+    .text {
+      width: 100%;
+      max-width: 500px;
+    }
 
-  .wave.top{
-    top: 0px;
-  }
-
-  .wave.top.two {
-    top: 20px;
-  }
-
-  .wave.top.three {
-    top: 20px; 
-  }
-
-  .wave.bottom {
-    bottom: -1px;
-  }
-
-  .wave.bottom.two {
-    bottom: 80px;
-  }
-
-  .wave.bottom.three {
-    bottom: 100px; 
-  }
-
-  .wave-container.bottom {
-    margin-top: 300px;
-  }
-
-
-  .rectangle {
-    position: absolute;
-    width: 100%;
-    z-index: 0;
-    background: #EAF0CE1A;
-  }
-
-  .rectangle.top {
-    top: 0;
-  }
-
-  .rectangle.bottom {
-    bottom: 0;
-  }
-
-  .rectangle.top.one {
-    height: 20px;
-  }
-
-  .rectangle.top.two {
-    height: 20px;
-  }
-
-  .rectangle.bottom.one {
-    height: 80px;
-  }
-
-  .rectangle.bottom.two {
-    height: 100px;
+    .image {
+      width: 100%;
+    }
   }
 `;

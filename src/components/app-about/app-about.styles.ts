@@ -5,8 +5,10 @@ export const ComponentStyles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     background-color: var(--secondary-one);
     color: #3C3C3C;
+    width: 100%;
   }
 
   #canvas {
@@ -37,5 +39,22 @@ export const ComponentStyles = css`
     left: 1rem;
     width: 100%;
     height: 60%;
+  }
+
+  @media (max-width: 1024px) {
+    .about-container {
+      flex-direction: column;
+    }
+
+    #canvas {
+      width: 100%;
+    }
+
+    .text {
+      width: 100%;
+      max-width: 500px;
+      padding: 1rem;
+      padding-right: 0;
+    }
   }
 `;

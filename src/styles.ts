@@ -24,6 +24,8 @@ export const MainStyles = css`
 
     --font-stack: 'Fira Mono', monospace;
     --header-font-stack: "Krona One", sans-serif;
+
+    --max-inner-width: 1000px;
   }
 
   body {
@@ -59,4 +61,5 @@ export const MainStyles = css`
     padding: 0;
     margin: 0;
   }
+
 `;

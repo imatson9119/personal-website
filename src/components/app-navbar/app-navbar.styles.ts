@@ -15,10 +15,11 @@ export const ComponentStyles = css`
     gap: 2rem;
   }
 
-  .navbar a {
+  .navbar button {
     text-decoration: none;
     color: var(--secondary-one);
     font-size: 1.2rem;
+    cursor: pointer;
   }
 
   .accent {

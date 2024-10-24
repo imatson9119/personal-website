@@ -9,18 +9,18 @@ export const ComponentStyles = css`
     margin: 0 15%;
     position: relative;
     z-index: 1;
-    border-left: 3px solid;
-    padding-left: 10px;
     position: relative;
   }
 
   .text {
     width: 50%;
-    height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    padding-bottom: 25vw;
+    border-left: 3px solid;
+    padding-left: 10px;
   }
 
   .title {
@@ -52,37 +52,23 @@ export const ComponentStyles = css`
     border-radius: 12px;
   }
 
-  .wave-container {
-    position: relative;
-  }
+  @media (max-width: 1024px) {
+    .splash-screen {
+      flex-direction: row;
+      flex-wrap: wrap-reverse;
+    }
 
-  .wave {
-    position: absolute;
-    bottom: -1px;
-    z-index: 0;
-  }
+    .text {
+      width: 100%;
+      max-width: 500px;
+      padding-bottom: 40vw;
+    }
 
-  .wave.two {
-    bottom: 80px;
-  }
-
-  .wave.three {
-    bottom: 100px;
-  }
-
-  .rectangle {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    z-index: 0;
-    background: rgba(234, 240, 206, 0.1);
-  }
-
-  .rectangle.one {
-    height: 100px;
-  }
-
-  .rectangle.two {
-    height: 80px;
+    .image {
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
   }
 `;

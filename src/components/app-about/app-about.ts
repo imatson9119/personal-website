@@ -11,7 +11,7 @@ const imageFaceNames = ['Cube001_2', 'Cube001_3', 'Cube001_4'];
 export class AboutComponent extends LitElement {
   static styles = [MainStyles, ComponentStyles];
 
-  @query('.main-container') mainContainer!: HTMLElement;
+  @query('.about-container') mainContainer!: HTMLElement;
   @query('#canvas') canvas!: HTMLCanvasElement;
 
   spinSpeed = 0.5;
@@ -39,6 +39,7 @@ export class AboutComponent extends LitElement {
     super();
 
     this.updateComplete.then(() => { 
+      this.mugEvenHeight = this.mainContainer.clientHeight + 100;
       this.init3JS();
     });
   }
@@ -102,8 +103,8 @@ export class AboutComponent extends LitElement {
       cameraOffsetFactor[0] += (x - cameraOffsetFactor[0]) * 0.03;
       cameraOffsetFactor[1] += (y - cameraOffsetFactor[1]) * 0.03;
 
-      camera.position.x = -2 * cameraOffsetFactor[0] + 1.5;
-      camera.position.y = 2 + (2 * cameraOffsetFactor[1]) - 4 * (window.scrollY - ref.mugEvenHeight) / ref.mugEvenHeight;
+      camera.position.x = -3 * cameraOffsetFactor[0] + 1.5;
+      camera.position.y = 2 + (3 * cameraOffsetFactor[1]) - 4000 * ((window.scrollY - ref.mugEvenHeight) / ref.mugEvenHeight) / window.innerHeight;
       camera.lookAt(0, 0, 0);
 
       if (flickerTime > 0) {
@@ -178,14 +179,14 @@ export class AboutComponent extends LitElement {
 
   init3JS() {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth/2 / this.canvasHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(50, this.getCanvasWidth() / this.canvasHeight, 0.1, 1000);
 
     const renderer = new THREE.WebGLRenderer({canvas: this.canvas, alpha: true, antialias: true});
     renderer.setPixelRatio(window.devicePixelRatio);
     const defaultCameraOffset = 10;
     const mobileCameraOffset = 10;
 
-    renderer.setSize(window.innerWidth/2, this.canvasHeight);
+    renderer.setSize(this.getCanvasWidth(), this.canvasHeight);
 
     const loader = new GLTFLoader();
     const x = this;
@@ -208,15 +209,19 @@ export class AboutComponent extends LitElement {
 
     // Fix aspect ratio on resize
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/2 / this.canvasHeight;
+      camera.aspect = this.getCanvasWidth() / this.canvasHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth/2, this.canvasHeight);
+      renderer.setSize(this.getCanvasWidth(), this.canvasHeight);
       camera.position.z = isMobileViewport() ? mobileCameraOffset : defaultCameraOffset;
     });
   }
 
   boostSpin() {
     this.spinSpeed = this.spinBoostSpeed;
+  }
+
+  getCanvasWidth() {
+    return isMobileViewport() ? this.mainContainer.clientWidth : this.mainContainer.clientWidth / 2;
   }
 
   getNextTexture(): THREE.Texture {
@@ -249,7 +254,7 @@ export class AboutComponent extends LitElement {
 }
 
 function isMobileViewport() {
-  return window.innerWidth < 768;
+  return window.innerWidth < 1024;
 }
 
 function pickRandom<T>(array: T[], low: number = 0, high: number = array.length): T {
@@ -262,6 +267,8 @@ function getMugTexture(name: string) {
   texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
+
+
 
 declare global {
   interface HTMLElementTagNameMap {

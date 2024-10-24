@@ -18,6 +18,7 @@ export const ComponentStyles = css`
   }
 
   .footer-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,6 +26,7 @@ export const ComponentStyles = css`
     color: #3C3C3C;
     padding: 2rem;
     padding-top: 0;
+    box-sizing: border-box;
   }
 
   .footer-body {
@@ -53,5 +55,27 @@ export const ComponentStyles = css`
   .footer-text {
     margin-top: 4rem;
     font-size: 0.8rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: #3C3C3C;
+  }
+
+  @media (max-width: 1024px) {
+    .footer-body {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-body .left,
+    .footer-body .right {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .footer-body .left {
+      margin-bottom: 3rem;
+    }
   }
 `;

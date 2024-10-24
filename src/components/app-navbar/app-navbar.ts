@@ -20,11 +20,18 @@ export class NavbarComponent extends LitElement {
       <div class="navbar">
         <h1 class="logo">IM<span class='accent'>.</span></h1>
         <div class="links">
-          <a href="#about">about</a>
-          <a href="#portfolio">portfolio</a>
-          <a href="#contact">contact</a>
+          <button @click=${()=>this.navigate('about')}>about</button>
+          <button @click=${()=>this.navigate('portfolio')}>portfolio</button>
+          <button @click=${()=>this.navigate('contact')}>contact</button>
         </div>
       </div>
     `;
   }
+
+
+
+  navigate(id: string) {
+    this.dispatchEvent(new CustomEvent('navigate', { detail: id, bubbles: true, composed: true }));
+  }
+
 }
