@@ -19,7 +19,7 @@ export class AboutComponent extends LitElement {
   spinDeccelerationMultiplier = 0.98;
   storyMode = false;
   startedStoryMode = false;
-  nTextures = 32;
+  nTextures = 33;
   curStoryTexture = 0;
   nStoryTextures = 9;
   canvasHeight = 500;
