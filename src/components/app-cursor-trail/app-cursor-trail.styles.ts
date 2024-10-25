@@ -7,7 +7,7 @@ export const ComponentStyles = css`
     left: 0;
     fill: none;
     pointer-events: none;
-
+    mix-blend-mode: exclusion;
     z-index: 1000;
   }
 
@@ -17,6 +17,6 @@ export const ComponentStyles = css`
     stroke-linejoin: round;
     stroke-dasharray: 1;
     stroke-dashoffset: 0;
-    fill: none
+    fill: none;
   }
 `;
