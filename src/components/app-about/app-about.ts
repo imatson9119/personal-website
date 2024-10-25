@@ -15,7 +15,7 @@ export class AboutComponent extends LitElement {
   @query('#canvas') canvas!: HTMLCanvasElement;
 
   spinSpeed = 0.5;
-  spinBoostSpeed = 30;
+  spinBoostSpeed = 20;
   spinDeccelerationMultiplier = 0.98;
   storyMode = false;
   startedStoryMode = false;
@@ -24,9 +24,14 @@ export class AboutComponent extends LitElement {
   nStoryTextures = 9;
   canvasHeight = 500;
   mugEvenHeight = 300;
+  flickerEnabled = false;
+  curTextureOrder: number[] = Array.from({length: this.nTextures - this.nStoryTextures}, (_, i) => i + this.nStoryTextures);
+  curTextureIndex = 0;
+
 
   mug: THREE.Object3D | null = null;
   textures = Array.from({length: this.nTextures}, (_, i) => i + 1).map((i) => getMugTexture(`${i}`));
+
   materials = [
     new THREE.MeshStandardMaterial({color: 0xe6e3b3, flatShading: true, roughness: 0}),
     new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: pickRandom(this.textures, this.nStoryTextures)}),
@@ -131,7 +136,7 @@ export class AboutComponent extends LitElement {
           mug.position.y = Math.random() * flickerShake;
           mug.position.z = -5 + Math.random() * flickerShake;
         }
-      } else if (Math.random() < flicker_likelihood && ref.spinSpeed === .5 && !ref.storyMode) {
+      } else if (Math.random() < flicker_likelihood && ref.spinSpeed === .5 && ref.flickerEnabled) {
         ref.materials.forEach((material, index) => {
           material.wireframe = true;
           if (index !== 0) {
@@ -165,6 +170,7 @@ export class AboutComponent extends LitElement {
       } 
       
       if (!ref.startedStoryMode && window.scrollY > 0) {
+        ref.flickerEnabled = false;
         ref.storyMode = true;
         ref.startedStoryMode = true;
         mug.rotation.y = -0.5 * Math.PI;
@@ -217,11 +223,19 @@ export class AboutComponent extends LitElement {
   }
 
   boostSpin() {
-    this.spinSpeed = this.spinBoostSpeed;
+    this.spinSpeed += this.spinBoostSpeed;
   }
 
   getCanvasWidth() {
     return isMobileViewport() ? this.mainContainer.clientWidth : this.mainContainer.clientWidth / 2;
+  }
+
+  shuffleArray(array: number[]): number[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
 
   getNextTexture(): THREE.Texture {
@@ -230,10 +244,19 @@ export class AboutComponent extends LitElement {
       this.curStoryTexture++;
       if (this.curStoryTexture >= this.nStoryTextures) {
         this.storyMode = false;
+        setTimeout(() => {
+          this.flickerEnabled = true;
+        }, 5000);
       }
       return ret;
     } else {
-      return pickRandom(this.textures, this.nStoryTextures);
+      const ret = this.textures[this.curTextureOrder[this.curTextureIndex]];
+      this.curTextureIndex++;
+      if (this.curTextureIndex >= this.curTextureOrder.length) {
+        this.curTextureIndex = 0;
+        this.shuffleArray(this.curTextureOrder);
+      }
+      return ret;
     }
   }
 
