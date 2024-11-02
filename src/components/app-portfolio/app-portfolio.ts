@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, query } from 'lit/decorators.js';
 import { ComponentStyles } from './app-portfolio.styles.js';
 import { MainStyles } from '../../styles.js';
 
@@ -8,11 +8,40 @@ export class PortfolioComponent extends LitElement {
 
   static styles = [MainStyles, ComponentStyles];
 
+  @query('.about-screen') aboutScreen!: HTMLElement;
+
   constructor() {
     super();
 
     this.updateComplete.then(() => {
+      this.backgroundAnimation();
     })
+  }
+
+  backgroundAnimation() {
+    let mousePos = [0, 0];
+    let backgroundPos = [0, 0];
+    const aboutContainerMovementFactor = .05;
+    const aboutContainerVertMoveDist = window.innerHeight * aboutContainerMovementFactor;
+    const aboutContainerHorizMoveDist = window.innerWidth * aboutContainerMovementFactor;
+  
+  
+    window.addEventListener('mousemove', (event) => {
+      mousePos = [event.clientX, event.clientY];
+    });
+  
+    const updateBackground = () => {
+      const x = (mousePos[0] - window.innerWidth / 2) / window.innerWidth;
+      const y = (mousePos[1] - window.innerHeight / 2) / window.innerHeight;
+  
+      // lerp background position
+      backgroundPos[0] += (x - backgroundPos[0]) * 0.03;
+      backgroundPos[1] += (y - backgroundPos[1]) * 0.03;
+      this.aboutScreen.style.translate = `${-backgroundPos[0] * aboutContainerHorizMoveDist}px ${-backgroundPos[1] * aboutContainerVertMoveDist}px`;
+  
+      requestAnimationFrame(updateBackground);
+    }
+    updateBackground();
   }
 
   render() {

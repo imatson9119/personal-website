@@ -71,7 +71,7 @@ export const ComponentStyles = css`
     background: #bbbe6433;
     padding: 0.5rem;
     border-radius: 8px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
   }
 
   a:hover {

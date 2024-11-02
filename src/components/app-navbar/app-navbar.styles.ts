@@ -12,7 +12,7 @@ export const ComponentStyles = css`
 
   .navbar .links {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .navbar button {
@@ -20,6 +20,14 @@ export const ComponentStyles = css`
     color: var(--secondary-one);
     font-size: 1.2rem;
     cursor: pointer;
+    transition: transform  0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
+    border-radius: 5px;
+    padding: .5rem;
+  }
+
+  .navbar button:hover {
+    background-color: #bbbe6433;
+    color: var(--accent);
   }
 
   .accent {

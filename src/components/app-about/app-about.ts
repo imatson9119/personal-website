@@ -49,8 +49,7 @@ export class AboutComponent extends LitElement {
     });
   }
 
- animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
-
+  animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
     let mousePos = [window.innerWidth/2, window.innerWidth/2];
     mug.rotation.y = -0.5 * Math.PI;
     let cameraOffsetFactor = [.5, .5];

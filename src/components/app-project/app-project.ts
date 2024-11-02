@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, query, state } from 'lit/decorators.js';
 import { ComponentStyles } from './app-project.styles.js';
 import { MainStyles } from '../../styles.js';
 
@@ -39,12 +39,15 @@ export class ProjectComponent extends LitElement {
   curProjectIndex = 0;
 
   @state() curProject: Project = this.projects[this.curProjectIndex];
+  @query('.left') image!: HTMLImageElement;
+  @query('.right') right!: HTMLElement;
 
 
   constructor() {
     super();
 
     this.updateComplete.then(() => {
+      this.backgroundAnimation();
     })
   }
 
@@ -55,6 +58,64 @@ export class ProjectComponent extends LitElement {
 
   updateProject() {
     this.curProject = this.projects[this.curProjectIndex]; 
+  }
+
+  buttonHoverAnimation(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    const buttonRect = button.getBoundingClientRect();
+    const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+    const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+    
+    // Calculate distance between cursor and button center
+    const deltaX = event.clientX - buttonCenterX;
+    const deltaY = event.clientY - buttonCenterY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    // Maximum pull distance and strength
+    const maxPull = 40;
+    const pullStrength = Math.min(maxPull, distance) / distance;
+    
+    // Calculate pull effect
+    const moveX = deltaX * pullStrength * 0.2;
+    const moveY = deltaY * pullStrength * 0.2;
+
+    // Apply transform
+    button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+    // Reset on mouse leave
+    button.onmouseleave = () => {
+      button.style.transform = 'translate(0, 0)';
+    };
+  }
+
+  backgroundAnimation() {
+    let mousePos = [0, 0];
+    let backgroundPos = [0, 0];
+    const imageContainerMovementFactor = .08;
+    const mainContainerMovementFactor = .05;
+    const imageContainerVertMoveDist = window.innerHeight * imageContainerMovementFactor;
+    const imageContainerHorizMoveDist = window.innerWidth * imageContainerMovementFactor;
+    const mainContainerVertMoveDist = window.innerHeight * mainContainerMovementFactor;
+    const mainContainerHorizMoveDistance = window.innerWidth * mainContainerMovementFactor;
+  
+  
+    window.addEventListener('mousemove', (event) => {
+      mousePos = [event.clientX, event.clientY];
+    });
+  
+    const updateBackground = () => {
+      const x = (mousePos[0] - window.innerWidth / 2) / window.innerWidth;
+      const y = (mousePos[1] - window.innerHeight / 2) / window.innerHeight;
+  
+      // lerp background position
+      backgroundPos[0] += (x - backgroundPos[0]) * 0.03;
+      backgroundPos[1] += (y - backgroundPos[1]) * 0.03;
+      this.image.style.translate = `${-backgroundPos[0] * imageContainerHorizMoveDist}px ${-backgroundPos[1] * imageContainerVertMoveDist}px`;
+      this.right.style.translate = `${-backgroundPos[0] * mainContainerHorizMoveDistance}px ${-backgroundPos[1] * mainContainerVertMoveDist}px`;
+  
+      requestAnimationFrame(updateBackground);
+    }
+    updateBackground();
   }
 
   render() {
@@ -76,8 +137,8 @@ export class ProjectComponent extends LitElement {
           <p>${this.curProject.description}</p>
           <br>
           <div class = "links">
-            ${this.curProject.link ? html`<a class='link' href="${this.curProject.link}" target="_blank" rel="noopener noreferrer">View Project</a>` : ''}
-            ${this.curProject.github ? html`<a class='github' href="${this.curProject.github}" target="_blank" rel="noopener noreferrer">View Code</a>` : ''}
+            ${this.curProject.link ? html`<a @mousemove=${this.buttonHoverAnimation} class='link' href="${this.curProject.link}" target="_blank" rel="noopener noreferrer">View Project</a>` : ''}
+            ${this.curProject.github ? html`<a @mousemove=${this.buttonHoverAnimation} class='github' href="${this.curProject.github}" target="_blank" rel="noopener noreferrer">View Code</a>` : ''}
           </div>
         </div>
       </div>

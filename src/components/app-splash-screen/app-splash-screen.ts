@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, query } from 'lit/decorators.js';
 import { ComponentStyles } from './app-splash-screen.styles.js';
 import { MainStyles } from '../../styles.js';
 
@@ -8,12 +8,46 @@ export class SplashScreenComponent extends LitElement {
 
   static styles = [MainStyles, ComponentStyles];
 
+  @query('.splash-screen') mainContainer!: HTMLElement;
+  @query('.image') imageContainer!: HTMLElement;
+
   constructor() {
     super();
 
     this.updateComplete.then(() => {
+      this.backgroundAnimation();
     })
   }
+
+backgroundAnimation() {
+  let mousePos = [0, 0];
+  let backgroundPos = [0, 0];
+  const mainContainerMovementFactor = .05;
+  const imageContainerMovementFactor = .03;
+  const mainContainerVertMoveDist = window.innerHeight * mainContainerMovementFactor;
+  const imageContainerVertMoveDist = window.innerHeight * imageContainerMovementFactor;
+  const mainContainerHorizMoveDist = window.innerWidth * mainContainerMovementFactor;
+  const imageContainerHorizMoveDist = window.innerWidth * imageContainerMovementFactor;
+
+
+  window.addEventListener('mousemove', (event) => {
+    mousePos = [event.clientX, event.clientY];
+  });
+
+  const updateBackground = () => {
+    const x = (mousePos[0] - window.innerWidth / 2) / window.innerWidth;
+    const y = (mousePos[1] - window.innerHeight / 2) / window.innerHeight;
+
+    // lerp background position
+    backgroundPos[0] += (x - backgroundPos[0]) * 0.03;
+    backgroundPos[1] += (y - backgroundPos[1]) * 0.03;
+    this.mainContainer.style.translate = `${-backgroundPos[0] * mainContainerHorizMoveDist}px ${-backgroundPos[1] * mainContainerVertMoveDist}px`;
+    this.imageContainer.style.translate = `${-backgroundPos[0] * imageContainerHorizMoveDist}px ${-backgroundPos[1] * imageContainerVertMoveDist}px`;
+
+    requestAnimationFrame(updateBackground);
+  }
+  updateBackground();
+}
 
   render() {
     return html`
