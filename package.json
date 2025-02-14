@@ -13,7 +13,7 @@
     "build": "rimraf dist && tsc && rollup -c rollup.config.js && cp -r assets dist/assets && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
-    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server\"",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server --config web-dev-server.config.js\"",
     "deploy": "yarn build && gh-pages -d dist --cname ian-matson.com"
   },
   "dependencies": {
@@ -31,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "@web/dev-server": "^0.4.6",
+    "@web/dev-server-esbuild": "^1.0.3",
     "@web/rollup-plugin-html": "^2.3.0",
     "@web/rollup-plugin-import-meta-assets": "^2.2.1",
     "babel-plugin-template-html-minifier": "^4.1.0",
