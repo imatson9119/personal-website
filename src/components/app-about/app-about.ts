@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import { customElement, query } from 'lit/decorators.js';
+import { customElement, query, property } from 'lit/decorators.js';
 import { MainStyles } from '../../styles.js';
 import { ComponentStyles } from './app-about.styles.js';
 import * as THREE from 'three';
@@ -28,6 +28,12 @@ export class AboutComponent extends LitElement {
   curTextureOrder: number[] = Array.from({length: this.nTextures - this.nStoryTextures}, (_, i) => i + this.nStoryTextures);
   curTextureIndex = 0;
 
+  isDragging = false;
+  hasMoved = false;
+  previousMousePosition = { x: 0, y: 0 };
+  targetRotation = { x: 0, y: -0.5 * Math.PI };
+  currentRotation = { x: 0, y: -0.5 * Math.PI };
+  rotationConvergenceSpeed = 2.0;
 
   mug: THREE.Object3D | null = null;
   textures = Array.from({length: this.nTextures}, (_, i) => i + 1).map((i) => getMugTexture(`${i}`));
@@ -39,6 +45,8 @@ export class AboutComponent extends LitElement {
     new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, roughness: 0, map: pickRandom(this.textures, this.nStoryTextures)}),
   ];
 
+  @property({ type: Object })
+  previousRotation = { y: 0 };
 
   constructor() {
     super();
@@ -51,7 +59,8 @@ export class AboutComponent extends LitElement {
 
   animateMug(mug: THREE.Object3D, scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer) {
     let mousePos = [window.innerWidth/2, window.innerWidth/2];
-    mug.rotation.y = -0.5 * Math.PI;
+    mug.rotation.y = this.currentRotation.y;
+    mug.rotation.x = this.currentRotation.x;
     let cameraOffsetFactor = [.5, .5];
     const flicker_lower_bound = 0.2;
     const flicker_upper_bound = 0.5;
@@ -64,8 +73,43 @@ export class AboutComponent extends LitElement {
 
     window.addEventListener('mousemove', (event) => {
       mousePos = [event.clientX, event.clientY];
+      
+      if (this.isDragging) {
+        const deltaX = (event.clientX - this.previousMousePosition.x) * 0.01;
+        const deltaY = (event.clientY - this.previousMousePosition.y) * 0.01;
+        
+        if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
+          this.hasMoved = true;
+        }
+        
+        this.targetRotation.y += deltaX;
+        this.targetRotation.x += deltaY;
+        
+        // Clamp x rotation to prevent flipping
+        this.targetRotation.x = Math.max(-Math.PI/3, Math.min(Math.PI/3, this.targetRotation.x));
+        
+        this.previousMousePosition = {
+          x: event.clientX,
+          y: event.clientY
+        };
+      }
     });
 
+    this.canvas.addEventListener('mousedown', (event) => {
+      this.isDragging = true;
+      this.hasMoved = false;
+      this.previousMousePosition = {
+        x: event.clientX,
+        y: event.clientY
+      };
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (this.isDragging && !this.hasMoved) {
+        this.boostSpin();
+      }
+      this.isDragging = false;
+    });
 
     mug.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -101,6 +145,24 @@ export class AboutComponent extends LitElement {
 
     function animate() {
       const delta = clock.getDelta();
+      
+      // Handle rotation convergence
+      if (!ref.isDragging) {
+        // Converge x rotation back to 0
+        ref.targetRotation.x += (-ref.targetRotation.x * ref.rotationConvergenceSpeed * delta);
+        
+        // Apply automatic spin only when not dragging
+        ref.targetRotation.y += -1 * ref.spinSpeed * delta;
+      }
+
+      // Smoothly interpolate current rotation to target rotation
+      ref.currentRotation.x += (ref.targetRotation.x - ref.currentRotation.x) * 0.1;
+      ref.currentRotation.y += (ref.targetRotation.y - ref.currentRotation.y) * 0.1;
+
+      mug.rotation.x = ref.currentRotation.x;
+      mug.rotation.y = ref.currentRotation.y;
+
+      // Handle camera position updates
       const x = mousePos[0] / window.innerWidth;
       const y = mousePos[1] / window.innerHeight;
 
@@ -127,7 +189,6 @@ export class AboutComponent extends LitElement {
           const b = Math.random() * 155 + 100;
           const color = (r << 16) | (g << 8) | b;
 
-  
           ref.materials.forEach((material) => {
             material.color.setHex(color);
           });
@@ -135,7 +196,7 @@ export class AboutComponent extends LitElement {
           mug.position.y = Math.random() * flickerShake;
           mug.position.z = -5 + Math.random() * flickerShake;
         }
-      } else if (Math.random() < flicker_likelihood && ref.spinSpeed === .5 && ref.flickerEnabled) {
+      } else if (Math.random() < flicker_likelihood && ref.spinSpeed === .5 && ref.flickerEnabled && !ref.isDragging) {
         ref.materials.forEach((material, index) => {
           material.wireframe = true;
           if (index !== 0) {
@@ -145,28 +206,49 @@ export class AboutComponent extends LitElement {
         flickerTime = Math.random() * (flicker_upper_bound - flicker_lower_bound) + flicker_lower_bound;
       }
 
-      renderer.render( scene, camera );
-      const rotation = mug.rotation.y / Math.PI % 2;
-      mug.rotation.y += -1 * ref.spinSpeed * delta;
-      const newRotation =  mug.rotation.y / Math.PI % 2;
+      [leftFace, centerFace, rightFace].forEach((face) => {
+        if (face) {
+          const currentAngle = ((mug.rotation.y % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+          const prevAngle = ((ref.previousRotation.y % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+          
+          let crossedThreshold = false;
+          switch (face.name) {
+            case 'Cube001_2': // Right face
+              // Check if we crossed π (180°) in either direction
+              crossedThreshold = (prevAngle < Math.PI && currentAngle >= Math.PI) || 
+                                (prevAngle >= Math.PI && currentAngle < Math.PI);
+              break;
+            case 'Cube001_3': // Center face
+              // Check if we crossed 3π/2 (270°) in either direction
+              crossedThreshold = (prevAngle < 3*Math.PI/2 && currentAngle >= 3*Math.PI/2) || 
+                                (prevAngle >= 3*Math.PI/2 && currentAngle < 3*Math.PI/2);
+              break;
+            case 'Cube001_4': // Left face
+              // Check if we crossed π/2 (90°) in either direction
+              crossedThreshold = (prevAngle < Math.PI/2 && currentAngle >= Math.PI/2) || 
+                                (prevAngle >= Math.PI/2 && currentAngle < Math.PI/2);
+              break;
+          }
 
-      if (delta > 0 && ref.spinSpeed > .5){ 
-        ref.spinSpeed = Math.max(.5,  ref.spinSpeed * ref.spinDeccelerationMultiplier);
+          // Calculate the smallest angle difference accounting for wraparound
+          const angleDiff = Math.abs(currentAngle - prevAngle)
+          // Only trigger if the angle difference is reasonable (prevents multiple triggers)
+          if (crossedThreshold && angleDiff < Math.PI/2) {
+            const material = (face.material as THREE.MeshStandardMaterial);
+            const newMap = ref.getNextTexture();
+            material.map = newMap;
+            material.needsUpdate = true;
+          }
+        }
+      });
+      
+      ref.previousRotation.y = mug.rotation.y;
+
+      renderer.render(scene, camera);
+
+      if (delta > 0 && ref.spinSpeed > .5) { 
+        ref.spinSpeed = Math.max(.5, ref.spinSpeed * ref.spinDeccelerationMultiplier);
       }
-
-      if (rotation < newRotation) {
-        const material = (leftFace!.material as THREE.MeshStandardMaterial);
-        material.map = ref.getNextTexture();
-        material.needsUpdate = true;
-      } else if (rotation > -0.5 && newRotation < -0.5) {
-        const material = (centerFace!.material as THREE.MeshStandardMaterial);
-        material.map = ref.getNextTexture();
-        material.needsUpdate = true;
-      } else if (rotation > -1 && newRotation < -1) {
-        const material = (rightFace!.material as THREE.MeshStandardMaterial);
-        material.map = ref.getNextTexture();
-        material.needsUpdate = true;
-      } 
       
       if (!ref.startedStoryMode && window.scrollY > 0) {
         ref.flickerEnabled = false;
@@ -178,8 +260,7 @@ export class AboutComponent extends LitElement {
         ref.curStoryTexture = 2;
       }
     }
-    renderer.setAnimationLoop( animate );
-
+    renderer.setAnimationLoop(animate);
   }
 
   init3JS() {
@@ -262,7 +343,7 @@ export class AboutComponent extends LitElement {
   render() {
     return html`
       <div class='about-container'>
-        <canvas id='canvas' @click=${this.boostSpin}></canvas>
+        <canvas id='canvas'></canvas>
         <div class="text">
           <div class='title'>
             <h1>A little about me</h1>
@@ -289,8 +370,6 @@ function getMugTexture(name: string) {
   texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
-
-
 
 declare global {
   interface HTMLElementTagNameMap {
