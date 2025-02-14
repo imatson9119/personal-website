@@ -50,8 +50,9 @@ export class CursorTrailComponent extends LitElement {
       requestAnimationFrame(drawPath);
     }
     
-    
+    // Handle mouse events for desktop
     window.addEventListener('mousemove', (event) => {
+      event.preventDefault();
       mousePos = [event.clientX, event.clientY];
 
       if (points.length === 0) {
@@ -59,6 +60,28 @@ export class CursorTrailComponent extends LitElement {
           points.push(mousePos);
         }
         drawPath();
+      }
+    });
+
+    // Handle touch events for mobile
+    window.addEventListener('touchmove', (event) => {
+      event.preventDefault();
+      const touch = event.touches[0];
+      mousePos = [touch.clientX, touch.clientY];
+
+      if (points.length === 0) {
+        for(let i = 0; i < nSegments; i++) {
+          points.push(mousePos);
+        }
+        drawPath();
+      }
+    }, { passive: false });
+
+    // Reset points array when touch ends
+    window.addEventListener('touchend', () => {
+      points = [];
+      if (this.path) {
+        this.path.setAttribute('d', '');
       }
     });
 
