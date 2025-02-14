@@ -111,6 +111,51 @@ export class AboutComponent extends LitElement {
       this.isDragging = false;
     });
 
+    // Add touch event handlers
+    this.canvas.addEventListener('touchstart', (event) => {
+      event.preventDefault(); // Prevent scrolling
+      this.isDragging = true;
+      this.hasMoved = false;
+      if (event.touches.length === 1) {
+        this.previousMousePosition = {
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY
+        };
+      }
+    });
+
+    window.addEventListener('touchmove', (event) => {
+      event.preventDefault(); // Prevent scrolling
+      mousePos = [event.touches[0].clientX, event.touches[0].clientY];
+      
+      if (this.isDragging && event.touches.length === 1) {
+        const deltaX = (event.touches[0].clientX - this.previousMousePosition.x) * 0.01;
+        const deltaY = (event.touches[0].clientY - this.previousMousePosition.y) * 0.01;
+        
+        if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
+          this.hasMoved = true;
+        }
+        
+        this.targetRotation.y += deltaX;
+        this.targetRotation.x += deltaY;
+        
+        // Clamp x rotation to prevent flipping
+        this.targetRotation.x = Math.max(-Math.PI/3, Math.min(Math.PI/3, this.targetRotation.x));
+        
+        this.previousMousePosition = {
+          x: event.touches[0].clientX,
+          y: event.touches[0].clientY
+        };
+      }
+    });
+
+    window.addEventListener('touchend', () => {
+      if (this.isDragging && !this.hasMoved) {
+        this.boostSpin();
+      }
+      this.isDragging = false;
+    });
+
     mug.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         const color = Math.floor(Math.random()*16777215);
