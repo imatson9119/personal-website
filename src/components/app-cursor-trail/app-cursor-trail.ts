@@ -23,9 +23,10 @@ export class CursorTrailComponent extends LitElement {
     let points: Array<Array<number>> = []
     let mousePos = [0,0];
     const nSegments = 100;
+    let isActive = false;
+    let fadeOutOpacity = 1;
 
     const drawPath = () => {
-
       let pos = mousePos;
       let totalDistance = 0;
 
@@ -43,8 +44,15 @@ export class CursorTrailComponent extends LitElement {
 
       if (points.length !== 0) {
         this.path?.setAttribute('d', `M ${points.map(point => point.join(' ')).join(' L ')}`);
-        // Set color based on totalDistance of path - the longer the path, the darker the color
-        this.path?.setAttribute('stroke', `rgba(234, 240, 206, ${Math.min(1, totalDistance / 1000)})`);
+        // If not active (touch/mouse ended), gradually decrease opacity
+        if (!isActive && fadeOutOpacity > 0) {
+          fadeOutOpacity -= 0.03; // Adjust this value to control fade speed
+        }
+        const opacity = isActive ? 
+          Math.min(1, totalDistance / 1000) : 
+          Math.min(fadeOutOpacity, Math.min(1, totalDistance / 1000));
+          
+        this.path?.setAttribute('stroke', `rgba(234, 240, 206, ${opacity})`);
       }
 
       requestAnimationFrame(drawPath);
@@ -52,7 +60,8 @@ export class CursorTrailComponent extends LitElement {
     
     // Handle mouse events for desktop
     window.addEventListener('mousemove', (event) => {
-      event.preventDefault();
+      isActive = true;
+      fadeOutOpacity = 1;
       mousePos = [event.clientX, event.clientY];
 
       if (points.length === 0) {
@@ -63,12 +72,33 @@ export class CursorTrailComponent extends LitElement {
       }
     });
 
+    window.addEventListener('mouseout', () => {
+      isActive = false;
+    });
+
     // Handle touch events for mobile
-    window.addEventListener('touchmove', (event) => {
-      event.preventDefault();
+    window.addEventListener('touchstart', (event) => {
+      // Clear existing points when touch starts
+      points = [];
+      isActive = true;
+      fadeOutOpacity = 1;
       const touch = event.touches[0];
       mousePos = [touch.clientX, touch.clientY];
 
+      // Initialize points at current touch position
+      for(let i = 0; i < nSegments; i++) {
+        points.push(mousePos);
+      }
+      drawPath();
+    }, { passive: false });
+
+    window.addEventListener('touchmove', (event) => {
+      isActive = true;
+      fadeOutOpacity = 1;
+      const touch = event.touches[0];
+      mousePos = [touch.clientX, touch.clientY];
+
+      // Remove the initialization check since we handle it in touchstart
       if (points.length === 0) {
         for(let i = 0; i < nSegments; i++) {
           points.push(mousePos);
@@ -77,12 +107,9 @@ export class CursorTrailComponent extends LitElement {
       }
     }, { passive: false });
 
-    // Reset points array when touch ends
+    // Fade out trail when touch ends
     window.addEventListener('touchend', () => {
-      points = [];
-      if (this.path) {
-        this.path.setAttribute('d', '');
-      }
+      isActive = false;
     });
 
     const resize = () => {
