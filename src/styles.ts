@@ -42,7 +42,10 @@ export const MainStyles = css`
     font-size: 2rem;
   }
 
-
+  ::selection {
+    background: var(--accent);
+    color: var(--primary);
+  }
 
   * {
     font-family: var(--font-stack);
