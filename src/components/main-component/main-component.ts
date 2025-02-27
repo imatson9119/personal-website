@@ -16,7 +16,7 @@ export class MainA extends LitElement {
   static styles = [MainStyles, ComponentStyles];
 
   private baseWaveText: string = 'FULL STACK DEV • ARTIFICAL INTELLIGENCE • MACHINE LEARNING • ';
-  private textWaveRepetitions: number = 100;
+  private textWaveRepetitions: number = 0;
   private textWaveUnitLength: number = 0;
 
   constructor() {
@@ -49,6 +49,7 @@ export class MainA extends LitElement {
 
   private finishedResizing() {
     // We need to 1) recompute the text path length 2) recompute the text path unit length 3) recompute the text path repetitions
+    this.textPath.textContent = this.baseWaveText;
     const pathLength = (this.path as SVGPathElement).getTotalLength();
     const initialTextLength = (this.textPath as SVGTextPathElement).getComputedTextLength();
     this.textWaveRepetitions = Math.ceil(pathLength / initialTextLength) + 1;
