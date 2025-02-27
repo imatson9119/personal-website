@@ -8,8 +8,15 @@ export class MainA extends LitElement {
   @property({ type: String }) header = 'My app';
 
   @query('.main-container') mainContainer!: HTMLElement;
+  @query('#wave-text-path') textPath!: SVGTextPathElement;
+  @query('#wave-curve') path!: SVGPathElement;
+
+  private resizeTimeout?: number;
 
   static styles = [MainStyles, ComponentStyles];
+
+  private textWaveRepetitions: number = 100;
+  private textWaveUnitLength: number = 0;
 
   constructor() {
     super();
@@ -17,7 +24,35 @@ export class MainA extends LitElement {
     this.updateComplete.then(() => {
       this.backgroundAnimation();
       this.initWaveTextAnimation();
-    })
+
+      // Add debounced resize listener
+      window.addEventListener('resize', () => {
+        if (this.resizeTimeout) {
+          window.clearTimeout(this.resizeTimeout);
+        }
+        
+        this.resizeTimeout = window.setTimeout(() => {
+          this.finishedResizing();
+        }, 200);
+      });
+    });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // Clean up timeout if component is removed
+    if (this.resizeTimeout) {
+      window.clearTimeout(this.resizeTimeout);
+    }
+  }
+
+  private finishedResizing() {
+    // We need to 1) recompute the text path length 2) recompute the text path unit length 3) recompute the text path repetitions
+    const pathLength = (this.path as SVGPathElement).getTotalLength();
+    const initialTextLength = (this.textPath as SVGTextPathElement).getComputedTextLength();
+    this.textWaveRepetitions = Math.ceil(pathLength / initialTextLength) + 1;
+    this.textPath.textContent = this.textPath.textContent!.repeat(this.textWaveRepetitions);
+    this.textWaveUnitLength = (this.textPath as SVGTextPathElement).getComputedTextLength() / this.textWaveRepetitions;
   }
 
   backgroundAnimation() {
@@ -45,25 +80,38 @@ export class MainA extends LitElement {
   }
 
   initWaveTextAnimation() {
-    const nRepetitions = 10;
     const textPath = this.shadowRoot?.querySelector('#wave-text-path');
     const path = this.shadowRoot?.querySelector('#wave-curve');
     
-    if (!textPath || !path) return;
+    if (!textPath || !path || !textPath.textContent) return;
+
+    // Get the length of the text and path
+    const pathLength = (path as SVGPathElement).getTotalLength();
     const initialTextLength = (textPath as SVGTextPathElement).getComputedTextLength();
     
     // Initialize text content to cover the path
-    textPath.textContent = textPath.textContent!.repeat(nRepetitions);
+    this.textWaveRepetitions = Math.ceil(pathLength / initialTextLength) + 1;
+    const baseText = textPath.textContent;
+    textPath.textContent = baseText.repeat(this.textWaveRepetitions);
+    this.textWaveUnitLength = (textPath as SVGTextPathElement).getComputedTextLength() / this.textWaveRepetitions;
 
-    const animate = () => {
-      const currentOffset = parseFloat(textPath.getAttribute('startOffset') || '0px');
-      // Move right to left and reset when text moves its full length
-      const newOffset = currentOffset <= -initialTextLength - 29 ? 0 : currentOffset - 1;
-      textPath.setAttribute('startOffset', `${newOffset}px`);
+    let lastTime = performance.now();
+    const speed = 100;
+
+    const animate = (currentTime: number) => {
+      const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
+      lastTime = currentTime;
+
+      const currentOffset = parseFloat(textPath.getAttribute('startOffset') || '0');
+      const pixelsToMove = speed * deltaTime;
+      // Add a small buffer (1.1) to account for tspan spacing
+      const newOffset = currentOffset <= -(this.textWaveUnitLength) ? 0 : currentOffset - pixelsToMove;
+      
+      textPath.setAttribute('startOffset', `${newOffset}`);
       requestAnimationFrame(animate);
     };
 
-    animate();
+    requestAnimationFrame(animate);
   }
 
   scrollToId(id: string) {
