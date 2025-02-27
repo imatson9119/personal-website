@@ -33,7 +33,7 @@ export class MainA extends LitElement {
         }
         
         this.resizeTimeout = window.setTimeout(() => {
-          // this.finishedResizing();
+          this.finishedResizing();
         }, 200);
       });
     });
@@ -142,12 +142,12 @@ export class MainA extends LitElement {
           </div>
           <div class='wave bottom' style="--offset:0px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE" fill-opacity="1" d="M0,256L48,250.7C96,245,192,235,288,202.7C384,171,480,117,576,106.7C672,96,768,128,864,122.7C960,117,1056,75,1152,53.3C1248,32,1344,32,1392,32L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
-            <svg class="wave-text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" height="50">
+            <svg class="wave-text exclude-font-adjustments" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" height="50">
               <defs>
                 <path id="wave-curve" d="M0,256L48,250.7C96,245,192,235,288,202.7C384,171,480,117,576,106.7C672,96,768,128,864,122.7C960,117,1056,75,1152,53.3C1248,32,1344,32,1392,32L1440,32"></path>
               </defs>
-              <text class="wave-text">
-                <textPath href="#wave-curve" id="wave-text-path" startOffset="0">
+              <text class="wave-text exclude-font-adjustments">
+                <textPath class='exclude-font-adjustments'href="#wave-curve" id="wave-text-path" startOffset="0">
                   ${this.baseWaveText}
                 </textPath>
               </text>

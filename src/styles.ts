@@ -71,6 +71,10 @@ export const MainStyles = css`
     h1 {
       font-size: 1.5rem;
     }
+
+    * :not(.exclude-font-adjustments){
+      font-size: 0.8rem;
+    }
   }
 `;
 

@@ -129,6 +129,7 @@ export const ComponentStyles = css`
 
     .right {
       width: 100%;
+      padding-top: 2rem;
       max-width: 500px;
     }
   }
