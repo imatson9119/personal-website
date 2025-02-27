@@ -68,10 +68,6 @@ export const MainStyles = css`
     h1 {
       font-size: 1.5rem;
     }
-
-    * {
-      font-size: 0.875rem;
-    }
   }
 `;
 

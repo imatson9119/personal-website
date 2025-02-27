@@ -102,9 +102,36 @@ export const ComponentStyles = css`
     background: #EAF0CE1a;
   }
 
+  .wave-text {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    transform: translateY(-5px);
+  }
+
+  .wave-text text {
+    fill: var(--secondary-one);
+    font-size: 20px;
+    font-family: var(--font-stack);
+    letter-spacing: 8px;
+    opacity: 0.8;
+  }
+
+  #wave-curve {
+    fill: none;
+    stroke: none;
+  }
+
   @media (max-width: 1024px) {
     .main-container {
       flex-direction: column;
+    }
+
+    .wave-text text {
+      font-size: 40px;
     }
 
     app-splash-screen {

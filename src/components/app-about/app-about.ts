@@ -404,10 +404,6 @@ export class AboutComponent extends LitElement {
   }
 }
 
-function isMobileViewport() {
-  return window.innerWidth < 1024;
-}
-
 function pickRandom<T>(array: T[], low: number = 0, high: number = array.length): T {
   return array[Math.floor(Math.random() * (high - low)) + low];
 }
