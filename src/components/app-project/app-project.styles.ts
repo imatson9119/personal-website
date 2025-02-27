@@ -24,6 +24,7 @@ export const ComponentStyles = css`
     align-items: stretch;
     justify-content: stretch;
     min-height: 400px;
+    position: relative;
   }
 
   .left {
@@ -33,11 +34,13 @@ export const ComponentStyles = css`
     justify-content: flex-start;
     overflow: hidden;
     box-sizing: border-box;
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
   .left img {
     width: 80%;
     border-radius: 12px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
   .right {
@@ -46,6 +49,7 @@ export const ComponentStyles = css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
   .project-header {
@@ -89,6 +93,20 @@ export const ComponentStyles = css`
     color: white;
   }
 
+  .slide-left {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+
+  .slide-right {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+  button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   @media (max-width: 1024px) {
     .project-container {

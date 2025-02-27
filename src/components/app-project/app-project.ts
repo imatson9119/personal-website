@@ -39,8 +39,9 @@ export class ProjectComponent extends LitElement {
   curProjectIndex = 0;
 
   @state() curProject: Project = this.projects[this.curProjectIndex];
-  @query('.left') image!: HTMLImageElement;
+  @query('.left') image!: HTMLElement;
   @query('.right') right!: HTMLElement;
+  @state() private isTransitioning = false;
 
 
   constructor() {
@@ -51,13 +52,37 @@ export class ProjectComponent extends LitElement {
     })
   }
 
-  nextProject(reverse = false) {
+  private async animateTransition(reverse = false) {
+    if (this.isTransitioning) return;
+    this.isTransitioning = true;
+    
+    // Add slide classes based on direction
+    this.image.classList.add(reverse ? 'slide-right' : 'slide-left');
+    this.right.classList.add(reverse ? 'slide-right' : 'slide-left');
+    
+    // Wait for animation
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Update content
     this.curProjectIndex = (this.curProjectIndex + (reverse ? -1 : 1) + this.projects.length) % this.projects.length;
-    this.updateProject();
+    this.curProject = this.projects[this.curProjectIndex];
+    
+    // Force a re-render
+    await this.updateComplete;
+    
+    // Trigger reflow
+    void this.image.offsetWidth;
+    void this.right.offsetWidth;
+    
+    // Remove slide classes to animate back
+    this.image.classList.remove(reverse ? 'slide-right' : 'slide-left');
+    this.right.classList.remove(reverse ? 'slide-right' : 'slide-left');
+    
+    this.isTransitioning = false;
   }
 
-  updateProject() {
-    this.curProject = this.projects[this.curProjectIndex]; 
+  async nextProject(reverse = false) {
+    await this.animateTransition(reverse);
   }
 
   buttonHoverAnimation(event: MouseEvent) {
@@ -126,17 +151,17 @@ export class ProjectComponent extends LitElement {
         </div>
         <div class="right">
           <div class="project-header">
-            <button @click="${() => this.nextProject(true)}">
+            <button ?disabled=${this.isTransitioning} @click="${() => this.nextProject(true)}">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#eaf0ce"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
             </button>
             <h2>${this.curProject.title}</h2>
-            <button @click="${this.nextProject}">
-              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" fill="#eaf0ce"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
+            <button ?disabled=${this.isTransitioning} @click="${() => this.nextProject()}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#eaf0ce"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
             </button>
           </div>
           <p>${this.curProject.description}</p>
           <br>
-          <div class = "links">
+          <div class="links">
             ${this.curProject.link ? html`<a @mousemove=${this.buttonHoverAnimation} class='link' href="${this.curProject.link}" target="_blank" rel="noopener noreferrer">View Project</a>` : ''}
             ${this.curProject.github ? html`<a @mousemove=${this.buttonHoverAnimation} class='github' href="${this.curProject.github}" target="_blank" rel="noopener noreferrer">View Code</a>` : ''}
           </div>
