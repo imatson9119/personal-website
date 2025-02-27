@@ -121,10 +121,7 @@ export const ComponentStyles = css`
       width: 100%;
       justify-content: center;
       align-items: center;
-    }
-
-    .left img {
-      max-width: 500px;
+      max-width: 400px;
     }
 
     .right {

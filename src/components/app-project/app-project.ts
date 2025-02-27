@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { ComponentStyles } from './app-project.styles.js';
-import { MainStyles } from '../../styles.js';
+import { isMobileDevice, MainStyles } from '../../styles.js';
 
 interface Project {
   title: string;
@@ -114,6 +114,7 @@ export class ProjectComponent extends LitElement {
   }
 
   backgroundAnimation() {
+    if (isMobileDevice()) return;
     let mousePos = [0, 0];
     let backgroundPos = [0, 0];
     const imageContainerMovementFactor = .08;

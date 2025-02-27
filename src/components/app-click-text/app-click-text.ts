@@ -21,8 +21,9 @@ export class ClickTextComponent extends LitElement {
         this.handleInteraction(event.clientX, event.clientY, "click");
       });
     } else {
+      console.log("touchstart");
       window.addEventListener('touchstart', (event) => {
-      const touch = event.touches[0];
+        const touch = event.touches[0];
         this.handleInteraction(touch.clientX, touch.clientY, "tap");
       });
     }
