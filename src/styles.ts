@@ -74,3 +74,7 @@ export const MainStyles = css`
     }
   }
 `;
+
+export function isMobileDevice() {
+  return window.innerWidth < 1024 || ('ontouchstart' in window);
+}

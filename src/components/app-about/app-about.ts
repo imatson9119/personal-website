@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, query, property } from 'lit/decorators.js';
-import { MainStyles } from '../../styles.js';
+import { MainStyles, isMobileDevice } from '../../styles.js';
 import { ComponentStyles } from './app-about.styles.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -71,29 +71,32 @@ export class AboutComponent extends LitElement {
     let rightFace: THREE.Mesh | null = null;
     let flickerTime = 0;
 
-    window.addEventListener('mousemove', (event) => {
-      mousePos = [event.clientX, event.clientY];
-      
-      if (this.isDragging) {
-        const deltaX = (event.clientX - this.previousMousePosition.x) * 0.01;
-        const deltaY = (event.clientY - this.previousMousePosition.y) * 0.01;
+    // Only add mouse movement listener on desktop
+    if (!isMobileDevice()) {
+      window.addEventListener('mousemove', (event) => {
+        mousePos = [event.clientX, event.clientY];
         
-        if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
-          this.hasMoved = true;
+        if (this.isDragging) {
+          const deltaX = (event.clientX - this.previousMousePosition.x) * 0.01;
+          const deltaY = (event.clientY - this.previousMousePosition.y) * 0.01;
+          
+          if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
+            this.hasMoved = true;
+          }
+          
+          this.targetRotation.y += deltaX;
+          this.targetRotation.x += deltaY;
+          
+          // Clamp x rotation to prevent flipping
+          this.targetRotation.x = Math.max(-Math.PI/3, Math.min(Math.PI/3, this.targetRotation.x));
+          
+          this.previousMousePosition = {
+            x: event.clientX,
+            y: event.clientY
+          };
         }
-        
-        this.targetRotation.y += deltaX;
-        this.targetRotation.x += deltaY;
-        
-        // Clamp x rotation to prevent flipping
-        this.targetRotation.x = Math.max(-Math.PI/3, Math.min(Math.PI/3, this.targetRotation.x));
-        
-        this.previousMousePosition = {
-          x: event.clientX,
-          y: event.clientY
-        };
-      }
-    });
+      });
+    }
 
     this.canvas.addEventListener('mousedown', (event) => {
       this.isDragging = true;
@@ -328,7 +331,7 @@ export class AboutComponent extends LitElement {
       console.error( error );
     });
 
-    camera.position.z = isMobileViewport() ? mobileCameraOffset : defaultCameraOffset;
+    camera.position.z = isMobileDevice() ? mobileCameraOffset : defaultCameraOffset;
     // set ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff,1);
     scene.add(ambientLight);
@@ -343,7 +346,7 @@ export class AboutComponent extends LitElement {
       camera.aspect = this.getCanvasWidth() / this.canvasHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(this.getCanvasWidth(), this.canvasHeight);
-      camera.position.z = isMobileViewport() ? mobileCameraOffset : defaultCameraOffset;
+      camera.position.z = isMobileDevice() ? mobileCameraOffset : defaultCameraOffset;
     });
   }
 
@@ -352,7 +355,7 @@ export class AboutComponent extends LitElement {
   }
 
   getCanvasWidth() {
-    return isMobileViewport() ? this.mainContainer.clientWidth : this.mainContainer.clientWidth / 2;
+    return isMobileDevice() ? this.mainContainer.clientWidth : this.mainContainer.clientWidth / 2;
   }
 
   shuffleArray(array: number[]): number[] {

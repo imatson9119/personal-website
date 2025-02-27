@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 import { ComponentStyles } from './app-portfolio.styles.js';
-import { MainStyles } from '../../styles.js';
+import { MainStyles, isMobileDevice } from '../../styles.js';
 
 @customElement('app-portfolio')
 export class PortfolioComponent extends LitElement {
@@ -19,6 +19,8 @@ export class PortfolioComponent extends LitElement {
   }
 
   backgroundAnimation() {
+    if (isMobileDevice()) return;  // Skip animation on mobile
+
     let mousePos = [0, 0];
     let backgroundPos = [0, 0];
     const aboutContainerMovementFactor = .05;

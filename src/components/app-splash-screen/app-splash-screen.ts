@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 import { ComponentStyles } from './app-splash-screen.styles.js';
-import { MainStyles } from '../../styles.js';
+import { MainStyles, isMobileDevice } from '../../styles.js';
 
 @customElement('app-splash-screen')
 export class SplashScreenComponent extends LitElement {
@@ -20,6 +20,8 @@ export class SplashScreenComponent extends LitElement {
   }
 
 backgroundAnimation() {
+  if (isMobileDevice()) return;  // Skip animation on mobile
+
   let mousePos = [0, 0];
   let backgroundPos = [0, 0];
   const mainContainerMovementFactor = .05;

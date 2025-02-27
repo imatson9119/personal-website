@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
 import { ComponentStyles } from './app-cursor-trail.styles.js';
-import { MainStyles } from '../../styles.js';
+import { MainStyles, isMobileDevice } from '../../styles.js';
 
 @customElement('app-cursor-trail')
 export class CursorTrailComponent extends LitElement {
@@ -15,7 +15,9 @@ export class CursorTrailComponent extends LitElement {
     super();
 
     this.updateComplete.then(() => {
-      this.cursorTrail(); 
+      if (!isMobileDevice()) {  // Only initialize cursor trail on desktop
+        this.cursorTrail(); 
+      }
     })
   }
 

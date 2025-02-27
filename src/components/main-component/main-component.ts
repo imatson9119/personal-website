@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { property, customElement, query } from 'lit/decorators.js';
 import { ComponentStyles } from './main-component.styles.js';
-import { MainStyles } from '../../styles.js';
+import { MainStyles, isMobileDevice } from '../../styles.js';
 
 @customElement('main-component')
 export class MainA extends LitElement {
@@ -20,6 +20,8 @@ export class MainA extends LitElement {
   }
 
   backgroundAnimation() {
+    if (isMobileDevice()) return;  // Skip animation on mobile
+
     let mousePos = [0, 0];
     let backgroundPos = [0, 0];
 
