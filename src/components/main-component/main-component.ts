@@ -15,6 +15,7 @@ export class MainA extends LitElement {
 
   static styles = [MainStyles, ComponentStyles];
 
+  private baseWaveText: string = 'FULL STACK DEV • ARTIFICAL INTELLIGENCE • MACHINE LEARNING • ';
   private textWaveRepetitions: number = 100;
   private textWaveUnitLength: number = 0;
 
@@ -32,7 +33,7 @@ export class MainA extends LitElement {
         }
         
         this.resizeTimeout = window.setTimeout(() => {
-          this.finishedResizing();
+          // this.finishedResizing();
         }, 200);
       });
     });
@@ -53,6 +54,7 @@ export class MainA extends LitElement {
     this.textWaveRepetitions = Math.ceil(pathLength / initialTextLength) + 1;
     this.textPath.textContent = this.textPath.textContent!.repeat(this.textWaveRepetitions);
     this.textWaveUnitLength = (this.textPath as SVGTextPathElement).getComputedTextLength() / this.textWaveRepetitions;
+
   }
 
   backgroundAnimation() {
@@ -126,6 +128,7 @@ export class MainA extends LitElement {
     return html`
       <div class='main-container'>
         <app-cursor-trail></app-cursor-trail>
+        <app-click-text></app-click-text>
         <app-navbar @navigate=${(event:CustomEvent)=>this.scrollToId(event.detail)}></app-navbar>
         <div class='inner-container'>
           <app-splash-screen></app-splash-screen>
@@ -145,7 +148,7 @@ export class MainA extends LitElement {
               </defs>
               <text class="wave-text">
                 <textPath href="#wave-curve" id="wave-text-path" startOffset="0">
-                  FULL STACK DEV • ARTIFICAL INTELLIGENCE • MACHINE LEARNING • 
+                  ${this.baseWaveText}
                 </textPath>
               </text>
             </svg>
