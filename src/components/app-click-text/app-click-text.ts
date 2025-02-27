@@ -33,6 +33,32 @@ export class ClickTextComponent extends LitElement {
     text.textContent = type;
     text.className = 'click-text';
     
+    // Create three emphasis lines with staggered angles and delays
+    const baseAngles = [0, 120, 240];
+    baseAngles.forEach((baseAngle, index) => {
+      const line = document.createElement('div');
+      line.className = 'emphasis-line';
+      
+      // Add more random variation to each angle (±30 degrees)
+      const randomVariation = (Math.random() - 0.5) * 60;
+      const finalAngle = baseAngle + randomVariation;
+      
+      // Position line at click point
+      line.style.left = `${x}px`;
+      line.style.top = `${y}px`;
+      line.style.setProperty('--rotation', `${finalAngle}deg`);
+      
+      // Stagger the appearance
+      setTimeout(() => {
+        this.shadowRoot?.appendChild(line);
+        
+        // Remove line after animation completes
+        setTimeout(() => {
+          this.shadowRoot?.removeChild(line);
+        }, 600);
+      }, index * 50);
+    });
+    
     // Random initial velocity
     const angle = (Math.random() * Math.PI / 2) + Math.PI/4; // 45° to 135°
     const speed = 2 + Math.random() * 3; // Initial speed between 2-5
