@@ -49,6 +49,7 @@ export const ComponentStyles = css`
 
   .image img {
     width: 80%;
+    max-width: 300px;
     border-radius: 12px;
   }
 
