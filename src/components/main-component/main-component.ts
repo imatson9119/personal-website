@@ -19,7 +19,7 @@ export class MainA extends LitElement {
 
   static styles = [MainStyles, ComponentStyles];
 
-  private baseWaveText: string = 'FULL STACK DEV • ARTIFICAL INTELLIGENCE • MACHINE LEARNING • ';
+  private baseWaveText: string = 'FULL STACK DEV • ARTIFICIAL INTELLIGENCE • MACHINE LEARNING • ';
   private textWaveRepetitions: number = 0;
   private textWaveUnitLength: number = 0;
   
