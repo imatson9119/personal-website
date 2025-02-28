@@ -109,7 +109,14 @@ export const ComponentStyles = css`
     bottom: 0;
     left: 0;
     z-index: 1;
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    overflow: visible;
+  }
+
+  .wave-text.down {
+    transform: translateY(50px);
+    bottom: auto;
+    top: 0;
   }
 
   .wave-text text {
@@ -120,7 +127,7 @@ export const ComponentStyles = css`
     opacity: 0.8;
   }
 
-  #wave-curve {
+  #wave-curve, #wave-curve2, #wave-curve3 {
     fill: none;
     stroke: none;
   }
@@ -132,6 +139,10 @@ export const ComponentStyles = css`
 
     .wave-text text {
       font-size: 40px;
+    }
+
+    .wave-text.down {
+      transform: translateY(100px);
     }
 
     app-splash-screen {

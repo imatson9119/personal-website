@@ -21,7 +21,6 @@ export class ClickTextComponent extends LitElement {
         this.handleInteraction(event.clientX, event.clientY, "click");
       });
     } else {
-      console.log("touchstart");
       window.addEventListener('touchstart', (event) => {
         const touch = event.touches[0];
         this.handleInteraction(touch.clientX, touch.clientY, "tap");
@@ -36,7 +35,10 @@ export class ClickTextComponent extends LitElement {
     
     // Create three emphasis lines with staggered angles and delays
     const baseAngles = [0, 120, 240];
-    baseAngles.forEach((baseAngle, index) => {
+    // Create array of indices and shuffle it
+    const shuffledIndices = [0, 1, 2].sort(() => Math.random() - 0.5);
+    
+    baseAngles.forEach((baseAngle, i) => {
       const line = document.createElement('div');
       line.className = 'emphasis-line';
       
@@ -49,7 +51,7 @@ export class ClickTextComponent extends LitElement {
       line.style.top = `${y}px`;
       line.style.setProperty('--rotation', `${finalAngle}deg`);
       
-      // Stagger the appearance
+      // Use shuffled index for staggered delay
       setTimeout(() => {
         this.shadowRoot?.appendChild(line);
         
@@ -57,7 +59,7 @@ export class ClickTextComponent extends LitElement {
         setTimeout(() => {
           this.shadowRoot?.removeChild(line);
         }, 600);
-      }, index * 50);
+      }, shuffledIndices[i] * 50);
     });
     
     // Random initial velocity
