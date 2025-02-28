@@ -111,6 +111,8 @@ export const ComponentStyles = css`
     z-index: 1;
     transform: translateY(-10px);
     overflow: visible;
+    shape-rendering: geometricPrecision;
+    text-rendering: optimizeLegibility;
   }
 
   .wave-text.down {
@@ -125,9 +127,10 @@ export const ComponentStyles = css`
     font-family: var(--font-stack);
     letter-spacing: 8px;
     opacity: 0.8;
+    vector-effect: non-scaling-stroke;
   }
 
-  #wave-curve, #wave-curve2, #wave-curve3 {
+  #wave-curve1, #wave-curve2, #wave-curve3 {
     fill: none;
     stroke: none;
   }

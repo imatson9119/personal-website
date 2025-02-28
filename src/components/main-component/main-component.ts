@@ -16,6 +16,7 @@ export class MainA extends LitElement {
   @query('#wave-curve3') path3!: SVGPathElement;
 
   private resizeTimeout?: number;
+  private fontsLoaded: boolean = false;
 
   static styles = [MainStyles, ComponentStyles];
 
@@ -39,10 +40,8 @@ export class MainA extends LitElement {
     this.updateComplete.then(() => {
       this.backgroundAnimation();
       
-      // Initialize all three wave text animations with the new function
-      this.initWaveTextAnimation(1); // Top wave
-      this.initWaveTextAnimation(2); // Middle wave
-      this.initWaveTextAnimation(3); // Bottom wave
+      // Wait for fonts to load before initializing text animations
+      this.waitForFontsAndInit();
 
       // Add debounced resize listener
       window.addEventListener('resize', () => {
@@ -57,6 +56,30 @@ export class MainA extends LitElement {
     });
   }
 
+  private waitForFontsAndInit() {
+    // Use the Font Loading API if available
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        // Mark fonts as loaded
+        this.fontsLoaded = true;
+        
+        // Initialize all three wave text animations
+        this.initWaveTextAnimation(1); // Top wave
+        this.initWaveTextAnimation(2); // Middle wave
+        this.initWaveTextAnimation(3); // Bottom wave
+      });
+    } else {
+      // Fallback for browsers that don't support Font Loading API
+      // Use a timeout to give fonts a chance to load
+      setTimeout(() => {
+        this.fontsLoaded = true;
+        this.initWaveTextAnimation(1);
+        this.initWaveTextAnimation(2);
+        this.initWaveTextAnimation(3);
+      }, 500);
+    }
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
     // Clean up timeout if component is removed
@@ -66,6 +89,11 @@ export class MainA extends LitElement {
   }
 
   private finishedResizing() {
+    // If fonts haven't loaded yet, don't recalculate
+    if (!this.fontsLoaded) {
+      return;
+    }
+    
     // First wave text
     if (this.textPath1 && this.path1) {
       this.textPath1.textContent = this.baseWaveText;
@@ -148,9 +176,19 @@ export class MainA extends LitElement {
 
     // Get the length of the text and path
     const pathLength = path.getTotalLength();
+    
+    // Set initial text content (just one instance for measurement)
+    const baseText = waveNumber === 1 ? this.baseWaveText : 
+                     waveNumber === 2 ? this.baseWaveText2 : this.baseWaveText3;
+    textPath.textContent = baseText;
+    
+    // Force a reflow to ensure text is rendered before measuring
+    this.offsetHeight;
+    
+    // Now measure the text length
     const initialTextLength = textPath.getComputedTextLength();
     
-    // Initialize text content to cover the path
+    // Calculate how many repetitions are needed
     if (waveNumber === 1) {
       this.textWaveRepetitions = Math.ceil(pathLength / initialTextLength) + 1;
       repetitions = this.textWaveRepetitions;
@@ -162,9 +200,13 @@ export class MainA extends LitElement {
       repetitions = this.textWaveRepetitions3;
     }
     
-    const baseText = textPath.textContent;
+    // Now set the repeated text
     textPath.textContent = baseText.repeat(repetitions);
     
+    // Force another reflow to ensure the repeated text is rendered
+    this.offsetHeight;
+    
+    // Calculate unit length based on repeated text
     if (waveNumber === 1) {
       this.textWaveUnitLength = textPath.getComputedTextLength() / repetitions;
       unitLength = this.textWaveUnitLength;
@@ -182,6 +224,8 @@ export class MainA extends LitElement {
     // Set initial offset for wave 2
     if (waveNumber === 2) {
       textPath.setAttribute('startOffset', `-${unitLength}`);
+    } else {
+      textPath.setAttribute('startOffset', '0');
     }
 
     const animate = (currentTime: number) => {
