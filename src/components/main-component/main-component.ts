@@ -4,7 +4,7 @@ import { ComponentStyles } from './main-component.styles.js';
 import { MainStyles, isMobileDevice } from '../../styles.js';
 
 @customElement('main-component')
-export class MainA extends LitElement {
+export class MainComponent extends LitElement {
   @property({ type: String }) header = 'My app';
 
   @query('.main-container') mainContainer!: HTMLElement;
