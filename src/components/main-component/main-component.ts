@@ -20,19 +20,33 @@ export class MainA extends LitElement {
 
   static styles = [MainStyles, ComponentStyles];
 
-  private baseWaveText: string = 'FULL STACK DEV • ARTIFICIAL INTELLIGENCE • MACHINE LEARNING • ';
-  private textWaveRepetitions: number = 0;
-  private textWaveUnitLength: number = 0;
-  
-  // Swap names: Wave 3 (middle) becomes Wave 2
-  private baseWaveText2: string = 'PORTFOLIO • EXPERIENCE • SKILLS • ';
-  private textWaveRepetitions2: number = 0;
-  private textWaveUnitLength2: number = 0;
-  
-  // Swap names: Wave 2 (bottom) becomes Wave 3
-  private baseWaveText3: string = 'THANKS FOR VISITING • ';
-  private textWaveRepetitions3: number = 0;
-  private textWaveUnitLength3: number = 0;
+  // Configuration for the three wave texts
+  private waveTextConfigs = [
+    {
+      baseText: 'FULL STACK DEV • ARTIFICIAL INTELLIGENCE • MACHINE LEARNING • ',
+      repetitions: 0,
+      unitLength: 0,
+      direction: 'negative', // Waves 1 and 3 move in negative direction
+      textPath: () => this.textPath1,
+      path: () => this.path1
+    },
+    {
+      baseText: 'PORTFOLIO • EXPERIENCE • SKILLS • ',
+      repetitions: 0,
+      unitLength: 0,
+      direction: 'positive', // Wave 2 moves in positive direction
+      textPath: () => this.textPath2,
+      path: () => this.path2
+    },
+    {
+      baseText: 'THANKS FOR VISITING • ',
+      repetitions: 0,
+      unitLength: 0,
+      direction: 'negative', // Waves 1 and 3 move in negative direction
+      textPath: () => this.textPath3,
+      path: () => this.path3
+    }
+  ];
 
   constructor() {
     super();
@@ -64,18 +78,18 @@ export class MainA extends LitElement {
         this.fontsLoaded = true;
         
         // Initialize all three wave text animations
-        this.initWaveTextAnimation(1); // Top wave
-        this.initWaveTextAnimation(2); // Middle wave
-        this.initWaveTextAnimation(3); // Bottom wave
+        for (let i = 0; i < this.waveTextConfigs.length; i++) {
+          this.initWaveTextAnimation(i);
+        }
       });
     } else {
       // Fallback for browsers that don't support Font Loading API
       // Use a timeout to give fonts a chance to load
       setTimeout(() => {
         this.fontsLoaded = true;
-        this.initWaveTextAnimation(1);
-        this.initWaveTextAnimation(2);
-        this.initWaveTextAnimation(3);
+        for (let i = 0; i < this.waveTextConfigs.length; i++) {
+          this.initWaveTextAnimation(i);
+        }
       }, 500);
     }
   }
@@ -94,35 +108,27 @@ export class MainA extends LitElement {
       return;
     }
     
-    // First wave text
-    if (this.textPath1 && this.path1) {
-      this.textPath1.textContent = this.baseWaveText;
-      const pathLength = this.path1.getTotalLength();
-      const initialTextLength = this.textPath1.getComputedTextLength();
-      this.textWaveRepetitions = Math.ceil(pathLength / initialTextLength) + 1;
-      this.textPath1.textContent = this.textPath1.textContent!.repeat(this.textWaveRepetitions);
-      this.textWaveUnitLength = this.textPath1.getComputedTextLength() / this.textWaveRepetitions;
+    // Recalculate the text parameters for each wave
+    for (let i = 0; i < this.waveTextConfigs.length; i++) {
+      this.recalculateWaveText(i);
     }
+  }
 
-    // Second wave text (middle)
-    if (this.textPath2 && this.path2) {
-      this.textPath2.textContent = this.baseWaveText2;
-      const pathLength2 = this.path2.getTotalLength();
-      const initialTextLength2 = this.textPath2.getComputedTextLength();
-      this.textWaveRepetitions2 = Math.ceil(pathLength2 / initialTextLength2) + 1;
-      this.textPath2.textContent = this.textPath2.textContent!.repeat(this.textWaveRepetitions2);
-      this.textWaveUnitLength2 = this.textPath2.getComputedTextLength() / this.textWaveRepetitions2;
-    }
-
-    // Third wave text (bottom)
-    if (this.textPath3 && this.path3) {
-      this.textPath3.textContent = this.baseWaveText3;
-      const pathLength3 = this.path3.getTotalLength();
-      const initialTextLength3 = this.textPath3.getComputedTextLength();
-      this.textWaveRepetitions3 = Math.ceil(pathLength3 / initialTextLength3) + 1;
-      this.textPath3.textContent = this.textPath3.textContent!.repeat(this.textWaveRepetitions3);
-      this.textWaveUnitLength3 = this.textPath3.getComputedTextLength() / this.textWaveRepetitions3;
-    }
+  // Helper method to recalculate wave text parameters
+  private recalculateWaveText(waveIndex: number) {
+    const config = this.waveTextConfigs[waveIndex];
+    const textPath = config.textPath();
+    const path = config.path();
+    
+    if (!textPath || !path) return;
+    
+    textPath.textContent = config.baseText;
+    const pathLength = path.getTotalLength();
+    const initialTextLength = textPath.getComputedTextLength();
+    
+    config.repetitions = Math.ceil(pathLength / initialTextLength) + 1;
+    textPath.textContent = textPath.textContent!.repeat(config.repetitions);
+    config.unitLength = textPath.getComputedTextLength() / config.repetitions;
   }
 
   backgroundAnimation() {
@@ -149,28 +155,10 @@ export class MainA extends LitElement {
     updateBackground();
   }
 
-  private initWaveTextAnimation(waveNumber: number = 1) {
-    let textPath: SVGTextPathElement;
-    let path: SVGPathElement;
-    let repetitions: number;
-    let unitLength: number;
-    
-    if (waveNumber === 1) {
-      textPath = this.textPath1;
-      path = this.path1;
-      repetitions = this.textWaveRepetitions;
-      unitLength = this.textWaveUnitLength;
-    } else if (waveNumber === 2) {
-      textPath = this.textPath2;
-      path = this.path2;
-      repetitions = this.textWaveRepetitions2;
-      unitLength = this.textWaveUnitLength2;
-    } else {
-      textPath = this.textPath3;
-      path = this.path3;
-      repetitions = this.textWaveRepetitions3;
-      unitLength = this.textWaveUnitLength3;
-    }
+  private initWaveTextAnimation(waveIndex: number) {
+    const config = this.waveTextConfigs[waveIndex];
+    const textPath = config.textPath();
+    const path = config.path();
     
     if (!textPath || !path || !textPath.textContent) return;
 
@@ -178,9 +166,7 @@ export class MainA extends LitElement {
     const pathLength = path.getTotalLength();
     
     // Set initial text content (just one instance for measurement)
-    const baseText = waveNumber === 1 ? this.baseWaveText : 
-                     waveNumber === 2 ? this.baseWaveText2 : this.baseWaveText3;
-    textPath.textContent = baseText;
+    textPath.textContent = config.baseText;
     
     // Force a reflow to ensure text is rendered before measuring
     this.offsetHeight;
@@ -189,41 +175,23 @@ export class MainA extends LitElement {
     const initialTextLength = textPath.getComputedTextLength();
     
     // Calculate how many repetitions are needed
-    if (waveNumber === 1) {
-      this.textWaveRepetitions = Math.ceil(pathLength / initialTextLength) + 1;
-      repetitions = this.textWaveRepetitions;
-    } else if (waveNumber === 2) {
-      this.textWaveRepetitions2 = Math.ceil(pathLength / initialTextLength) + 1;
-      repetitions = this.textWaveRepetitions2;
-    } else {
-      this.textWaveRepetitions3 = Math.ceil(pathLength / initialTextLength) + 1;
-      repetitions = this.textWaveRepetitions3;
-    }
+    config.repetitions = Math.ceil(pathLength / initialTextLength) + 1;
     
     // Now set the repeated text
-    textPath.textContent = baseText.repeat(repetitions);
+    textPath.textContent = config.baseText.repeat(config.repetitions);
     
     // Force another reflow to ensure the repeated text is rendered
     this.offsetHeight;
     
     // Calculate unit length based on repeated text
-    if (waveNumber === 1) {
-      this.textWaveUnitLength = textPath.getComputedTextLength() / repetitions;
-      unitLength = this.textWaveUnitLength;
-    } else if (waveNumber === 2) {
-      this.textWaveUnitLength2 = textPath.getComputedTextLength() / repetitions;
-      unitLength = this.textWaveUnitLength2;
-    } else {
-      this.textWaveUnitLength3 = textPath.getComputedTextLength() / repetitions;
-      unitLength = this.textWaveUnitLength3;
-    }
+    config.unitLength = textPath.getComputedTextLength() / config.repetitions;
 
     let lastTime = performance.now();
     const speed = 100;
 
-    // Set initial offset for wave 2
-    if (waveNumber === 2) {
-      textPath.setAttribute('startOffset', `-${unitLength}`);
+    // Set initial offset based on direction
+    if (config.direction === 'positive') {
+      textPath.setAttribute('startOffset', `-${config.unitLength}`);
     } else {
       textPath.setAttribute('startOffset', '0');
     }
@@ -236,13 +204,13 @@ export class MainA extends LitElement {
       const pixelsToMove = speed * deltaTime;
       
       let newOffset;
-      if (waveNumber === 2) {
-        // For wave 2, start at -unitLength and move in positive direction
+      if (config.direction === 'positive') {
+        // For positive direction, start at -unitLength and move in positive direction
         // Reset when reaching 0
-        newOffset = currentOffset >= 0 ? -unitLength : currentOffset + pixelsToMove;
+        newOffset = currentOffset >= 0 ? -config.unitLength : currentOffset + pixelsToMove;
       } else {
-        // For waves 1 and 3, move in negative direction and reset when reaching negative unit length
-        newOffset = currentOffset <= -unitLength ? 0 : currentOffset - pixelsToMove;
+        // For negative direction, move in negative direction and reset when reaching negative unit length
+        newOffset = currentOffset <= -config.unitLength ? 0 : currentOffset - pixelsToMove;
       }
       
       textPath.setAttribute('startOffset', `${newOffset}`);
@@ -284,7 +252,7 @@ export class MainA extends LitElement {
               </defs>
               <text class="wave-text exclude-font-adjustments">
                 <textPath class='exclude-font-adjustments' href="#wave-curve1" id="wave-text-path1" startOffset="0">
-                  ${this.baseWaveText}
+                  ${this.waveTextConfigs[0].baseText}
                 </textPath>
               </text>
             </svg>
@@ -304,16 +272,16 @@ export class MainA extends LitElement {
               </defs>
               <text class="wave-text down exclude-font-adjustments">
                 <textPath class='exclude-font-adjustments' href="#wave-curve2" id="wave-text-path2" startOffset="0">
-                  ${this.baseWaveText2}
+                  ${this.waveTextConfigs[1].baseText}
                 </textPath>
               </text>
             </svg>
           </div>
           <div class='wave top' style="--offset:0px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE1A" fill-opacity="1" d="M0,224L48,208C96,192,192,160,288,170.7C384,181,480,235,576,240C672,245,768,203,864,181.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE" fill-opacity="0.1" d="M0,224L48,208C96,192,192,160,288,170.7C384,181,480,235,576,240C672,245,768,203,864,181.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
           </div>
           <div class='wave top' style="--offset:0px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE1A" fill-opacity="1" d="M0,128L48,154.7C96,181,192,235,288,213.3C384,192,480,96,576,80C672,64,768,128,864,181.3C960,235,1056,277,1152,272C1248,267,1344,213,1392,186.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE" fill-opacity="0.1" d="M0,128L48,154.7C96,181,192,235,288,213.3C384,192,480,96,576,80C672,64,768,128,864,181.3C960,235,1056,277,1152,272C1248,267,1344,213,1392,186.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
           </div>
         </div>
         <div class='inner-container'>
@@ -321,10 +289,10 @@ export class MainA extends LitElement {
         </div>
         <div class='wave-container'>
           <div class='wave bottom' style="--offset:100px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE1A" fill-opacity="1" d="M0,32L48,58.7C96,85,192,139,288,144C384,149,480,107,576,106.7C672,107,768,149,864,144C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE" fill-opacity="0.1" d="M0,32L48,58.7C96,85,192,139,288,144C384,149,480,107,576,106.7C672,107,768,149,864,144C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
           </div>
           <div class='wave bottom' style="--offset:80px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE1A" fill-opacity="1" d="M0,32L48,58.7C96,85,192,139,288,144C384,149,480,107,576,106.7C672,107,768,149,864,144C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE" fill-opacity="0.1" d="M0,32L48,58.7C96,85,192,139,288,144C384,149,480,107,576,106.7C672,107,768,149,864,144C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
           </div>
           <div class='wave bottom' style="--offset:0px;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#EAF0CE" fill-opacity="1" d="M0,32L48,58.7C96,85,192,139,288,144C384,149,480,107,576,106.7C672,107,768,149,864,144C960,139,1056,85,1152,74.7C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
@@ -334,7 +302,7 @@ export class MainA extends LitElement {
               </defs>
               <text class="wave-text exclude-font-adjustments">
                 <textPath class='exclude-font-adjustments' href="#wave-curve3" id="wave-text-path3" startOffset="0">
-                  ${this.baseWaveText3}
+                  ${this.waveTextConfigs[2].baseText}
                 </textPath>
               </text>
             </svg>
