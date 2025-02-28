@@ -18,7 +18,6 @@ export class NavbarComponent extends LitElement {
   render() {
     return html`
       <div class="navbar">
-        <h1 class="logo">IM<span class='accent'>.</span></h1>
         <div class="links">
           <button @mousemove=${this.buttonHoverAnimation} @click=${()=>this.navigate('about')}>about</button>
           <button @mousemove=${this.buttonHoverAnimation} @click=${()=>this.navigate('portfolio')}>portfolio</button>
@@ -28,12 +27,9 @@ export class NavbarComponent extends LitElement {
     `;
   }
 
-
-
   navigate(id: string) {
     this.dispatchEvent(new CustomEvent('navigate', { detail: id, bubbles: true, composed: true }));
   }
-
 
   buttonHoverAnimation(event: MouseEvent) {
     const button = event.currentTarget as HTMLElement;

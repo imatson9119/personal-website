@@ -19,6 +19,31 @@ export const ComponentStyles = css`
     border: 3px solid var(--secondary-one);
   }
 
+  .logo {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: var(--secondary-one);
+    padding: 0.5rem;
+    border-radius: 5px;
+    display: inline-block;
+    isolation: isolate;
+    z-index: 1001; /* Higher than navbar z-index */
+    margin: 0;
+  }
+
+  .initials {
+    font-family: var(--header-font-stack);
+    mix-blend-mode: exclusion;
+    position: relative;
+    z-index: 10;
+    isolation: isolate;
+  }
+
+  .accent {
+    color: var(--accent);
+  }
+
   .inner-container {
     display: flex;
     flex-direction: column;
@@ -149,11 +174,38 @@ export const ComponentStyles = css`
     }
 
     app-splash-screen {
-      margin-top: 50px;
+      margin-top: 100px;
     }
 
     app-portfolio {
       margin-bottom: 50vw;
+    }
+  }
+  
+  /* Additional media queries for the logo on smaller screens */
+  @media (max-width: 768px) {
+    .logo {
+      top: 20px;
+      left: 20px;
+      padding: 0.4rem;
+    }
+  }
+  
+  @media (max-width: 512px) {
+    .logo {
+      top: 15px;
+      left: 15px;
+      padding: 0.3rem;
+      font-size: 0.9em;
+    }
+  }
+  
+  @media (max-width: 375px) {
+    .logo {
+      top: 12px;
+      left: 12px;
+      padding: 0.2rem;
+      font-size: 0.85em;
     }
   }
 `;

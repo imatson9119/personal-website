@@ -233,6 +233,7 @@ export class MainComponent extends LitElement {
       <div class='main-container'>
         <app-cursor-trail></app-cursor-trail>
         <app-click-text></app-click-text>
+        <h1 class="logo"><span class='initials'>IM</span><span class='accent'>.</span></h1>
         <app-navbar @navigate=${(event:CustomEvent)=>this.scrollToId(event.detail)}></app-navbar>
         <div class='inner-container'>
           <app-splash-screen></app-splash-screen>
