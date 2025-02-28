@@ -87,7 +87,12 @@ export class ClickTextComponent extends LitElement {
       velocity.y += gravity;
       
       // Calculate rotation based on velocity vector
-      const rotation = Math.atan2(velocity.y, velocity.x) * (180 / Math.PI);
+      let rotation = Math.atan2(velocity.y, velocity.x) * (180 / Math.PI);
+      
+      // Flip the rotation by 180 degrees when moving left to keep text upright
+      if (velocity.x < 0) {
+        rotation += 180;
+      }
       
       // Update element position and rotation
       text.style.left = `${position.x}px`;
