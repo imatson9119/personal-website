@@ -62,12 +62,12 @@ export const ComponentStyles = css`
       transform: rotate(var(--rotation)) translateX(6px) scaleX(0);
     }
     40% {
-      width: 16px;
+      width: var(--line-length, 16px);
       opacity: 0.9;
       transform: rotate(var(--rotation)) translateX(6px) scaleX(1.2);
     }
     100% {
-      width: 14px;
+      width: var(--line-length, 14px);
       opacity: 0;
       transform: rotate(var(--rotation)) translateX(6px) scaleX(1);
     }

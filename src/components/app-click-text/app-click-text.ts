@@ -23,8 +23,18 @@ export class ClickTextComponent extends LitElement {
     } else {
       window.addEventListener('touchstart', (event) => {
         const touch = event.touches[0];
-        this.handleInteraction(touch.clientX, touch.clientY, "tap");
-      });
+        
+        // Get the touch coordinates relative to the page
+        // This accounts for zoom and scroll position
+        const touchX = touch.pageX;
+        const touchY = touch.pageY;
+        
+        // Convert page coordinates to viewport coordinates
+        const viewportX = touchX - window.scrollX;
+        const viewportY = touchY - window.scrollY;
+        
+        this.handleInteraction(viewportX, viewportY, "tap");
+      }, { passive: false }); // passive: false is needed to use preventDefault
     }
   }
 
@@ -45,6 +55,10 @@ export class ClickTextComponent extends LitElement {
       // Add more random variation to each angle (±30 degrees)
       const randomVariation = (Math.random() - 0.5) * 60;
       const finalAngle = baseAngle + randomVariation;
+      
+      // Generate random length between 10px and 20px
+      const randomLength = 10 + Math.random() * 10;
+      line.style.setProperty('--line-length', `${randomLength}px`);
       
       // Position line at click point
       line.style.left = `${x}px`;
