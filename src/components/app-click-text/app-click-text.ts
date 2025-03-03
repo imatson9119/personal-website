@@ -229,9 +229,6 @@ export class ClickTextComponent extends LitElement {
       this.createLaserBeams(effectContainer);
       this.flashScreen();
       
-      // Play legendary sound effect
-      this.playSoundEffect('legendary');
-      
     } else if (streakValue >= 50) {
       // Level 3 effect (50+) - Epic explosion
       effectContainer.classList.add('level-3');
@@ -239,24 +236,15 @@ export class ClickTextComponent extends LitElement {
       this.createShockwave(effectContainer, 1.5);
       this.flashScreen();
       
-      // Play epic sound effect
-      this.playSoundEffect('epic');
-      
     } else if (streakValue >= 20) {
       // Level 2 effect (20+) - Rare explosion
       effectContainer.classList.add('level-2');
       this.createParticleExplosion(effectContainer, 30, 'rare-particle');
       
-      // Play rare sound effect
-      this.playSoundEffect('rare');
-      
     } else if (streakValue >= 10) {
       // Level 1 effect (10+) - Small explosion
       effectContainer.classList.add('level-1'); 
       this.createParticleExplosion(effectContainer, 15, 'uncommon-particle');
-      
-      // Play uncommon sound effect
-      this.playSoundEffect('uncommon');
     }
     
     // Add the container to our main container
@@ -362,12 +350,6 @@ export class ClickTextComponent extends LitElement {
         container.removeChild(flash);
       }
     }, 700);
-  }
-  
-  private playSoundEffect(type: string) {
-    // This would be implemented with actual audio files
-    // For now, we'll just console log the sound effect type
-    console.log(`Playing ${type} sound effect`);
   }
 
   render() {
