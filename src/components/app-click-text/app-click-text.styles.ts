@@ -194,6 +194,61 @@ export const ComponentStyles = css`
     background-color: rgba(255, 0, 0, 0.15);
     animation: screenFlash 0.7s ease-out forwards;
   }
+  
+  /* Passive effects styles */
+  
+  /* Background glow effect */
+  .passive-background-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0) 70%);
+    pointer-events: none;
+    z-index: 990;
+    animation: backgroundGlowPulse 4s ease-in-out infinite;
+  }
+  
+  /* Border effect */
+  .passive-border-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 991;
+    box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+    animation: borderPulse 5s ease-in-out infinite;
+  }
+  
+  /* Pulse class for border effect */
+  .passive-border-effect.pulse {
+    animation: borderFlash 1s ease-out forwards;
+  }
+  
+  /* Cursor trail container */
+  .cursor-trail-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 992;
+  }
+  
+  /* Cursor trail particles */
+  .cursor-trail-particle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.8), 0 0 4px rgba(255, 0, 0, 0.9);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: cursorTrailFade 1s ease-out forwards;
+  }
 
   @keyframes bounceAndFade {
     0% {
@@ -431,6 +486,57 @@ export const ComponentStyles = css`
     }
     100% {
       opacity: 0;
+    }
+  }
+  
+  /* Animations for passive effects */
+  @keyframes backgroundGlowPulse {
+    0% {
+      opacity: 0.3;
+      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0) 70%);
+    }
+    50% {
+      opacity: 0.7;
+      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.1) 0%, rgba(255, 0, 0, 0) 70%);
+    }
+    100% {
+      opacity: 0.3;
+      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0) 70%);
+    }
+  }
+  
+  @keyframes borderPulse {
+    0% {
+      box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+    }
+    50% {
+      box-shadow: inset 0 0 30px rgba(255, 0, 0, 0.5);
+    }
+    100% {
+      box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+    }
+  }
+  
+  @keyframes borderFlash {
+    0% {
+      box-shadow: inset 0 0 30px rgba(255, 0, 0, 0.5);
+    }
+    20% {
+      box-shadow: inset 0 0 50px rgba(255, 0, 0, 0.8);
+    }
+    100% {
+      box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+    }
+  }
+  
+  @keyframes cursorTrailFade {
+    0% {
+      opacity: 0.8;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.2);
     }
   }
 

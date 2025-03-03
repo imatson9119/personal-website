@@ -10,6 +10,13 @@ export class ClickTextComponent extends LitElement {
   private streakCount = 0;
   private clickTimer: number | null = null;
   private specialThresholds = [10, 20, 50, 100];
+  
+  // Properties to track passive effects
+  private passiveEffectsActive = false;
+  private passiveEffectElements: HTMLElement[] = [];
+  private cursorTrailInterval: number | null = null;
+  private pulseInterval: number | null = null;
+  private borderEffectElement: HTMLElement | null = null;
 
   constructor() {
     super();
@@ -61,10 +68,20 @@ export class ClickTextComponent extends LitElement {
       if (this.specialThresholds.includes(this.streakCount)) {
         this.triggerSpecialEffect(x, y, this.streakCount);
       }
+      
+      // Start passive effects at 100 clicks if not already active
+      if (this.streakCount >= 100 && !this.passiveEffectsActive) {
+        this.startPassiveEffects();
+      }
     }
     
     // Reset timer for streak counter
     this.clickTimer = window.setTimeout(() => {
+      // If passive effects are active, stop them when streak ends
+      if (this.passiveEffectsActive) {
+        this.stopPassiveEffects();
+      }
+      
       this.streakCount = 0;
       this.clickTimer = null;
     }, 2000);
@@ -351,7 +368,87 @@ export class ClickTextComponent extends LitElement {
       }
     }, 700);
   }
-
+  
+  // New methods for passive effects
+  
+  private startPassiveEffects() {
+    if (this.passiveEffectsActive) return;
+    
+    this.passiveEffectsActive = true;
+    const container = this.shadowRoot?.querySelector('.click-text-container') as HTMLElement;
+    if (!container) return;
+    
+    // Create background glow effect
+    const backgroundGlow = document.createElement('div');
+    backgroundGlow.className = 'passive-background-glow';
+    container.appendChild(backgroundGlow);
+    this.passiveEffectElements.push(backgroundGlow);
+    
+    // Create screen border effect
+    const borderEffect = document.createElement('div');
+    borderEffect.className = 'passive-border-effect';
+    container.appendChild(borderEffect);
+    this.borderEffectElement = borderEffect;
+    this.passiveEffectElements.push(borderEffect);
+    
+    // Start pulsing effect
+    this.startPulsingEffect();
+  }
+  
+  private stopPassiveEffects() {
+    if (!this.passiveEffectsActive) return;
+    
+    this.passiveEffectsActive = false;
+    
+    // Clear intervals
+    if (this.cursorTrailInterval !== null) {
+      window.clearInterval(this.cursorTrailInterval);
+      this.cursorTrailInterval = null;
+    }
+    
+    if (this.pulseInterval !== null) {
+      window.clearInterval(this.pulseInterval);
+      this.pulseInterval = null;
+    }
+    
+    // Remove all passive effect elements
+    this.passiveEffectElements.forEach(element => {
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+    });
+    
+    this.passiveEffectElements = [];
+    this.borderEffectElement = null;
+  }
+  
+  private startPulsingEffect() {
+    if (this.pulseInterval !== null) {
+      window.clearInterval(this.pulseInterval);
+    }
+    
+    let pulseCount = 0;
+    this.pulseInterval = window.setInterval(() => {
+      if (!this.passiveEffectsActive) {
+        window.clearInterval(this.pulseInterval as number);
+        this.pulseInterval = null;
+        return;
+      }
+      
+      pulseCount++;
+      
+      // Create a pulse effect every 3 seconds
+      if (pulseCount % 3 === 0 && this.borderEffectElement) {
+        this.borderEffectElement.classList.add('pulse');
+        setTimeout(() => {
+          if (this.borderEffectElement) {
+            this.borderEffectElement.classList.remove('pulse');
+          }
+        }, 1000);
+      }
+    }, 1000);
+  }
+  
   render() {
     return html`
       <div class="click-text-container"></div>
