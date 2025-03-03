@@ -221,47 +221,31 @@ export class ClickTextComponent extends LitElement {
     
     // Different effects based on threshold
     if (streakValue >= 100) {
-      // Level 4 effect (100+) - ULTRA EPIC explosion with multiple effects
+      // Level 4 effect (100+) - Legendary explosion with lasers
       effectContainer.classList.add('level-4');
-      
-      // Create multiple shockwaves
-      this.createShockwave(effectContainer, 1.0);
-      setTimeout(() => this.createShockwave(effectContainer, 1.2), 200);
-      
-      // Create fire ring
-      this.createFireRing(effectContainer);
-      
-      // Create laser beams
-      this.createLaserBeams(effectContainer);
-      
-      // Create massive particle explosion
       this.createParticleExplosion(effectContainer, 60, 'legendary-particle');
-      setTimeout(() => this.createParticleExplosion(effectContainer, 30, 'fire-particle'), 300);
-      
-      // Shake the screen
-      this.shakeScreen(800, 8);
-      
-      // Flash the screen
+      this.createShockwave(effectContainer, 2.0);
+      this.createFireRing(effectContainer);
+      this.createLaserBeams(effectContainer);
       this.flashScreen();
       
       // Play legendary sound effect
       this.playSoundEffect('legendary');
       
     } else if (streakValue >= 50) {
-      // Level 3 effect (50+) - Epic explosion with shockwave
+      // Level 3 effect (50+) - Epic explosion
       effectContainer.classList.add('level-3');
-      this.createShockwave(effectContainer);
       this.createParticleExplosion(effectContainer, 45, 'epic-particle');
-      this.shakeScreen(500, 6);
+      this.createShockwave(effectContainer, 1.5);
+      this.flashScreen();
       
       // Play epic sound effect
       this.playSoundEffect('epic');
       
     } else if (streakValue >= 20) {
-      // Level 2 effect (20+) - Medium explosion with particles
+      // Level 2 effect (20+) - Rare explosion
       effectContainer.classList.add('level-2');
       this.createParticleExplosion(effectContainer, 30, 'rare-particle');
-      this.shakeScreen(200, 4);
       
       // Play rare sound effect
       this.playSoundEffect('rare');
@@ -339,66 +323,15 @@ export class ClickTextComponent extends LitElement {
   }
   
   private createLaserBeams(container: HTMLElement) {
-    // Create multiple laser beams at different angles
-    const angles = [0, 45, 90, 135, 180, 225, 270, 315];
-    
-    angles.forEach(angle => {
-      const laser = document.createElement('div');
-      laser.className = 'laser-beam';
-      laser.style.setProperty('--angle', `${angle}deg`);
-      
-      // Add random delay
-      const delay = Math.random() * 0.3;
-      laser.style.setProperty('--delay', `${delay}s`);
-      
-      container.appendChild(laser);
-    });
-  }
-  
-  private shakeScreen(duration: number, intensity: number) {
-    // Use our own container for shaking effects
-    const container = this.shadowRoot?.querySelector('.click-text-container') as HTMLElement;
-    if (!container) return;
-    
-    // Create shake overlay
-    const shakeOverlay = document.createElement('div');
-    shakeOverlay.className = 'shake-overlay';
-    shakeOverlay.style.position = 'fixed';
-    shakeOverlay.style.top = '0';
-    shakeOverlay.style.left = '0';
-    shakeOverlay.style.width = '100vw';
-    shakeOverlay.style.height = '100vh';
-    shakeOverlay.style.pointerEvents = 'none';
-    shakeOverlay.style.zIndex = '999';
-    container.appendChild(shakeOverlay);
-    
-    let startTime = performance.now();
-    
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      
-      if (elapsed < duration) {
-        // Calculate decreasing intensity
-        const progress = elapsed / duration;
-        const currentIntensity = intensity * (1 - progress);
-        
-        // Random offset within intensity range
-        const offsetX = (Math.random() - 0.5) * 2 * currentIntensity;
-        const offsetY = (Math.random() - 0.5) * 2 * currentIntensity;
-        
-        // Apply transform
-        shakeOverlay.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        
-        requestAnimationFrame(animate);
-      } else {
-        // Reset to original position and remove overlay
-        if (shakeOverlay.parentNode === container) {
-          container.removeChild(shakeOverlay);
-        }
-      }
-    };
-    
-    requestAnimationFrame(animate);
+    // Create 8 laser beams in different directions
+    for (let i = 0; i < 8; i++) {
+      const angle = (i * 45) * (Math.PI / 180); // Convert to radians
+      const beam = document.createElement('div');
+      beam.className = 'laser-beam';
+      beam.style.setProperty('--angle', `${i * 45}deg`);
+      beam.style.setProperty('--delay', `${i * 0.05}s`);
+      container.appendChild(beam);
+    }
   }
   
   private flashScreen() {
