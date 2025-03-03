@@ -22,27 +22,29 @@ export class ClickTextComponent extends LitElement {
   private initEventHandlers() {
     if (!isMobileDevice()) {
       window.addEventListener('mousedown', (event) => {
-        this.handleInteraction(event.clientX, event.clientY, "click");
+        // Use viewport coordinates (clientX/Y)
+        const x = event.clientX;
+        const y = event.clientY;
+        this.handleInteraction(x, y, "click");
       });
     } else {
       window.addEventListener('touchstart', (event) => {
         const touch = event.touches[0];
         
-        // Get the touch coordinates relative to the page
-        // This accounts for zoom and scroll position
-        const touchX = touch.pageX;
-        const touchY = touch.pageY;
+        // Use viewport coordinates (clientX/Y)
+        const x = touch.clientX;
+        const y = touch.clientY;
         
-        // Convert page coordinates to viewport coordinates
-        const viewportX = touchX - window.scrollX;
-        const viewportY = touchY - window.scrollY;
-        
-        this.handleInteraction(viewportX, viewportY, "tap");
+        this.handleInteraction(x, y, "tap");
       }, { passive: false }); // passive: false is needed to use preventDefault
     }
   }
 
   private handleInteraction(x: number, y: number, type: string) {
+    // Get container
+    const container = this.shadowRoot?.querySelector('.click-text-container') as HTMLElement;
+    if (!container) return;
+    
     // Clear existing timer if it exists
     if (this.clickTimer !== null) {
       window.clearTimeout(this.clickTimer);
@@ -61,15 +63,16 @@ export class ClickTextComponent extends LitElement {
       }
     }
     
-    // Set timeout to reset streak counter after 500ms of inactivity
+    // Reset timer for streak counter
     this.clickTimer = window.setTimeout(() => {
       this.streakCount = 0;
       this.clickTimer = null;
-    }, 500);
+    }, 2000);
     
+    // Create text element for displaying the click type
     const text = document.createElement('div');
-    text.textContent = type;
     text.className = 'click-text';
+    text.textContent = type;
     
     // Create three emphasis lines with staggered angles and delays
     const baseAngles = [0, 120, 240];
@@ -99,7 +102,9 @@ export class ClickTextComponent extends LitElement {
         
         // Remove line after animation completes
         setTimeout(() => {
-          this.shadowRoot?.removeChild(line);
+          if (line.parentNode === this.shadowRoot) {
+            this.shadowRoot?.removeChild(line);
+          }
         }, 600);
       }, shuffledIndices[i] * 50);
     });
@@ -145,7 +150,9 @@ export class ClickTextComponent extends LitElement {
       if (position.y < window.innerHeight + 100) {
         requestAnimationFrame(animate);
       } else {
-        this.shadowRoot?.removeChild(text);
+        if (text.parentNode === this.shadowRoot) {
+          this.shadowRoot?.removeChild(text);
+        }
       }
     };
     
@@ -191,8 +198,6 @@ export class ClickTextComponent extends LitElement {
       duration = 1200; // Longer for epic
     } else if (streakValue >= 20) {
       duration = 1000; // Longer for rare
-    } else if (streakValue >= 10) {
-      duration = 900; // Slightly longer for uncommon
     }
     
     // Remove after animation completes
@@ -204,6 +209,10 @@ export class ClickTextComponent extends LitElement {
   }
   
   private triggerSpecialEffect(x: number, y: number, streakValue: number) {
+    // Get container
+    const container = this.shadowRoot?.querySelector('.click-text-container') as HTMLElement;
+    if (!container) return;
+    
     // Create container for the special effect
     const effectContainer = document.createElement('div');
     effectContainer.className = 'special-effect-container';
@@ -218,35 +227,32 @@ export class ClickTextComponent extends LitElement {
       // Create multiple shockwaves
       this.createShockwave(effectContainer, 1.0);
       setTimeout(() => this.createShockwave(effectContainer, 1.2), 200);
-      setTimeout(() => this.createShockwave(effectContainer, 1.5), 400);
       
-      // Create fire ring effect
+      // Create fire ring
       this.createFireRing(effectContainer);
       
       // Create laser beams
       this.createLaserBeams(effectContainer);
       
       // Create massive particle explosion
-      this.createParticleExplosion(effectContainer, 150, 'legendary-particle');
+      this.createParticleExplosion(effectContainer, 60, 'legendary-particle');
+      setTimeout(() => this.createParticleExplosion(effectContainer, 30, 'fire-particle'), 300);
       
-      // Create floating fire particles
-      setTimeout(() => {
-        this.createParticleExplosion(effectContainer, 60, 'fire-particle');
-      }, 300);
+      // Shake the screen
+      this.shakeScreen(800, 8);
       
-      // Intense screen effects
+      // Flash the screen
       this.flashScreen();
-      this.shakeScreen(800, 15); // Longer, more intense shake
       
-      // Play epic sound effects
+      // Play legendary sound effect
       this.playSoundEffect('legendary');
       
     } else if (streakValue >= 50) {
-      // Level 3 effect (50+) - Large explosion with many particles and screen shake
+      // Level 3 effect (50+) - Epic explosion with shockwave
       effectContainer.classList.add('level-3');
       this.createShockwave(effectContainer);
-      this.createParticleExplosion(effectContainer, 60, 'epic-particle');
-      this.shakeScreen(300, 8);
+      this.createParticleExplosion(effectContainer, 45, 'epic-particle');
+      this.shakeScreen(500, 6);
       
       // Play epic sound effect
       this.playSoundEffect('epic');
@@ -269,8 +275,8 @@ export class ClickTextComponent extends LitElement {
       this.playSoundEffect('uncommon');
     }
     
-    // Add the container to the shadow DOM
-    this.shadowRoot?.appendChild(effectContainer);
+    // Add the container to our main container
+    container.appendChild(effectContainer);
     
     // Determine effect duration based on streak value
     let effectDuration = 2000;
@@ -280,8 +286,8 @@ export class ClickTextComponent extends LitElement {
     
     // Remove after animation completes
     setTimeout(() => {
-      if (effectContainer.parentNode === this.shadowRoot) {
-        this.shadowRoot?.removeChild(effectContainer);
+      if (effectContainer.parentNode === container) {
+        container.removeChild(effectContainer);
       }
     }, effectDuration);
   }
@@ -350,11 +356,23 @@ export class ClickTextComponent extends LitElement {
   }
   
   private shakeScreen(duration: number, intensity: number) {
-    const mainContainer = document.querySelector('main-component')?.shadowRoot?.querySelector('.main-container');
-    if (!mainContainer) return;
+    // Use our own container for shaking effects
+    const container = this.shadowRoot?.querySelector('.click-text-container') as HTMLElement;
+    if (!container) return;
+    
+    // Create shake overlay
+    const shakeOverlay = document.createElement('div');
+    shakeOverlay.className = 'shake-overlay';
+    shakeOverlay.style.position = 'fixed';
+    shakeOverlay.style.top = '0';
+    shakeOverlay.style.left = '0';
+    shakeOverlay.style.width = '100vw';
+    shakeOverlay.style.height = '100vh';
+    shakeOverlay.style.pointerEvents = 'none';
+    shakeOverlay.style.zIndex = '999';
+    container.appendChild(shakeOverlay);
     
     let startTime = performance.now();
-    const originalTransform = (mainContainer as HTMLElement).style.transform || '';
     
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime;
@@ -369,12 +387,14 @@ export class ClickTextComponent extends LitElement {
         const offsetY = (Math.random() - 0.5) * 2 * currentIntensity;
         
         // Apply transform
-        (mainContainer as HTMLElement).style.transform = `translate(${offsetX}px, ${offsetY}px) ${originalTransform}`;
+        shakeOverlay.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
         
         requestAnimationFrame(animate);
       } else {
-        // Reset to original position
-        (mainContainer as HTMLElement).style.transform = originalTransform;
+        // Reset to original position and remove overlay
+        if (shakeOverlay.parentNode === container) {
+          container.removeChild(shakeOverlay);
+        }
       }
     };
     
@@ -382,26 +402,33 @@ export class ClickTextComponent extends LitElement {
   }
   
   private flashScreen() {
+    const container = this.shadowRoot?.querySelector('.click-text-container') as HTMLElement;
+    if (!container) return;
+    
     const flash = document.createElement('div');
     flash.className = 'screen-flash';
-    document.body.appendChild(flash);
+    container.appendChild(flash);
     
     // Create another delayed flash for effect
     setTimeout(() => {
       const secondFlash = document.createElement('div');
       secondFlash.className = 'screen-flash red-flash';
-      document.body.appendChild(secondFlash);
+      container.appendChild(secondFlash);
       
       // Remove after animation completes
       setTimeout(() => {
-        document.body.removeChild(secondFlash);
+        if (secondFlash.parentNode === container) {
+          container.removeChild(secondFlash);
+        }
       }, 500);
     }, 200);
     
     // Remove after animation completes
     setTimeout(() => {
-      document.body.removeChild(flash);
-    }, 500);
+      if (flash.parentNode === container) {
+        container.removeChild(flash);
+      }
+    }, 700);
   }
   
   private playSoundEffect(type: string) {
