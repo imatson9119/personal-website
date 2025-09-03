@@ -5,64 +5,35 @@
     <link>https://ian-matson.com/blog/</link>
     <description>Software engineering insights, tutorials, and thoughts by Ian Matson</description>
     <language>en-us</language>
-    <pubDate>2024-01-15T00:00:00.000Z</pubDate>
-    <lastBuildDate>2024-01-15T00:00:00.000Z</lastBuildDate>
+    <pubDate>2025-06-03T00:00:00.000Z</pubDate>
+    <lastBuildDate>2025-06-03T00:00:00.000Z</lastBuildDate>
     <atom:link href="https://ian-matson.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     
     
       <item>
-        <title>Building Modern Web Components with LitElement</title>
-        <link>https://ian-matson.com/building-modern-web-components-with-litelement/</link>
-        <description>Explore the power of LitElement for creating reusable, performant web components. Learn best practices, patterns, and real-world examples from building my portfolio site.</description>
-        <pubDate>2024-01-10T00:00:00.000Z</pubDate>
-        <guid>https://ian-matson.com/building-modern-web-components-with-litelement/</guid>
+        <title>Creating a LinkedIn Queens Bot</title>
+        <link>https://ian-matson.com/blog/creating-a-linkedin-queens-bot/</link>
+        <description>Could LinkedIn be using Queens as a passive recruiting metric? Better to be safe than sorry I suppose...</description>
+        <pubDate>2025-06-03T00:00:00.000Z</pubDate>
+        <guid>https://ian-matson.com/blog/creating-a-linkedin-queens-bot/</guid>
         
           
             
           
             
-              <category>web-components</category>
+              <category>linkedin</category>
             
           
             
-              <category>lit</category>
+              <category>bot</category>
             
           
             
-              <category>javascript</category>
+              <category>puzzle</category>
             
           
             
-              <category>frontend</category>
-            
-          
-        
-      </item>
-    
-      <item>
-        <title>Hello World: Building a Modern Blog with Eleventy</title>
-        <link>https://ian-matson.com/hello-world-building-a-modern-blog-with-eleventy/</link>
-        <description>Welcome to my new blog! Learn how I built this Markdown-driven blog using Eleventy that integrates seamlessly with my existing LitElement website.</description>
-        <pubDate>2024-01-15T00:00:00.000Z</pubDate>
-        <guid>https://ian-matson.com/hello-world-building-a-modern-blog-with-eleventy/</guid>
-        
-          
-            
-          
-            
-              <category>web-development</category>
-            
-          
-            
-              <category>eleventy</category>
-            
-          
-            
-              <category>javascript</category>
-            
-          
-            
-              <category>blog</category>
+              <category>game</category>
             
           
         

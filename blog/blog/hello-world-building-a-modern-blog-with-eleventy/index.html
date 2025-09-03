@@ -14,26 +14,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   
   <!-- SEO Meta Tags -->
-  <title>Posts tagged &#39;{{ tag }}&#39; | Ian Matson</title>
-  <meta name="description" content="All blog posts tagged with {{ tag }}">
-  <meta name="keywords" content="Ian,Matson,developer,software,blog,engineering,tutorials">
+  <title>Hello World: Building a Modern Blog with Eleventy | Ian Matson</title>
+  <meta name="description" content="Welcome to my new blog! Learn how I built this Markdown-driven blog using Eleventy that integrates seamlessly with my existing LitElement website.">
+  <meta name="keywords" content="Ian,Matson,developer,software,blog,posts,web-development,eleventy,javascript,blog,engineering,tutorials">
   <meta name="author" content="Ian Matson">
   
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://ian-matson.com/tags/blog/">
+  <link rel="canonical" href="https://ian-matson.com/blog/hello-world-building-a-modern-blog-with-eleventy/">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="Posts tagged &#39;{{ tag }}&#39; | Ian Matson" />
-  <meta property="og:description" content="All blog posts tagged with {{ tag }}">
+  <meta property="og:title" content="Hello World: Building a Modern Blog with Eleventy | Ian Matson" />
+  <meta property="og:description" content="Welcome to my new blog! Learn how I built this Markdown-driven blog using Eleventy that integrates seamlessly with my existing LitElement website.">
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://ian-matson.com/tags/blog/" />
+  <meta property="og:url" content="https://ian-matson.com/blog/hello-world-building-a-modern-blog-with-eleventy/" />
   <meta property="og:image" content="https://github.com/imatson9119/personal-website/blob/main/assets/ShareImage.png?raw=true" />
-  
-  
+  <meta property="article:published_time" content="2024-01-15T00:00:00.000Z" />
+  <meta property="article:tag" content="posts, web-development, eleventy, javascript, blog" />
   
   <!-- Twitter -->
-  <meta name="twitter:title" content="Posts tagged &#39;{{ tag }}&#39; | Ian Matson" />
-  <meta name="twitter:description" content="All blog posts tagged with {{ tag }}">
+  <meta name="twitter:title" content="Hello World: Building a Modern Blog with Eleventy | Ian Matson" />
+  <meta name="twitter:description" content="Welcome to my new blog! Learn how I built this Markdown-driven blog using Eleventy that integrates seamlessly with my existing LitElement website.">
   <meta name="twitter:image" content="https://github.com/imatson9119/personal-website/blob/main/assets/ShareImage.png?raw=true" />
   <meta name="twitter:card" content="summary_large_image">
   
@@ -241,25 +241,109 @@
     
     <main class="blog-content">
       
-<h2>Posts tagged "blog"</h2>
+<article>
+  <header>
+    <h1 class="post-title">Hello World: Building a Modern Blog with Eleventy</h1>
+    <div class="post-meta">
+      <time datetime="2024-01-15T00:00:00.000Z">January 14, 2024</time>
+      
+        <span> • </span>
+        
+          
+        
+          
+            <a href="/blog/tags/web-development/" class="tag">#web-development</a>
+          
+        
+          
+            <a href="/blog/tags/eleventy/" class="tag">#eleventy</a>
+          
+        
+          
+            <a href="/blog/tags/javascript/" class="tag">#javascript</a>
+          
+        
+          
+            <a href="/blog/tags/blog/" class="tag">#blog</a>
+          
+        
+      
+    </div>
+    
+      <p style="font-style: italic; color: #666; margin-top: 1rem;">Welcome to my new blog! Learn how I built this Markdown-driven blog using Eleventy that integrates seamlessly with my existing LitElement website.</p>
+    
+  </header>
 
-<ul class="post-list">
-  
-  
-    <li class="post-item">
-      <h3><a href="/blog/hello-world-building-a-modern-blog-with-eleventy/">Hello World: Building a Modern Blog with Eleventy</a></h3>
-      <div class="post-meta">
-        <time datetime="2024-01-15T00:00:00.000Z">January 14, 2024</time>
-      </div>
-      
-        <p>Welcome to my new blog! Learn how I built this Markdown-driven blog using Eleventy that integrates seamlessly with my existing LitElement website.</p>
-      
-      <a href="/blog/hello-world-building-a-modern-blog-with-eleventy/">Read more →</a>
-    </li>
-  
+  <div style="margin: 2rem 0;">
+    <p>Welcome to my new blog! This is my first post in what I hope will be a series of insights, tutorials, and thoughts on software engineering, AI, and creative problem solving.</p>
+<h2>Why I Chose Eleventy</h2>
+<p>After exploring various static site generators, I settled on <a href="https://www.11ty.dev/">Eleventy</a> for several compelling reasons:</p>
+<ol>
+<li><strong>Simplicity</strong>: No complex configuration or steep learning curve</li>
+<li><strong>Flexibility</strong>: Works with multiple template languages (I chose Nunjucks)</li>
+<li><strong>Integration</strong>: Easily integrates with my existing LitElement components</li>
+<li><strong>Performance</strong>: Generates fast, static HTML that loads instantly</li>
+</ol>
+<h2>The Tech Stack</h2>
+<p>This blog is built with:</p>
+<ul>
+<li><strong>Eleventy</strong> for static site generation</li>
+<li><strong>Nunjucks</strong> for templating</li>
+<li><strong>Markdown</strong> for content authoring</li>
+<li><strong>LitElement</strong> components for navbar and footer (shared with main site)</li>
+<li><strong>GitHub Pages</strong> for hosting</li>
 </ul>
+<h2>Key Features</h2>
+<h3>Clean URLs</h3>
+<p>Every post gets a clean URL structure like <code>/blog/hello-world/</code> instead of ugly <code>.html</code> extensions.</p>
+<h3>Tag System</h3>
+<p>Posts can be tagged for easy categorization. You'll find tags at the top and bottom of each post, and there's a dedicated <a href="/blog/tags/">tags page</a> to browse by topic.</p>
+<h3>RSS Feed</h3>
+<p>Subscribe to the <a href="/blog/feed.xml">RSS feed</a> to stay updated with new posts.</p>
+<h3>Pagination</h3>
+<p>The blog index automatically paginates posts when there are more than 10, ensuring fast page loads.</p>
+<h3>Navigation</h3>
+<p>Previous/next post navigation appears at the bottom of each post to encourage exploration.</p>
+<h2>Writing Workflow</h2>
+<p>Creating new posts is as simple as:</p>
+<ol>
+<li>Add a new <code>.md</code> file to <code>blog-src/posts/</code></li>
+<li>Include frontmatter with title, date, description, and tags</li>
+<li>Write content in Markdown</li>
+<li>Run <code>npm run blog:build</code> to generate the static files</li>
+</ol>
+<h2>What's Next?</h2>
+<p>I'm planning to write about:</p>
+<ul>
+<li>Advanced LitElement patterns and best practices</li>
+<li>AI-assisted development workflows</li>
+<li>Full-stack architecture decisions</li>
+<li>Performance optimization techniques</li>
+<li>Open source project deep dives</li>
+</ul>
+<p>Stay tuned, and feel free to <a href="mailto:howdy@ian-matson.com">reach out</a> if there are specific topics you'd like me to cover!</p>
+<hr>
+<p><em>Thanks for reading! This blog is open source and you can find the code in my <a href="https://github.com/imatson9119/personal-website">personal website repository</a>.</em></p>
 
-<p><a href="/blog/tags/">← View all tags</a></p>
+  </div>
+
+  
+  
+  
+  
+  
+    <nav class="post-navigation">
+      <div>
+        
+          <a href="/blog/creating-a-linkedin-queens-bot/">← Creating a LinkedIn Queens Bot</a>
+        
+      </div>
+      <div>
+        
+      </div>
+    </nav>
+  
+</article>
 
     </main>
   </div>
