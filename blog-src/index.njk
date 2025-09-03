@@ -1,0 +1,67 @@
+---
+layout: layout.njk
+title: "Blog"
+description: "Software engineering insights, tutorials, and thoughts by Ian Matson. Explore full-stack development, AI, and creative problem solving."
+pagination:
+  data: collections.posts
+  size: 10
+  alias: posts
+  reverse: false
+permalink: "{% if pagination.pageNumber == 0 %}/{% else %}/page/{{ pagination.pageNumber + 1 }}/{% endif %}"
+---
+
+{% if posts.length > 0 %}
+  <ul class="post-list">
+    {% for post in posts %}
+      <li class="post-item">
+        <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+        <div class="post-meta">
+          <time datetime="{{ post.date.toISOString() }}">{{ post.date | dateDisplay }}</time>
+          {% if post.data.tags and post.data.tags.length > 0 %}
+            <span> • </span>
+            {% for tag in post.data.tags %}
+              {% if tag != "posts" %}
+                <a href="/blog/tags/{{ tag | slug }}/" class="tag">#{{ tag }}</a>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% if post.data.description %}
+          <p>{{ post.data.description }}</p>
+        {% else %}
+          <p>{{ post.templateContent | excerpt(200) }}</p>
+        {% endif %}
+        <a href="{{ post.url }}">Read more →</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if pagination.pages.length > 1 %}
+    <nav class="pagination">
+      {% if pagination.href.previous %}
+        <a href="{{ pagination.href.previous }}">← Previous</a>
+      {% endif %}
+      
+      {% for pageNumber in range(0, pagination.pages.length) %}
+        {% if pageNumber == pagination.pageNumber %}
+          <span class="current">{{ pageNumber + 1 }}</span>
+        {% else %}
+          {% if pageNumber == 0 %}
+            <a href="/blog/">{{ pageNumber + 1 }}</a>
+          {% else %}
+            <a href="/blog/page/{{ pageNumber + 1 }}/">{{ pageNumber + 1 }}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      
+      {% if pagination.href.next %}
+        <a href="{{ pagination.href.next }}">Next →</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+{% else %}
+  <div style="text-align: center; padding: 3rem; color: #666;">
+    <h2>No posts yet</h2>
+    <p>Check back soon for new content!</p>
+  </div>
+{% endif %}

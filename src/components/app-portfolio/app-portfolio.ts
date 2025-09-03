@@ -22,7 +22,7 @@ export class PortfolioComponent extends LitElement {
     if (isMobileDevice()) return;  // Skip animation on mobile
 
     let mousePos = [0, 0];
-    let backgroundPos = [0, 0];
+    const backgroundPos = [0, 0];
     const aboutContainerMovementFactor = .05;
     const aboutContainerVertMoveDist = window.innerHeight * aboutContainerMovementFactor;
     const aboutContainerHorizMoveDist = window.innerWidth * aboutContainerMovementFactor;

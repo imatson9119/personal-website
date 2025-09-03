@@ -1,0 +1,32 @@
+---
+permalink: /feed.xml
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ian Matson Blog</title>
+    <link>https://ian-matson.com/blog/</link>
+    <description>Software engineering insights, tutorials, and thoughts by Ian Matson</description>
+    <language>en-us</language>
+    <pubDate>{{ collections.posts[0].date.toISOString() }}</pubDate>
+    <lastBuildDate>{{ collections.posts[0].date.toISOString() }}</lastBuildDate>
+    <atom:link href="https://ian-matson.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    {% for post in collections.posts | reverse %}
+      <item>
+        <title>{{ post.data.title | escape }}</title>
+        <link>https://ian-matson.com{{ post.url }}</link>
+        <description>{{ (post.data.description or post.templateContent | excerpt(200)) | escape }}</description>
+        <pubDate>{{ post.date.toISOString() }}</pubDate>
+        <guid>https://ian-matson.com{{ post.url }}</guid>
+        {% if post.data.tags %}
+          {% for tag in post.data.tags %}
+            {% if tag != "posts" %}
+              <category>{{ tag }}</category>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </item>
+    {% endfor %}
+  </channel>
+</rss>

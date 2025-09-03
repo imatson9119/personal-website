@@ -8,14 +8,21 @@ export class MainComponent extends LitElement {
   @property({ type: String }) header = 'My app';
 
   @query('.main-container') mainContainer!: HTMLElement;
+
   @query('#wave-text-path1') textPath1!: SVGTextPathElement;
+
   @query('#wave-curve1') path1!: SVGPathElement;
+
   @query('#wave-text-path2') textPath2!: SVGTextPathElement;
+
   @query('#wave-curve2') path2!: SVGPathElement;
+
   @query('#wave-text-path3') textPath3!: SVGTextPathElement;
+
   @query('#wave-curve3') path3!: SVGPathElement;
 
   private resizeTimeout?: number;
+
   private fontsLoaded: boolean = false;
 
   static styles = [MainStyles, ComponentStyles];
@@ -135,7 +142,7 @@ export class MainComponent extends LitElement {
     if (isMobileDevice()) return;  // Skip animation on mobile
 
     let mousePos = [0, 0];
-    let backgroundPos = [0, 0];
+    const backgroundPos = [0, 0];
 
     window.addEventListener('mousemove', (event) => {
       mousePos = [event.clientX, event.clientY];

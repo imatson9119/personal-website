@@ -39,8 +39,11 @@ export class ProjectComponent extends LitElement {
   curProjectIndex = 0;
 
   @state() curProject: Project = this.projects[this.curProjectIndex];
+
   @query('.left') image!: HTMLElement;
+
   @query('.right') right!: HTMLElement;
+
   @state() private isTransitioning = false;
 
 
@@ -116,7 +119,7 @@ export class ProjectComponent extends LitElement {
   backgroundAnimation() {
     if (isMobileDevice()) return;
     let mousePos = [0, 0];
-    let backgroundPos = [0, 0];
+    const backgroundPos = [0, 0];
     const imageContainerMovementFactor = .08;
     const mainContainerMovementFactor = .05;
     const imageContainerVertMoveDist = window.innerHeight * imageContainerMovementFactor;

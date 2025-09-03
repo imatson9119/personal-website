@@ -9,6 +9,7 @@ export class SplashScreenComponent extends LitElement {
   static styles = [MainStyles, ComponentStyles];
 
   @query('.splash-screen') mainContainer!: HTMLElement;
+
   @query('.image') imageContainer!: HTMLElement;
 
   constructor() {
@@ -23,7 +24,7 @@ backgroundAnimation() {
   if (isMobileDevice()) return;  // Skip animation on mobile
 
   let mousePos = [0, 0];
-  let backgroundPos = [0, 0];
+  const backgroundPos = [0, 0];
   const mainContainerMovementFactor = .05;
   const imageContainerMovementFactor = .03;
   const mainContainerVertMoveDist = window.innerHeight * mainContainerMovementFactor;

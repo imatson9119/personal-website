@@ -8,14 +8,20 @@ export class ClickTextComponent extends LitElement {
   static styles = [MainStyles, ComponentStyles];
   
   private streakCount = 0;
+
   private clickTimer: number | null = null;
+
   private specialThresholds = [10, 20, 50, 100];
   
   // Properties to track passive effects
   private passiveEffectsActive = false;
+
   private passiveEffectElements: HTMLElement[] = [];
+
   private cursorTrailInterval: number | null = null;
+
   private pulseInterval: number | null = null;
+
   private borderEffectElement: HTMLElement | null = null;
 
   constructor() {
@@ -136,8 +142,8 @@ export class ClickTextComponent extends LitElement {
     
     // Position and physics variables
     const position = {
-      x: x,
-      y: y
+      x,
+      y
     };
     const gravity = 0.1;
     
@@ -166,11 +172,9 @@ export class ClickTextComponent extends LitElement {
       // Continue animation until element is off screen
       if (position.y < window.innerHeight + 100) {
         requestAnimationFrame(animate);
-      } else {
-        if (text.parentNode === this.shadowRoot) {
+      } else if (text.parentNode === this.shadowRoot) {
           this.shadowRoot?.removeChild(text);
         }
-      }
     };
     
     requestAnimationFrame(animate);

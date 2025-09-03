@@ -1,0 +1,22 @@
+---
+layout: layout.njk
+title: "Tags"
+description: "Browse blog posts by topic and tag"
+permalink: /tags/
+---
+
+<h2>All Tags</h2>
+
+{% if collections.tagList.length > 0 %}
+  <div class="tags">
+    {% for tag in collections.tagList %}
+      {% set tagPosts = collections[tag] %}
+      <a href="/blog/tags/{{ tag | slug }}/" class="tag">
+        #{{ tag }} ({{ tagPosts.length }})
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No tags found.</p>
+{% endif %}
+

@@ -9,6 +9,7 @@ export class CursorTrailComponent extends LitElement {
   static styles = [MainStyles, ComponentStyles];
 
   @query('#cursor-trail') trail: SVGElement | undefined;
+
   @query('#cursor-path') path: SVGClipPathElement | undefined;
 
   constructor() {

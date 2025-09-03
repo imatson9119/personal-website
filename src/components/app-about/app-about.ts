@@ -1,9 +1,9 @@
 import { html, LitElement } from 'lit';
 import { customElement, query, property } from 'lit/decorators.js';
-import { MainStyles, isMobileDevice } from '../../styles.js';
-import { ComponentStyles } from './app-about.styles.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MainStyles, isMobileDevice } from '../../styles.js';
+import { ComponentStyles } from './app-about.styles.js';
 
 const imageFaceNames = ['Cube001_2', 'Cube001_3', 'Cube001_4'];
 
@@ -12,30 +12,49 @@ export class AboutComponent extends LitElement {
   static styles = [MainStyles, ComponentStyles];
 
   @query('.about-container') mainContainer!: HTMLElement;
+
   @query('#canvas') canvas!: HTMLCanvasElement;
 
   spinSpeed = 0.5;
+
   spinBoostSpeed = 20;
+
   spinDeccelerationMultiplier = 0.98;
+
   storyMode = false;
+
   startedStoryMode = false;
+
   nTextures = 35;
+
   curStoryTexture = 0;
+
   nStoryTextures = 9;
+
   canvasHeight = 500;
+
   mugEvenHeight = 300;
+
   flickerEnabled = false;
+
   curTextureOrder: number[] = Array.from({length: this.nTextures - this.nStoryTextures}, (_, i) => i + this.nStoryTextures);
+
   curTextureIndex = 0;
 
   isDragging = false;
+
   hasMoved = false;
+
   previousMousePosition = { x: 0, y: 0 };
+
   targetRotation = { x: 0, y: -0.5 * Math.PI };
+
   currentRotation = { x: 0, y: -0.5 * Math.PI };
+
   rotationConvergenceSpeed = 2.0;
 
   mug: THREE.Object3D | null = null;
+
   textures = Array.from({length: this.nTextures}, (_, i) => i + 1).map((i) => getMugTexture(`${i}`));
 
   materials = [
@@ -61,7 +80,7 @@ export class AboutComponent extends LitElement {
     let mousePos = [window.innerWidth/2, window.innerWidth/2];
     mug.rotation.y = this.currentRotation.y;
     mug.rotation.x = this.currentRotation.x;
-    let cameraOffsetFactor = [.5, .5];
+    const cameraOffsetFactor = [.5, .5];
     const flicker_lower_bound = 0.2;
     const flicker_upper_bound = 0.5;
     const flicker_likelihood = 0.0015;
@@ -324,10 +343,10 @@ export class AboutComponent extends LitElement {
 
     const loader = new GLTFLoader();
     const x = this;
-    loader.load( 'assets/mug.glb', function ( gltf ) {
+    loader.load( 'assets/mug.glb', ( gltf ) => {
       x.animateMug(gltf.scene, scene, camera, renderer);
       x.mug = gltf.scene;
-    }, undefined, function ( error ) {
+    }, undefined, ( error ) => {
       console.error( error );
     });
 
@@ -377,7 +396,7 @@ export class AboutComponent extends LitElement {
         }, 5000);
       }
       return ret;
-    } else {
+    } 
       const ret = this.textures[this.curTextureOrder[this.curTextureIndex]];
       this.curTextureIndex++;
       if (this.curTextureIndex >= this.curTextureOrder.length) {
@@ -385,7 +404,7 @@ export class AboutComponent extends LitElement {
         this.shuffleArray(this.curTextureOrder);
       }
       return ret;
-    }
+    
   }
 
   render() {
