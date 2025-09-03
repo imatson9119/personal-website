@@ -1,7 +1,6 @@
 import { css } from 'lit';
 
 export const ComponentStyles = css`
-
   .navbar {
     display: flex;
     justify-content: flex-end;
@@ -11,7 +10,9 @@ export const ComponentStyles = css`
     position: fixed;
     top: 3px; /* Match the border width of the main container */
     left: 3px; /* Match the border width of the main container */
-    width: calc(100% - 6px); /* Adjust width to account for left and right margins */
+    width: calc(
+      100% - 6px
+    ); /* Adjust width to account for left and right margins */
     z-index: 1000;
     border-radius: 3px 3px 0 0; /* Optional: round the top corners */
   }
@@ -26,9 +27,13 @@ export const ComponentStyles = css`
     color: var(--secondary-one);
     font-size: 1.2rem;
     cursor: pointer;
-    transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out, backdrop-filter 0.2s ease-out;
+    transition:
+      transform 0.2s ease-out,
+      background-color 0.2s ease-out,
+      color 0.2s ease-out,
+      backdrop-filter 0.2s ease-out;
     border-radius: 5px;
-    padding: .5rem;
+    padding: 0.5rem;
     background-color: rgba(57, 57, 57, 0.35); /* Darker subtle background */
     backdrop-filter: blur(2px); /* Frosted glass effect */
   }
@@ -43,12 +48,17 @@ export const ComponentStyles = css`
     color: var(--accent);
   }
 
+  a {
+    text-decoration: none;
+    color: var(--secondary-one);
+  }
+
   /* Tablet */
   @media (max-width: 768px) {
     .navbar .links {
       gap: 1.3rem;
     }
-    
+
     .navbar button {
       font-size: 1.1rem;
       padding: 0.4rem;
@@ -60,7 +70,7 @@ export const ComponentStyles = css`
     .navbar {
       padding: 0.8rem;
     }
-    
+
     .navbar .links {
       gap: 1.1rem;
     }
@@ -68,7 +78,12 @@ export const ComponentStyles = css`
     .navbar button {
       font-size: 0.95rem;
       padding: 0.4rem 0.3rem;
-      background-color: rgba(57, 57, 57, 0.5); /* Slightly darker background for better visibility */
+      background-color: rgba(
+        57,
+        57,
+        57,
+        0.5
+      ); /* Slightly darker background for better visibility */
     }
   }
 
@@ -77,7 +92,7 @@ export const ComponentStyles = css`
     .navbar {
       padding: 0.6rem;
     }
-    
+
     .navbar .links {
       gap: 0.8rem;
     }
