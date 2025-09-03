@@ -1,0 +1,144 @@
+<h1>Eleventy Blog</h1>
+<p>This directory contains the Eleventy-powered blog that integrates with the main portfolio site.</p>
+<h2>Directory Structure</h2>
+<pre><code>blog-src/
+├── .eleventy.cjs          # Eleventy configuration
+├── _includes/             # Nunjucks templates
+│   ├── layout.njk         # Main layout with Lit components
+│   └── post.njk           # Individual post layout
+├── _data/                 # Global data files (if needed)
+├── posts/                 # Blog posts in Markdown
+│   ├── posts.json         # Default frontmatter for posts
+│   ├── hello-world.md     # Sample post
+│   └── building-with-lit.md
+├── assets/                # Blog-specific assets
+├── index.njk              # Blog homepage with pagination
+├── tags.njk               # All tags page
+├── tags-list.njk          # Individual tag pages
+└── feed.njk               # RSS feed
+</code></pre>
+<p>Output goes to <code>../blog/</code> (relative to this directory).</p>
+<h2>Writing Workflow</h2>
+<h3>Creating a New Post</h3>
+<ol>
+<li>Create a new <code>.md</code> file in the <code>posts/</code> directory</li>
+<li>Add frontmatter with required fields:</li>
+</ol>
+<pre><code class="language-yaml">---
+title: 'Your Post Title'
+date: 2024-01-15
+description: 'Brief description for SEO and post listings'
+tags: ['tag1', 'tag2', 'web-development']
+---
+Your Markdown content here...
+</code></pre>
+<h3>Frontmatter Fields</h3>
+<ul>
+<li><strong>title</strong> (required): Post title, used in URLs and page titles</li>
+<li><strong>date</strong> (required): Publication date, used for sorting and RSS</li>
+<li><strong>description</strong> (optional): Brief description for SEO and post previews</li>
+<li><strong>tags</strong> (optional): Array of tags for categorization</li>
+<li><strong>draft</strong> (optional): Set to <code>true</code> to exclude from build</li>
+</ul>
+<h3>Running Locally</h3>
+<pre><code class="language-bash"># Build the blog once
+npm run blog:build
+
+# Watch for changes and rebuild
+npm run blog:watch
+
+# Serve with live reload
+npm run blog:serve
+</code></pre>
+<p>The blog will be available at <code>http://localhost:8080/blog/</code></p>
+<h3>Drafts</h3>
+<p>To create a draft post that won't appear in production:</p>
+<pre><code class="language-yaml">---
+title: 'Work in Progress'
+date: 2024-01-15
+draft: true
+---
+</code></pre>
+<p>Drafts are excluded from the build by the Eleventy configuration.</p>
+<h2>URL Structure</h2>
+<ul>
+<li>Blog homepage: <code>/blog/</code></li>
+<li>Individual posts: <code>/blog/post-title/</code></li>
+<li>Pagination: <code>/blog/page/2/</code>, <code>/blog/page/3/</code>, etc.</li>
+<li>Tags overview: <code>/blog/tags/</code></li>
+<li>Individual tag pages: <code>/blog/tags/tag-name/</code></li>
+<li>RSS feed: <code>/blog/feed.xml</code></li>
+</ul>
+<h2>Integration with Main Site</h2>
+<p>The blog integrates seamlessly with your existing LitElement components:</p>
+<ul>
+<li><strong>Navbar</strong>: Uses <code>&lt;app-navbar&gt;</code> component</li>
+<li><strong>Footer</strong>: Uses <code>&lt;app-footer&gt;</code> component</li>
+<li><strong>Styles</strong>: Inherits base fonts and colors from main site</li>
+<li><strong>Assets</strong>: Can reference assets from main site's <code>/assets/</code> directory</li>
+</ul>
+<h2>Deployment</h2>
+<p>The blog builds automatically as part of the main site build process:</p>
+<pre><code class="language-bash"># Full site build (includes blog)
+npm run build
+
+# Deploy to GitHub Pages
+npm run deploy
+</code></pre>
+<p>The <code>npm run build</code> command:</p>
+<ol>
+<li>Builds the main TypeScript/Lit site</li>
+<li>Runs <code>npm run blog:build</code> to generate blog HTML</li>
+<li>Copies everything to <code>dist/</code> for deployment</li>
+</ol>
+<h2>Customization</h2>
+<h3>Adding New Collections</h3>
+<p>Edit <code>.eleventy.cjs</code> to add new collections:</p>
+<pre><code class="language-javascript">eleventyConfig.addCollection('featured', function (collectionApi) {
+  return collectionApi
+    .getFilteredByGlob('posts/*.md')
+    .filter(post =&gt; post.data.featured);
+});
+</code></pre>
+<h3>Modifying Templates</h3>
+<p>Templates are in <code>_includes/</code>:</p>
+<ul>
+<li><strong>layout.njk</strong>: Main layout wrapper</li>
+<li><strong>post.njk</strong>: Individual post template</li>
+</ul>
+<h3>Adding Filters</h3>
+<p>Add custom Nunjucks filters in <code>.eleventy.cjs</code>:</p>
+<pre><code class="language-javascript">eleventyConfig.addFilter('myFilter', function (value) {
+  return value.toUpperCase();
+});
+</code></pre>
+<h2>Troubleshooting</h2>
+<h3>Build Fails</h3>
+<ol>
+<li>Check that all posts have valid frontmatter</li>
+<li>Ensure date format is YYYY-MM-DD</li>
+<li>Verify Nunjucks syntax in templates</li>
+</ol>
+<h3>Missing Lit Components</h3>
+<p>If <code>&lt;app-navbar&gt;</code> or <code>&lt;app-footer&gt;</code> don't render:</p>
+<ol>
+<li>Check that the main site's compiled JS is available</li>
+<li>Verify the script tag path in <code>layout.njk</code></li>
+<li>Ensure components are registered before page load</li>
+</ol>
+<h3>Broken Links</h3>
+<ul>
+<li>Use relative paths starting with <code>/blog/</code></li>
+<li>Test locally with <code>npm run blog:serve</code></li>
+<li>Check that generated URLs match your expectations</li>
+</ul>
+<h2>Reverting a Bad Build</h2>
+<p>If you need to quickly revert:</p>
+<ol>
+<li><strong>Git</strong>: <code>git checkout HEAD~1 blog/</code> to restore previous blog build</li>
+<li><strong>Full revert</strong>: <code>git revert &lt;commit-hash&gt;</code> for complete rollback</li>
+<li><strong>Rebuild</strong>: <code>npm run blog:build</code> to regenerate from current source</li>
+</ol>
+<p>The <code>/blog/</code> directory is ignored by git, so only source changes in <code>blog-src/</code> are versioned.</p>
+<hr>
+<p>Questions? Check the <a href="https://www.11ty.dev/docs/">Eleventy docs</a> or <a href="mailto:howdy@ian-matson.com">reach out</a>!</p>

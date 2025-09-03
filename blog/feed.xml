@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ian Matson Blog</title>
+    <link>https://ian-matson.com/blog/</link>
+    <description>Software engineering insights, tutorials, and thoughts by Ian Matson</description>
+    <language>en-us</language>
+    <pubDate>2024-01-15T00:00:00.000Z</pubDate>
+    <lastBuildDate>2024-01-15T00:00:00.000Z</lastBuildDate>
+    <atom:link href="https://ian-matson.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    
+      <item>
+        <title>Building Modern Web Components with LitElement</title>
+        <link>https://ian-matson.com/building-modern-web-components-with-litelement/</link>
+        <description>Explore the power of LitElement for creating reusable, performant web components. Learn best practices, patterns, and real-world examples from building my portfolio site.</description>
+        <pubDate>2024-01-10T00:00:00.000Z</pubDate>
+        <guid>https://ian-matson.com/building-modern-web-components-with-litelement/</guid>
+        
+          
+            
+          
+            
+              <category>web-components</category>
+            
+          
+            
+              <category>lit</category>
+            
+          
+            
+              <category>javascript</category>
+            
+          
+            
+              <category>frontend</category>
+            
+          
+        
+      </item>
+    
+      <item>
+        <title>Hello World: Building a Modern Blog with Eleventy</title>
+        <link>https://ian-matson.com/hello-world-building-a-modern-blog-with-eleventy/</link>
+        <description>Welcome to my new blog! Learn how I built this Markdown-driven blog using Eleventy that integrates seamlessly with my existing LitElement website.</description>
+        <pubDate>2024-01-15T00:00:00.000Z</pubDate>
+        <guid>https://ian-matson.com/hello-world-building-a-modern-blog-with-eleventy/</guid>
+        
+          
+            
+          
+            
+              <category>web-development</category>
+            
+          
+            
+              <category>eleventy</category>
+            
+          
+            
+              <category>javascript</category>
+            
+          
+            
+              <category>blog</category>
+            
+          
+        
+      </item>
+    
+  </channel>
+</rss>
