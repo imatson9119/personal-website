@@ -4,6 +4,15 @@ layout: layout.njk
 
 <article>
   <header>
+    {% if image %}
+      <div class="post-splash-image">
+        <img src="{{ image }}" alt="{{ title }}" />
+        {% if imageCaption %}
+          <p class="image-caption">{{ imageCaption }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+    
     <h1 class="post-title">{{ title }}</h1>
     <div class="post-meta">
       <time datetime="{{ date.toISOString() }}">{{ date | dateDisplay }}</time>

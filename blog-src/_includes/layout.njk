@@ -210,6 +210,44 @@
       background: #f0f0f0;
     }
 
+    /* Post splash image styles */
+    .post-splash-image {
+      margin: 0 0 2rem 0;
+      text-align: center;
+    }
+    
+    .post-splash-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .image-caption {
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+      margin: 0.5rem 0 0 0;
+    }
+    
+    /* Post preview image styles for blog index */
+    .post-preview-image {
+      margin: 0 0 1rem 0;
+    }
+    
+    .post-preview-image img {
+      max-width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: transform 0.2s ease;
+    }
+    
+    .post-preview-image a:hover img {
+      transform: scale(1.02);
+    }
+
     /* Ensure Lit components have space */
     app-navbar, app-footer {
       display: block;

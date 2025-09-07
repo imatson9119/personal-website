@@ -1,5 +1,5 @@
 ---
-permalink: /feed.xml
+permalink: /blog/feed.xml
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -16,7 +16,7 @@ permalink: /feed.xml
       <item>
         <title>{{ post.data.title | escape }}</title>
         <link>https://ian-matson.com{{ post.url }}</link>
-        <description>{{ (post.data.description or post.templateContent | excerpt(200)) | escape }}</description>
+        <description>{{ (post.data.description or post.templateContent) | escape }}</description>
         <pubDate>{{ post.date.toISOString() }}</pubDate>
         <guid>https://ian-matson.com{{ post.url }}</guid>
         {% if post.data.tags %}
