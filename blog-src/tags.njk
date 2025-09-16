@@ -10,7 +10,7 @@ permalink: /blog/tags/
 {% if collections.tagList.length > 0 %}
   <div class="tags">
     {% for tag in collections.tagList %}
-      {% set tagPosts = collections[tag] %}
+      {% set tagPosts = collections[tag] | filterDrafts %}
       <a href="/blog/tags/{{ tag | slug }}/" class="tag">
         #{{ tag }} ({{ tagPosts.length }})
       </a>

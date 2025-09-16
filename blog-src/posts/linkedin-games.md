@@ -2,11 +2,11 @@
 title: 'LinkedIn Games as a Recruiting Metric (Continued)'
 date: 2025-09-04
 description: "About 3 months ago I wrote a bot to solve LinkedIn's Queens puzzle. Now, they've taken the post down. It seems there may be some substance to this idea after all."
-tags: ['linkedin', 'bot', 'puzzle', 'game']
+tags: ['technology', 'linkedin']
 draft: false
 ---
 
-[Original Post Here](https://ian-matson.com/blog/linkedin-queens-bot/)
+[Original Post Here](https://ian-matson.com/blog/creating-a-linkedin-queens-bot/)
 
 ---
 

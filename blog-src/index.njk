@@ -35,9 +35,9 @@ permalink: "{% if pagination.pageNumber == 0 %}/blog/{% else %}/blog/page/{{ pag
           {% endif %}
         </div>
         {% if post.data.description %}
-          <p>{{ post.data.description }}</p>
+          <p class="post-description">{{ post.data.description }}</p>
         {% else %}
-          <p>{{ post.templateContent | excerpt(200) }}</p>
+          <p class="post-description">{{ post.templateContent | excerpt(200) }}</p>
         {% endif %}
         <a href="{{ post.url }}">Read more →</a>
       </li>

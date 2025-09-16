@@ -30,7 +30,7 @@ layout: layout.njk
     {% endif %}
   </header>
 
-  <div style="margin: 2rem 0;">
+  <div class="post-body">
     {{ content | safe }}
   </div>
 
@@ -53,3 +53,205 @@ layout: layout.njk
     </nav>
   {% endif %}
 </article>
+
+<!-- Post-specific heading anchor functionality -->
+<style>
+  /* Heading anchor styles for posts only */
+  .heading-wrapper { 
+    position: relative; 
+  }
+  
+  .heading-anchor {
+    position: absolute;
+    left: -1.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8em;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .heading-wrapper:hover .heading-anchor { 
+    opacity: 0.6; 
+  }
+  
+  .heading-anchor:hover { 
+    opacity: 1 !important; 
+    background: rgba(37, 99, 235, 0.08); 
+    color: var(--accent); 
+  }
+  
+  .heading-anchor:focus-visible { 
+    outline: 2px solid var(--accent); 
+    outline-offset: 2px; 
+  }
+  
+  .heading-anchor svg { 
+    width: 1em; 
+    height: 1em; 
+    fill: currentColor; 
+  }
+
+  /* Copy feedback tooltip */
+  .copy-feedback {
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    left: 50%;
+    top: -0.5rem;
+    transform: translate(-50%, -100%);
+  }
+  
+  .copy-feedback.show { 
+    opacity: 1; 
+  }
+  
+  .copy-feedback::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #333;
+  }
+
+  /* Hide anchors on mobile */
+  @media (max-width: 640px) {
+    .heading-anchor { 
+      display: none; 
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    // Function to generate a slug from text
+    function generateSlug(text) {
+      return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/[\s_-]+/g, '-') // Replace spaces, underscores, and multiple hyphens with single hyphen
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    }
+
+    // Function to create the link icon SVG
+    function createLinkIcon() {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.innerHTML = '<path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>';
+      return svg;
+    }
+
+    // Function to show copy feedback
+    function showCopyFeedback(button) {
+      const feedback = button.querySelector('.copy-feedback');
+      feedback.classList.add('show');
+      setTimeout(() => {
+        feedback.classList.remove('show');
+      }, 2000);
+    }
+
+    // Function to copy link to clipboard
+    async function copyLink(anchor) {
+      const url = window.location.origin + window.location.pathname + '#' + anchor;
+      try {
+        await navigator.clipboard.writeText(url);
+        return true;
+      } catch (err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textArea);
+        return success;
+      }
+    }
+
+    // Function to process headings (only in post content)
+    function processHeadings() {
+      const headings = document.querySelectorAll('article h1, article h2, article h3, article h4, article h5, article h6');
+      
+      headings.forEach(heading => {
+        // Skip if already processed or if it's the main post title
+        if (heading.parentElement.classList.contains('heading-wrapper') || 
+            heading.classList.contains('post-title')) {
+          return;
+        }
+
+        // Generate ID if it doesn't exist
+        if (!heading.id) {
+          const slug = generateSlug(heading.textContent);
+          heading.id = slug;
+        }
+
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'heading-wrapper';
+        
+        // Create anchor button
+        const anchorButton = document.createElement('button');
+        anchorButton.className = 'heading-anchor';
+        anchorButton.setAttribute('aria-label', 'Copy link to this heading');
+        anchorButton.title = 'Copy link to this heading';
+        
+        // Add the link icon
+        anchorButton.appendChild(createLinkIcon());
+        
+        // Add copy feedback tooltip
+        const feedback = document.createElement('div');
+        feedback.className = 'copy-feedback';
+        feedback.textContent = 'Link copied!';
+        anchorButton.appendChild(feedback);
+
+        // Add click handler
+        anchorButton.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const success = await copyLink(heading.id);
+          if (success) {
+            showCopyFeedback(anchorButton);
+          }
+        });
+
+        // Insert wrapper before heading
+        heading.parentNode.insertBefore(wrapper, heading);
+        
+        // Move heading into wrapper and add anchor button
+        wrapper.appendChild(heading);
+        wrapper.appendChild(anchorButton);
+      });
+    }
+
+    // Process headings when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', processHeadings);
+    } else {
+      processHeadings();
+    }
+  })();
+</script>
