@@ -78,7 +78,7 @@
     .blog-container {
       max-width: 72ch;
       margin: 0 auto;
-      padding: 2.5rem 1.25rem 4rem;
+      padding: 0rem 1.25rem 4rem;
     }
 
     .blog-header {
@@ -163,8 +163,33 @@
 
     /* Lists of posts */
     .post-list { list-style: none; padding: 0; margin: 0; }
-    .post-item { margin: 0 0 1.75rem 0; padding-top: 1.75rem; }
+    .post-item { 
+      margin: 0 0 1.75rem 0; 
+      padding-top: 1.75rem; 
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
     .post-item + .post-item { border-top: 1px solid var(--border); }
+    
+    .post-item-image img{
+      max-height: 180px;
+      height: 180px;
+      width: 180px;
+      max-width: auto;
+    }
+
+    
+    .post-item-content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    /* Handle posts without images - hide empty image container */
+    .post-item-image:empty {
+      display: none;
+    }
+    
     .post-item h2 { margin: 0 0 0.5rem 0; }
     .post-item h2 a { color: var(--text); text-decoration: none; }
     
@@ -209,18 +234,18 @@
     }
 
     /* Media */
-    .post-splash-image { margin: 0 0 1.5rem 0; text-align: center; }
-    .post-splash-image img { max-width: 100%; height: auto; border-radius: 10px; }
+    .post-splash-image { margin: 0 0 1.5rem 0; text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .post-splash-image img { max-width: 100%; max-height: 300px; border-radius: 10px; }
     .image-caption { font-size: 0.9rem; color: var(--muted); font-style: italic; margin: 0.5rem 0 0 0; }
 
-    .post-preview-image { margin: 0 0 1rem 0; }
+    .post-preview-image { margin: 0; }
     .post-preview-image img {
-      max-width: 100%;
-      height: auto;
-      max-height: 220px;
+      width: 100%;
+      height: 180px;
       object-fit: cover;
       border-radius: 10px;
       transition: transform 0.2s ease;
+      aspect-ratio: 1 / 1;
     }
     .post-preview-image a:hover img { transform: scale(1.01); }
 
@@ -269,7 +294,6 @@
 
      /* Back to portfolio button */
      .back-to-portfolio {
-       margin-bottom: 1.5rem;
        padding-top: 1rem;
      }
      
@@ -299,11 +323,27 @@
        font-weight: bold;
      }
 
-     /* Responsive tweaks */
+     
      @media (max-width: 640px) {
-       .blog-container { padding: 1.5rem 1rem 3rem; }
+       .blog-container { padding: 0rem 1rem 3rem; }
        .blog-nav a { margin: 0 0.5rem; }
        .back-to-portfolio { margin-bottom: 1rem; padding-top: 0.5rem; }
+       
+       /* Stack image on top for mobile */
+       .post-item {
+         flex-direction: column;
+         gap: 1rem;
+       }
+       
+       .post-item-image {
+         flex: none;
+         align-self: center;
+       }
+       
+       .post-preview-image img {
+         max-width: auto;
+         max-height: 180px;
+       }
      }
   </style>
   
@@ -360,6 +400,7 @@
     
       <p style="font-style: italic; color: #666; margin-top: 1rem;">More and more I hear questions concerning the viability of software engineering as a career in light of the rapid development of AI coding assistants. </p>
     
+    
   </header>
 
   <div class="post-body">
@@ -388,7 +429,7 @@
 <h2>Supply and Demand</h2>
 <p>As suspected, current estimates suggest that AI coding assistants have <em>dramatically</em> boosted the supply of software by increasing the output of developers. An oft-cited <a href="https://arxiv.org/abs/2302.06590#:~:text=,transition%20into%20software%20development%20careers">internal Microsoft study</a> that hired random freelancers on Upwork to create a JavaScript http server found that those who used Copilot finished the task <strong>55.8% faster</strong> than those who didn't. Though I have some skepticism about the scope of this experiment and whether or not it accurately captures productivity gains, numbers like that cannot be ignored.</p>
 <p>In spite of these mouth-watering metrics, the golden age of AI is not without naysayers. <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">A 2025 study by METR</a> found that although economists, ML experts, and developers forecast productivity gains of from ~10-50%, the observed impact is actually a <strong>productivity loss of up to 40%</strong>. This is an extremely compelling study - especially since it runs exactly against the current popular perception. I've included the methodology of the study below.</p>
-<p><img src="/blog/assets/metr-study-methodology.png" alt="METR Study Methodology">
+<p><img src="/blog/assets/study-img.png" alt="METR Study Methodology">
 <em>Figure 1: METR Study Methodology - This shows how the study measured developer productivity</em></p>
 <p>Another <a href="https://resources.uplevelteam.com/gen-ai-for-coding">report from Uplevel</a> claimed that real-world teams saw a <strong>41% increase in bugs</strong> when using AI agents; something that likely doesn't come as much of a surprise to those of have used them. In a recent</p>
 
@@ -610,6 +651,40 @@
       document.addEventListener('DOMContentLoaded', processHeadings);
     } else {
       processHeadings();
+    }
+  })();
+
+  // Process article links to open in new tab with security attributes
+  (function() {
+    function processArticleLinks() {
+      // Only process links within the post body content
+      const postBody = document.querySelector('.post-body');
+      if (!postBody) return;
+
+      const links = postBody.querySelectorAll('a[href]');
+      
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        
+        // Check if this is an external link (starts with http/https or is absolute)
+        const isExternal = href.startsWith('http://') || 
+                          href.startsWith('https://') || 
+                          href.startsWith('//') ||
+                          (!href.startsWith('/') && !href.startsWith('#') && !href.startsWith('mailto:'));
+        
+        // Only modify external links to open in new tab
+        if (isExternal) {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener noreferrer');
+        }
+      });
+    }
+
+    // Process links when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', processArticleLinks);
+    } else {
+      processArticleLinks();
     }
   })();
 </script>

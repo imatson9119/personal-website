@@ -78,7 +78,7 @@
     .blog-container {
       max-width: 72ch;
       margin: 0 auto;
-      padding: 2.5rem 1.25rem 4rem;
+      padding: 0rem 1.25rem 4rem;
     }
 
     .blog-header {
@@ -163,8 +163,33 @@
 
     /* Lists of posts */
     .post-list { list-style: none; padding: 0; margin: 0; }
-    .post-item { margin: 0 0 1.75rem 0; padding-top: 1.75rem; }
+    .post-item { 
+      margin: 0 0 1.75rem 0; 
+      padding-top: 1.75rem; 
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
     .post-item + .post-item { border-top: 1px solid var(--border); }
+    
+    .post-item-image img{
+      max-height: 180px;
+      height: 180px;
+      width: 180px;
+      max-width: auto;
+    }
+
+    
+    .post-item-content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    /* Handle posts without images - hide empty image container */
+    .post-item-image:empty {
+      display: none;
+    }
+    
     .post-item h2 { margin: 0 0 0.5rem 0; }
     .post-item h2 a { color: var(--text); text-decoration: none; }
     
@@ -209,18 +234,18 @@
     }
 
     /* Media */
-    .post-splash-image { margin: 0 0 1.5rem 0; text-align: center; }
-    .post-splash-image img { max-width: 100%; height: auto; border-radius: 10px; }
+    .post-splash-image { margin: 0 0 1.5rem 0; text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .post-splash-image img { max-width: 100%; max-height: 300px; border-radius: 10px; }
     .image-caption { font-size: 0.9rem; color: var(--muted); font-style: italic; margin: 0.5rem 0 0 0; }
 
-    .post-preview-image { margin: 0 0 1rem 0; }
+    .post-preview-image { margin: 0; }
     .post-preview-image img {
-      max-width: 100%;
-      height: auto;
-      max-height: 220px;
+      width: 100%;
+      height: 180px;
       object-fit: cover;
       border-radius: 10px;
       transition: transform 0.2s ease;
+      aspect-ratio: 1 / 1;
     }
     .post-preview-image a:hover img { transform: scale(1.01); }
 
@@ -269,7 +294,6 @@
 
      /* Back to portfolio button */
      .back-to-portfolio {
-       margin-bottom: 1.5rem;
        padding-top: 1rem;
      }
      
@@ -299,11 +323,27 @@
        font-weight: bold;
      }
 
-     /* Responsive tweaks */
+     
      @media (max-width: 640px) {
-       .blog-container { padding: 1.5rem 1rem 3rem; }
+       .blog-container { padding: 0rem 1rem 3rem; }
        .blog-nav a { margin: 0 0.5rem; }
        .back-to-portfolio { margin-bottom: 1rem; padding-top: 0.5rem; }
+       
+       /* Stack image on top for mobile */
+       .post-item {
+         flex-direction: column;
+         gap: 1rem;
+       }
+       
+       .post-item-image {
+         flex: none;
+         align-self: center;
+       }
+       
+       .post-preview-image img {
+         max-width: auto;
+         max-height: 180px;
+       }
      }
   </style>
   
@@ -339,57 +379,77 @@
   <ul class="post-list">
     
       <li class="post-item">
-        
-        
-        <h2><a href="/blog/linkedin-games-as-a-recruiting-metric-continued/">LinkedIn Games as a Recruiting Metric (Continued)</a></h2>
-        <div class="post-meta">
-          <time datetime="2025-09-04T00:00:00.000Z">September 3, 2025</time>
           
-            <span> • </span>
-            
-              
-            
-              
-                <a href="/blog/tags/technology/" class="tag">#technology</a>
-              
-            
-              
-                <a href="/blog/tags/linkedin/" class="tag">#linkedin</a>
-              
-            
-          
+        <div class="post-item-image">
+            <div class="post-preview-image">
+              <a href="/blog/linkedin-games-as-a-recruiting-metric-continued/">
+                <img src="/blog/assets/recruiting-metric.jpeg" alt="LinkedIn Games as a Recruiting Metric (Continued)" />
+              </a>
+            </div>
         </div>
+          
         
-          <p class="post-description">About 3 months ago I wrote a bot to solve LinkedIn&#39;s Queens puzzle. Now, they&#39;ve taken the post down. It seems there may be some substance to this idea after all.</p>
-        
-        <a href="/blog/linkedin-games-as-a-recruiting-metric-continued/">Read more →</a>
+        <div class="post-item-content">
+          <h2><a href="/blog/linkedin-games-as-a-recruiting-metric-continued/">LinkedIn Games as a Recruiting Metric (Continued)</a></h2>
+          <div class="post-meta">
+            <time datetime="2025-09-04T00:00:00.000Z">September 3, 2025</time>
+            
+              <span> • </span>
+              
+                
+              
+                
+                  <a href="/blog/tags/technology/" class="tag">#technology</a>
+                
+              
+                
+                  <a href="/blog/tags/linkedin/" class="tag">#linkedin</a>
+                
+              
+            
+          </div>
+          
+            <p class="post-description">About 3 months ago I wrote a bot to solve LinkedIn&#39;s Queens puzzle. Now, they&#39;ve taken the post down. It seems there may be some substance to this idea after all.</p>
+          
+          <a href="/blog/linkedin-games-as-a-recruiting-metric-continued/">Read more →</a>
+        </div>
       </li>
     
       <li class="post-item">
-        
-        
-        <h2><a href="/blog/creating-a-linkedin-queens-bot/">Creating a LinkedIn Queens Bot</a></h2>
-        <div class="post-meta">
-          <time datetime="2025-06-03T00:00:00.000Z">June 2, 2025</time>
           
-            <span> • </span>
-            
-              
-            
-              
-                <a href="/blog/tags/technology/" class="tag">#technology</a>
-              
-            
-              
-                <a href="/blog/tags/linkedin/" class="tag">#linkedin</a>
-              
-            
-          
+        <div class="post-item-image">
+            <div class="post-preview-image">
+              <a href="/blog/creating-a-linkedin-queens-bot/">
+                <img src="/blog/assets/linkedin-bot.jpeg" alt="Creating a LinkedIn Queens Bot" />
+              </a>
+            </div>
         </div>
+          
         
-          <p class="post-description">Could LinkedIn be using Queens as a passive recruiting metric? Better to be safe than sorry I suppose...</p>
-        
-        <a href="/blog/creating-a-linkedin-queens-bot/">Read more →</a>
+        <div class="post-item-content">
+          <h2><a href="/blog/creating-a-linkedin-queens-bot/">Creating a LinkedIn Queens Bot</a></h2>
+          <div class="post-meta">
+            <time datetime="2025-06-03T00:00:00.000Z">June 2, 2025</time>
+            
+              <span> • </span>
+              
+                
+              
+                
+                  <a href="/blog/tags/technology/" class="tag">#technology</a>
+                
+              
+                
+                  <a href="/blog/tags/linkedin/" class="tag">#linkedin</a>
+                
+              
+            
+          </div>
+          
+            <p class="post-description">Could LinkedIn be using Queens as a passive recruiting metric? Better to be safe than sorry I suppose...</p>
+          
+          <a href="/blog/creating-a-linkedin-queens-bot/">Read more →</a>
+        </div>
       </li>
     
   </ul>
