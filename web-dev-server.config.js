@@ -23,6 +23,10 @@ export default {
       // If the request is for /blog or /blog/*, serve from the blog directory
       if (request.url.startsWith('/blog')) {
         // Remove /blog prefix and serve from blog directory
+        if (request.url.startsWith('/blog/assets/')) {
+          // Keep assets path as-is, they're already in the right location
+          return next();
+        }
         const blogPath = request.url.replace(/^\/blog/, '') || '/index.html';
 
         // Handle clean URLs - if path doesn't end with .html and isn't a file with extension

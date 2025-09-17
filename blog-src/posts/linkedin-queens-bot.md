@@ -3,6 +3,8 @@ title: 'Creating a LinkedIn Queens Bot'
 date: 2025-06-03
 description: 'Could LinkedIn be using Queens as a passive recruiting metric? Better to be safe than sorry I suppose...'
 tags: ['technology', 'linkedin']
+image: '/blog/assets/linkedin-bot.jpeg'
+imageCaption: 'Results from one run of the bot'
 draft: false
 ---
 

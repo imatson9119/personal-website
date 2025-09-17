@@ -4,14 +4,7 @@ layout: layout.njk
 
 <article>
   <header>
-    {% if image %}
-      <div class="post-splash-image">
-        <img src="{{ image }}" alt="{{ title }}" />
-        {% if imageCaption %}
-          <p class="image-caption">{{ imageCaption }}</p>
-        {% endif %}
-      </div>
-    {% endif %}
+    
     
     <h1 class="post-title">{{ title }}</h1>
     <div class="post-meta">
@@ -27,6 +20,14 @@ layout: layout.njk
     </div>
     {% if description %}
       <p style="font-style: italic; color: #666; margin-top: 1rem;">{{ description }}</p>
+    {% endif %}
+    {% if image %}
+      <div class="post-splash-image">
+        <img src="{{ image }}" alt="{{ title }}" />
+        {% if imageCaption %}
+          <p class="image-caption">{{ imageCaption }}</p>
+        {% endif %}
+      </div>
     {% endif %}
   </header>
 
@@ -252,6 +253,40 @@ layout: layout.njk
       document.addEventListener('DOMContentLoaded', processHeadings);
     } else {
       processHeadings();
+    }
+  })();
+
+  // Process article links to open in new tab with security attributes
+  (function() {
+    function processArticleLinks() {
+      // Only process links within the post body content
+      const postBody = document.querySelector('.post-body');
+      if (!postBody) return;
+
+      const links = postBody.querySelectorAll('a[href]');
+      
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        
+        // Check if this is an external link (starts with http/https or is absolute)
+        const isExternal = href.startsWith('http://') || 
+                          href.startsWith('https://') || 
+                          href.startsWith('//') ||
+                          (!href.startsWith('/') && !href.startsWith('#') && !href.startsWith('mailto:'));
+        
+        // Only modify external links to open in new tab
+        if (isExternal) {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener noreferrer');
+        }
+      });
+    }
+
+    // Process links when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', processArticleLinks);
+    } else {
+      processArticleLinks();
     }
   })();
 </script>

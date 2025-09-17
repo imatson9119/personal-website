@@ -44,6 +44,7 @@ As suspected, current estimates suggest that AI coding assistants have _dramatic
 
 In spite of these mouth-watering metrics, the golden age of AI is not without naysayers. [A 2025 study by METR](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/) found that although economists, ML experts, and developers forecast productivity gains of from ~10-50%, the observed impact is actually a **productivity loss of up to 40%**. This is an extremely compelling study - especially since it runs exactly against the current popular perception. I've included the methodology of the study below.
 
-![[Screenshot 2025-09-16 at 2.18.08 PM.png]]
+![METR Study Methodology](/blog/assets/study-img.png)
+_Figure 1: METR Study Methodology - This shows how the study measured developer productivity_
 
 Another [report from Uplevel](https://resources.uplevelteam.com/gen-ai-for-coding) claimed that real-world teams saw a **41% increase in bugs** when using AI agents; something that likely doesn't come as much of a surprise to those of have used them. In a recent

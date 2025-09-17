@@ -14,32 +14,36 @@ permalink: "{% if pagination.pageNumber == 0 %}/blog/{% else %}/blog/page/{{ pag
   <ul class="post-list">
     {% for post in posts %}
       <li class="post-item">
-        {% if post.data.image %}
-          <div class="post-preview-image">
-            <a href="{{ post.url }}">
-              <img src="{{ post.data.image }}" alt="{{ post.data.title }}" />
-            </a>
-          </div>
-        {% endif %}
-        
-        <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-        <div class="post-meta">
-          <time datetime="{{ post.date.toISOString() }}">{{ post.date | dateDisplay }}</time>
-          {% if post.data.tags and post.data.tags.length > 0 %}
-            <span> • </span>
-            {% for tag in post.data.tags %}
-              {% if tag != "posts" %}
-                <a href="/blog/tags/{{ tag | slug }}/" class="tag">#{{ tag }}</a>
-              {% endif %}
-            {% endfor %}
-          {% endif %}
+          {% if post.data.image %}
+        <div class="post-item-image">
+            <div class="post-preview-image">
+              <a href="{{ post.url }}">
+                <img src="{{ post.data.image }}" alt="{{ post.data.title }}" />
+              </a>
+            </div>
         </div>
-        {% if post.data.description %}
-          <p class="post-description">{{ post.data.description }}</p>
-        {% else %}
-          <p class="post-description">{{ post.templateContent | excerpt(200) }}</p>
-        {% endif %}
-        <a href="{{ post.url }}">Read more →</a>
+          {% endif %}
+        
+        <div class="post-item-content">
+          <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+          <div class="post-meta">
+            <time datetime="{{ post.date.toISOString() }}">{{ post.date | dateDisplay }}</time>
+            {% if post.data.tags and post.data.tags.length > 0 %}
+              <span> • </span>
+              {% for tag in post.data.tags %}
+                {% if tag != "posts" %}
+                  <a href="/blog/tags/{{ tag | slug }}/" class="tag">#{{ tag }}</a>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          {% if post.data.description %}
+            <p class="post-description">{{ post.data.description }}</p>
+          {% else %}
+            <p class="post-description">{{ post.templateContent | excerpt(200) }}</p>
+          {% endif %}
+          <a href="{{ post.url }}">Read more →</a>
+        </div>
       </li>
     {% endfor %}
   </ul>
