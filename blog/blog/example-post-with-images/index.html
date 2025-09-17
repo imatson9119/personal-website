@@ -14,26 +14,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   
   <!-- SEO Meta Tags -->
-  <title>The Sunset of the Software Engineer? | Ian Matson</title>
-  <meta name="description" content="More and more I hear questions concerning the viability of software engineering as a career in light of the rapid development of AI coding assistants. ">
-  <meta name="keywords" content="Ian,Matson,developer,software,blog,posts,technology,ai,engineering,tutorials">
+  <title>Example Post with Images | Ian Matson</title>
+  <meta name="description" content="Demonstrating how to use both preview images and inline images in blog posts">
+  <meta name="keywords" content="Ian,Matson,developer,software,blog,posts,technology,tutorial,engineering,tutorials">
   <meta name="author" content="Ian Matson">
   
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://ian-matson.com/blog/the-sunset-of-the-software-engineer/">
+  <link rel="canonical" href="https://ian-matson.com/blog/example-post-with-images/">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="The Sunset of the Software Engineer? | Ian Matson" />
-  <meta property="og:description" content="More and more I hear questions concerning the viability of software engineering as a career in light of the rapid development of AI coding assistants. ">
+  <meta property="og:title" content="Example Post with Images | Ian Matson" />
+  <meta property="og:description" content="Demonstrating how to use both preview images and inline images in blog posts">
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://ian-matson.com/blog/the-sunset-of-the-software-engineer/" />
+  <meta property="og:url" content="https://ian-matson.com/blog/example-post-with-images/" />
   <meta property="og:image" content="https://github.com/imatson9119/personal-website/blob/main/assets/ShareImage.png?raw=true" />
-  <meta property="article:published_time" content="2025-09-16T00:00:00.000Z" />
-  <meta property="article:tag" content="posts, technology, ai" />
+  <meta property="article:published_time" content="2025-09-17T00:00:00.000Z" />
+  <meta property="article:tag" content="posts, technology, tutorial" />
   
   <!-- Twitter -->
-  <meta name="twitter:title" content="The Sunset of the Software Engineer? | Ian Matson" />
-  <meta name="twitter:description" content="More and more I hear questions concerning the viability of software engineering as a career in light of the rapid development of AI coding assistants. ">
+  <meta name="twitter:title" content="Example Post with Images | Ian Matson" />
+  <meta name="twitter:description" content="Demonstrating how to use both preview images and inline images in blog posts">
   <meta name="twitter:image" content="https://github.com/imatson9119/personal-website/blob/main/assets/ShareImage.png?raw=true" />
   <meta name="twitter:card" content="summary_large_image">
   
@@ -338,10 +338,17 @@
 <article>
   <header>
     
+      <div class="post-splash-image">
+        <img src="/blog/assets/graphic.png  " alt="Example Post with Images" />
+        
+          <p class="image-caption">This is a preview image that appears at the top of the post and in the blog listing</p>
+        
+      </div>
     
-    <h1 class="post-title">The Sunset of the Software Engineer?</h1>
+    
+    <h1 class="post-title">Example Post with Images</h1>
     <div class="post-meta">
-      <time datetime="2025-09-16T00:00:00.000Z">September 15, 2025</time>
+      <time datetime="2025-09-17T00:00:00.000Z">September 16, 2025</time>
       
         <span> • </span>
         
@@ -352,45 +359,61 @@
           
         
           
-            <a href="/blog/tags/ai/" class="tag">#ai</a>
+            <a href="/blog/tags/tutorial/" class="tag">#tutorial</a>
           
         
       
     </div>
     
-      <p style="font-style: italic; color: #666; margin-top: 1rem;">More and more I hear questions concerning the viability of software engineering as a career in light of the rapid development of AI coding assistants. </p>
+      <p style="font-style: italic; color: #666; margin-top: 1rem;">Demonstrating how to use both preview images and inline images in blog posts</p>
     
   </header>
 
   <div class="post-body">
-    <h2>The Sunset of the Software Engineer?</h2>
-<p>There's much clamor nowadays concerning the outlook of software engineering in an AI-saturated world - and for good reason. Even just 5 years after their widespread advent, large language models have already revolutionized the way we work. Those using AI-assistants now code in a fundamentally way than those who don't - likely just as much time is spent interacting with an AI as writing code.</p>
-<p>This shift raises a number of questions, all of which I'd argue are important:</p>
+    <h2>Using Images in Blog Posts</h2>
+<p>This post demonstrates how to add both preview images and inline images to your blog posts.</p>
+<h3>Preview Images</h3>
+<p>Preview images are set in the frontmatter using the <code>image</code> field. They appear:</p>
+<ol>
+<li><strong>In the blog listing</strong> as a preview thumbnail</li>
+<li><strong>At the top of the post</strong> as a splash/hero image</li>
+</ol>
+<p>The preview image for this post is defined in the frontmatter as:</p>
+<pre><code class="language-yaml">image: '/blog/assets/sample-preview.jpg'
+imageCaption: 'This is a preview image that appears at the top of the post and in the blog listing'
+</code></pre>
+<h3>Inline Images</h3>
+<p>For images within your content, you can use standard Markdown syntax:</p>
+<p><img src="/blog/assets/image.png" alt="This is an inline image"></p>
+<p>You can also use HTML for more control:</p>
+<img src="/blog/assets/sample-inline.jpg" alt="Inline image with custom styling" style="max-width: 400px; border-radius: 8px; margin: 1rem auto; display: block;">
+<h3>Image Organization</h3>
+<p>Store your blog images in <code>/blog-src/assets/</code> and they'll be automatically copied to <code>/blog/assets/</code> in the built site.</p>
+<p><strong>Recommended structure:</strong></p>
+<pre><code>blog-src/
+  assets/
+    post-images/
+      my-post-name/
+        hero.jpg
+        diagram.png
+        screenshot.jpg
+    shared/
+      author-avatar.jpg
+      default-preview.jpg
+</code></pre>
+<h3>Best Practices</h3>
+<ol>
+<li><strong>Preview images</strong>: Use landscape format (16:9 or 2:1 ratio) for best results</li>
+<li><strong>File sizes</strong>: Optimize images for web (aim for &lt;500KB for previews, &lt;200KB for inline)</li>
+<li><strong>Alt text</strong>: Always provide descriptive alt text for accessibility</li>
+<li><strong>File naming</strong>: Use descriptive, URL-friendly names (no spaces, lowercase)</li>
+</ol>
+<h3>Path Examples</h3>
 <ul>
-<li>What is this doing to our hard skills? Will our capacity to program atrophy as we delegate our programming tasks?</li>
-<li>Does this even matter? Is this shift akin to <a href="https://rleighturner.com/the-shallows/#:~:text=%E2%80%9CShould%20the%20Egyptians%20learn%20to%20write%E2%80%A6%20it%20will%20implant%20forgetfulness%20in%20their%20souls%3A%20they%20will%20cease%20to%20exercise%20memory%20because%20they%20rely%20on%20that%20which%20is%20written%E2%80%9D">books</a> or the <a href="https://hackeducation.com/2015/03/12/calculators">calculator</a>, where initial skepticism about technology eroding particular skills was drowned out by the growing reality that those same skills were no longer necessary?</li>
-<li>What does this mean for the field of software engineering? Is this a tool that will empower productivity gains or a technology that will replace entire jobs?</li>
+<li><strong>Absolute path</strong>: <code>/blog/assets/my-image.jpg</code> (recommended)</li>
+<li><strong>Relative path</strong>: <code>../assets/my-image.jpg</code> (works but less reliable)</li>
+<li><strong>External URLs</strong>: <code>https://example.com/image.jpg</code> (works but not recommended for performance)</li>
 </ul>
-<p>While I would love to spend time on each of these questions (and perhaps I will soon), in this post I just want to look at the current state of software engineering, and what that means for us, for me, as a software engineer.</p>
-<h1>Meta-Analysis</h1>
-<p>Before we get too far ahead of ourselves trying to interpret the data at hand, I think it would be wise to try to reason through some of the dynamics at play in the current market. Who are the main actors? What impact does supply and demand have on the relationship between LLMs and software engineering? How might these influence future outcomes? Once we understand the nature of these dynamics, we can draw informed conclusions from the data.</p>
-<p>Let's start by looking at supply and demand.</p>
-<p>First, it's worth noting that looking at supply and demand for <em>software engineers</em> is the wrong place to start. Fundamentally, the software market isn't focused on software engineers - it's focused on the product: <em>software</em>. Therefore, when trying to understand how AI will impact the job market for software engineers, we should begin by thinking about what AI will do to impact the supply and demand of <em>software</em> rather than <em>engineers</em>.</p>
-<p>Without looking at numbers quite yet, it's quite clear that AI will greatly increase the supply of software: even in my anecdotal experience using LLMs for programming I've seen great boosts in productivity. What isn't clear quite yet is the impact of these tools on the <em>demand</em> for software. It's relatively easy to imagine a future where AI has little to no effect on demand for software, keeping demand constant. It's just as easy, however, to posit that the increased accessibility and iteration speed of development will increase demand as new use-cases and applications are created or enabled.</p>
-<p>Another dynamic at play, one which is more definitional than anything, is the nature of software engineering as a whole. Being a software engineer includes a great number of different responsibilities, many of which have changed even in the past few years. In a given day, a typical developer will likely code, yes, but they will also likely do a great number of other things like gather requirements, review / merge PRs, design systems, or support clients / applications. In its current state, it certainly seems like AI models are positioned to surpass human performance in <em>some</em> of these applications, in <em>some</em> cases. There are a couple of core questions to consider here:</p>
-<ul>
-<li>How many of these responsibilities is AI able to effectively <strong>replace</strong>?</li>
-<li>How long will it take for AI to replace areas that it currently can't?</li>
-<li>Is the role of software engineer malleable enough to exist as an abstraction of these responsibilities, or as an orchestrator?</li>
-</ul>
-<p>With all of these interactions in mind, let's turn our attention to the data.</p>
-<h1>The Data</h1>
-<h2>Supply and Demand</h2>
-<p>As suspected, current estimates suggest that AI coding assistants have <em>dramatically</em> boosted the supply of software by increasing the output of developers. An oft-cited <a href="https://arxiv.org/abs/2302.06590#:~:text=,transition%20into%20software%20development%20careers">internal Microsoft study</a> that hired random freelancers on Upwork to create a JavaScript http server found that those who used Copilot finished the task <strong>55.8% faster</strong> than those who didn't. Though I have some skepticism about the scope of this experiment and whether or not it accurately captures productivity gains, numbers like that cannot be ignored.</p>
-<p>In spite of these mouth-watering metrics, the golden age of AI is not without naysayers. <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">A 2025 study by METR</a> found that although economists, ML experts, and developers forecast productivity gains of from ~10-50%, the observed impact is actually a <strong>productivity loss of up to 40%</strong>. This is an extremely compelling study - especially since it runs exactly against the current popular perception. I've included the methodology of the study below.</p>
-<p><img src="/blog/assets/metr-study-methodology.png" alt="METR Study Methodology">
-<em>Figure 1: METR Study Methodology - This shows how the study measured developer productivity</em></p>
-<p>Another <a href="https://resources.uplevelteam.com/gen-ai-for-coding">report from Uplevel</a> claimed that real-world teams saw a <strong>41% increase in bugs</strong> when using AI agents; something that likely doesn't come as much of a surprise to those of have used them. In a recent</p>
 
   </div>
 

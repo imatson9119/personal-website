@@ -14,26 +14,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   
   <!-- SEO Meta Tags -->
-  <title>Posts tagged &#39;{{ tag }}&#39; | Ian Matson</title>
-  <meta name="description" content="All blog posts tagged with {{ tag }}">
-  <meta name="keywords" content="Ian,Matson,developer,software,blog,engineering,tutorials">
+  <title>Example Post with Images | Ian Matson</title>
+  <meta name="description" content="Demonstrating how to use both preview images and inline images in blog posts">
+  <meta name="keywords" content="Ian,Matson,developer,software,blog,posts,technology,tutorial,engineering,tutorials">
   <meta name="author" content="Ian Matson">
   
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://ian-matson.com/blog/tags/ai/">
+  <link rel="canonical" href="https://ian-matson.com/blog/example-post-with-images/">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="Posts tagged &#39;{{ tag }}&#39; | Ian Matson" />
-  <meta property="og:description" content="All blog posts tagged with {{ tag }}">
+  <meta property="og:title" content="Example Post with Images | Ian Matson" />
+  <meta property="og:description" content="Demonstrating how to use both preview images and inline images in blog posts">
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://ian-matson.com/blog/tags/ai/" />
+  <meta property="og:url" content="https://ian-matson.com/blog/example-post-with-images/" />
   <meta property="og:image" content="https://github.com/imatson9119/personal-website/blob/main/assets/ShareImage.png?raw=true" />
-  
-  
+  <meta property="article:published_time" content="2025-09-17T00:00:00.000Z" />
+  <meta property="article:tag" content="posts, technology, tutorial" />
   
   <!-- Twitter -->
-  <meta name="twitter:title" content="Posts tagged &#39;{{ tag }}&#39; | Ian Matson" />
-  <meta name="twitter:description" content="All blog posts tagged with {{ tag }}">
+  <meta name="twitter:title" content="Example Post with Images | Ian Matson" />
+  <meta name="twitter:description" content="Demonstrating how to use both preview images and inline images in blog posts">
   <meta name="twitter:image" content="https://github.com/imatson9119/personal-website/blob/main/assets/ShareImage.png?raw=true" />
   <meta name="twitter:card" content="summary_large_image">
   
@@ -335,43 +335,307 @@
     
     <main class="blog-content">
       
-<h2>Posts tagged "ai"</h2>
-
-
-
-  <ul class="post-list">
+<article>
+  <header>
     
-      <li class="post-item">
+      <div class="post-splash-image">
+        <img src="/blog/assets/graphic.png  " alt="Example Post with Images" />
         
+          <p class="image-caption">This is a preview image that appears at the top of the post and in the blog listing</p>
         
-        <h2><a href="/blog/the-sunset-of-the-software-engineer/">The Sunset of the Software Engineer?</a></h2>
-        <div class="post-meta">
-          <time datetime="2025-09-16T00:00:00.000Z">September 15, 2025</time>
-          
-            <span> • </span>
-            
-              
-            
-              
-                <a href="/blog/tags/technology/" class="tag">#technology</a>
-              
-            
-              
-                <a href="/blog/tags/ai/" class="tag">#ai</a>
-              
-            
-          
-        </div>
-        
-          <p class="post-description">More and more I hear questions concerning the viability of software engineering as a career in light of the rapid development of AI coding assistants. </p>
-        
-        <a href="/blog/the-sunset-of-the-software-engineer/">Read more →</a>
-      </li>
+      </div>
     
-  </ul>
+    
+    <h1 class="post-title">Example Post with Images</h1>
+    <div class="post-meta">
+      <time datetime="2025-09-17T00:00:00.000Z">September 16, 2025</time>
+      
+        <span> • </span>
+        
+          
+        
+          
+            <a href="/blog/tags/technology/" class="tag">#technology</a>
+          
+        
+          
+            <a href="/blog/tags/tutorial/" class="tag">#tutorial</a>
+          
+        
+      
+    </div>
+    
+      <p style="font-style: italic; color: #666; margin-top: 1rem;">Demonstrating how to use both preview images and inline images in blog posts</p>
+    
+  </header>
 
+  <div class="post-body">
+    <h2>Using Images in Blog Posts</h2>
+<p>This post demonstrates how to add both preview images and inline images to your blog posts.</p>
+<h3>Preview Images</h3>
+<p>Preview images are set in the frontmatter using the <code>image</code> field. They appear:</p>
+<ol>
+<li><strong>In the blog listing</strong> as a preview thumbnail</li>
+<li><strong>At the top of the post</strong> as a splash/hero image</li>
+</ol>
+<p>The preview image for this post is defined in the frontmatter as:</p>
+<pre><code class="language-yaml">image: '/blog/assets/sample-preview.jpg'
+imageCaption: 'This is a preview image that appears at the top of the post and in the blog listing'
+</code></pre>
+<h3>Inline Images</h3>
+<p>For images within your content, you can use standard Markdown syntax:</p>
+<p><img src="/blog/assets/image.png" alt="This is an inline image"></p>
+<p>You can also use HTML for more control:</p>
+<img src="/blog/assets/sample-inline.jpg" alt="Inline image with custom styling" style="max-width: 400px; border-radius: 8px; margin: 1rem auto; display: block;">
+<h3>Image Organization</h3>
+<p>Store your blog images in <code>/blog-src/assets/</code> and they'll be automatically copied to <code>/blog/assets/</code> in the built site.</p>
+<p><strong>Recommended structure:</strong></p>
+<pre><code>blog-src/
+  assets/
+    post-images/
+      my-post-name/
+        hero.jpg
+        diagram.png
+        screenshot.jpg
+    shared/
+      author-avatar.jpg
+      default-preview.jpg
+</code></pre>
+<h3>Best Practices</h3>
+<ol>
+<li><strong>Preview images</strong>: Use landscape format (16:9 or 2:1 ratio) for best results</li>
+<li><strong>File sizes</strong>: Optimize images for web (aim for &lt;500KB for previews, &lt;200KB for inline)</li>
+<li><strong>Alt text</strong>: Always provide descriptive alt text for accessibility</li>
+<li><strong>File naming</strong>: Use descriptive, URL-friendly names (no spaces, lowercase)</li>
+</ol>
+<h3>Path Examples</h3>
+<ul>
+<li><strong>Absolute path</strong>: <code>/blog/assets/my-image.jpg</code> (recommended)</li>
+<li><strong>Relative path</strong>: <code>../assets/my-image.jpg</code> (works but less reliable)</li>
+<li><strong>External URLs</strong>: <code>https://example.com/image.jpg</code> (works but not recommended for performance)</li>
+</ul>
 
-<p><a href="/blog/tags/">← View all tags</a></p>
+  </div>
+
+  
+  
+  
+  
+  
+    <nav class="post-navigation">
+      <div>
+        
+      </div>
+      <div>
+        
+          <a href="/blog/linkedin-games-as-a-recruiting-metric-continued/">LinkedIn Games as a Recruiting Metric (Continued) →</a>
+        
+      </div>
+    </nav>
+  
+</article>
+
+<!-- Post-specific heading anchor functionality -->
+<style>
+  /* Heading anchor styles for posts only */
+  .heading-wrapper { 
+    position: relative; 
+  }
+  
+  .heading-anchor {
+    position: absolute;
+    left: -1.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8em;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .heading-wrapper:hover .heading-anchor { 
+    opacity: 0.6; 
+  }
+  
+  .heading-anchor:hover { 
+    opacity: 1 !important; 
+    background: rgba(37, 99, 235, 0.08); 
+    color: var(--accent); 
+  }
+  
+  .heading-anchor:focus-visible { 
+    outline: 2px solid var(--accent); 
+    outline-offset: 2px; 
+  }
+  
+  .heading-anchor svg { 
+    width: 1em; 
+    height: 1em; 
+    fill: currentColor; 
+  }
+
+  /* Copy feedback tooltip */
+  .copy-feedback {
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    left: 50%;
+    top: -0.5rem;
+    transform: translate(-50%, -100%);
+  }
+  
+  .copy-feedback.show { 
+    opacity: 1; 
+  }
+  
+  .copy-feedback::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #333;
+  }
+
+  /* Hide anchors on mobile */
+  @media (max-width: 640px) {
+    .heading-anchor { 
+      display: none; 
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    // Function to generate a slug from text
+    function generateSlug(text) {
+      return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/[\s_-]+/g, '-') // Replace spaces, underscores, and multiple hyphens with single hyphen
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    }
+
+    // Function to create the link icon SVG
+    function createLinkIcon() {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.innerHTML = '<path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>';
+      return svg;
+    }
+
+    // Function to show copy feedback
+    function showCopyFeedback(button) {
+      const feedback = button.querySelector('.copy-feedback');
+      feedback.classList.add('show');
+      setTimeout(() => {
+        feedback.classList.remove('show');
+      }, 2000);
+    }
+
+    // Function to copy link to clipboard
+    async function copyLink(anchor) {
+      const url = window.location.origin + window.location.pathname + '#' + anchor;
+      try {
+        await navigator.clipboard.writeText(url);
+        return true;
+      } catch (err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textArea);
+        return success;
+      }
+    }
+
+    // Function to process headings (only in post content)
+    function processHeadings() {
+      const headings = document.querySelectorAll('article h1, article h2, article h3, article h4, article h5, article h6');
+      
+      headings.forEach(heading => {
+        // Skip if already processed or if it's the main post title
+        if (heading.parentElement.classList.contains('heading-wrapper') || 
+            heading.classList.contains('post-title')) {
+          return;
+        }
+
+        // Generate ID if it doesn't exist
+        if (!heading.id) {
+          const slug = generateSlug(heading.textContent);
+          heading.id = slug;
+        }
+
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'heading-wrapper';
+        
+        // Create anchor button
+        const anchorButton = document.createElement('button');
+        anchorButton.className = 'heading-anchor';
+        anchorButton.setAttribute('aria-label', 'Copy link to this heading');
+        anchorButton.title = 'Copy link to this heading';
+        
+        // Add the link icon
+        anchorButton.appendChild(createLinkIcon());
+        
+        // Add copy feedback tooltip
+        const feedback = document.createElement('div');
+        feedback.className = 'copy-feedback';
+        feedback.textContent = 'Link copied!';
+        anchorButton.appendChild(feedback);
+
+        // Add click handler
+        anchorButton.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const success = await copyLink(heading.id);
+          if (success) {
+            showCopyFeedback(anchorButton);
+          }
+        });
+
+        // Insert wrapper before heading
+        heading.parentNode.insertBefore(wrapper, heading);
+        
+        // Move heading into wrapper and add anchor button
+        wrapper.appendChild(heading);
+        wrapper.appendChild(anchorButton);
+      });
+    }
+
+    // Process headings when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', processHeadings);
+    } else {
+      processHeadings();
+    }
+  })();
+</script>
 
     </main>
   </div>
