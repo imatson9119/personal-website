@@ -21,7 +21,7 @@ layout: layout.njk
     {% if description %}
       <p style="font-style: italic; color: #666; margin-top: 1rem;">{{ description }}</p>
     {% endif %}
-    {% if image %}
+    {% if image and showimage %}
       <div class="post-splash-image">
         <img src="{{ image }}" alt="{{ title }}" />
         {% if imageCaption %}
