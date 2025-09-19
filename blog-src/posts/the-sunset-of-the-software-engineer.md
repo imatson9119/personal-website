@@ -38,13 +38,7 @@ Another dynamic at play, one which is more definitional than anything, is the na
 
 With all of these interactions in mind, let's turn our attention to the data.
 
-# The Data
-
-## Supply and Demand
-
-Let's start by taking a look at the impact that LLMs have software supply and demand.
-
-### Supply
+# Supply
 
 As suspected, current estimates suggest that AI coding assistants have _dramatically_ boosted the supply of software by increasing the output of developers. An oft-cited [internal Microsoft study](https://arxiv.org/abs/2302.06590#:~:text=,transition%20into%20software%20development%20careers) that hired random freelancers on Upwork to create a JavaScript http server found that those who used Copilot finished the task **55.8% faster** than those who didn't. [Another independent study](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4945566) conducted over the course of three experiments and 4,867 developers found that **productivity** (measured by approved PRs) **increased by 26.08%** on average, with less experienced developers benefitting from AI coding assistants most.
 
@@ -59,7 +53,7 @@ It’s worth noting that both sets of studies are true in their own ways: AI cle
 
 So how do we parse this out? It's hard to pin down an objective and holistic measurement of what exactly counts as "productivity," and for good reason. Oftentimes it seems like the most beneficial changes to a codebase are those that remove hundreds of lines rather than the opposite, so how do we capture this nuance in our measurements? My personal opinion is that the best measurements are the ones that get closest to capturing the final result or the entire product. That’s why, while the raw task-completion studies are compelling, I’d lean toward the longer-horizon measures like METR’s open-source findings when asking whether AI is really transforming supply.
 
-### Demand
+# Demand
 
 Now let's take a look at demand for software. Just like the supply section, we've got a couple of mixed signals - I've chosen to use U.S. business applications, patent applications, and VC funding as a proxy for software demand.
 
@@ -84,7 +78,7 @@ There's a lot to take away from these numbers - by some measures (notably the nu
 
 If patents and business formations are proxies for grassroots innovation, the picture looks stagnant; but if VC allocation is a proxy for corporate conviction, demand looks bullish. The divergence itself is the signal: demand may not be expanding everywhere, but in the niches where AI unlocks new possibilities, it is intensifying.
 
-## The Job Market
+# The Job Market
 
 So far, it looks like the supply of software has increased (albeit likely by a smaller amount than most people would have you believe) and the demand may be steady or increasing, but how does this translate to the job market? Let's start by looking at the number of job postings and headcount over the past 5 years:
 
