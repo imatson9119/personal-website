@@ -62,13 +62,13 @@ So how do we parse this out? It's hard to pin down an objective and holistic mea
 Now let's take a look at demand for software. Just like the supply section, we've got a couple of mixed signals - I've chosen to look at numbers for U.S. business applications, patent applications, and VC funding as a proxy for software demand.
 
 ![Business Applications by Year](../assets/business_apps.png)
-\_Figure 2: Information Business Application by Year - Shows the percentage of U.S. business applications that are in the "Information" sector year over year. (Taken from [census.gov](https://www.census.gov/econ/bfs/data/weeklynaics.html))
+_Figure 2: Information Business Application by Year - Shows the percentage of U.S. business applications that are in the "Information" sector year over year. (Taken from [census.gov](https://www.census.gov/econ/bfs/data/weeklynaics.html))_
 
 ![Changes in CPC Patent Codes](../assets/patents.png)
-\_Figure 3: Change in CPC Patent Codes From 2023-2024 - Shows percentage change of each patent code from 2023 to 2024. ([Source](https://www.ificlaims.com/rankings/trends-2024/)) **G06F/G06T/G06N/G06Q/G06V** → Computing & AI.
+_Figure 3: Change in CPC Patent Codes From 2023-2024 - Shows percentage change of each patent code from 2023 to 2024. ([Source](https://www.ificlaims.com/rankings/trends-2024/)) **G06F/G06T/G06N/G06Q/G06V** → Computing & AI._
 
 ![VC funding for AI / ML](../assets/vc_funding.png)
-AI & ML VC deal activity as a share of all US VC deal activity ([Source](https://nvca.org/wp-content/uploads/2025/03/2025-NVCA-Yearbook.pdf))
+_Figure 3: AI & ML VC deal activity as a share of all US VC deal activity ([Source](https://nvca.org/wp-content/uploads/2025/03/2025-NVCA-Yearbook.pdf))_
 
 There's a lot to take away from these numbers - by some measures it looks as if the technology industry is
 
