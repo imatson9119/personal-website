@@ -5,8 +5,8 @@
     <link>https://ian-matson.com/blog/</link>
     <description>Software engineering insights, tutorials, and thoughts by Ian Matson</description>
     <language>en-us</language>
-    <pubDate>2025-09-04T00:00:00.000Z</pubDate>
-    <lastBuildDate>2025-09-04T00:00:00.000Z</lastBuildDate>
+    <pubDate>2025-09-19T00:00:00.000Z</pubDate>
+    <lastBuildDate>2025-09-19T00:00:00.000Z</lastBuildDate>
     <atom:link href="https://ian-matson.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     
     
@@ -47,6 +47,90 @@
           
             
               <category>linkedin</category>
+            
+          
+        
+      </item>
+    
+      <item>
+        <title>The Sunset of the Software Engineer?</title>
+        <link>https://ian-matson.com/blog/the-sunset-of-the-software-engineer/</link>
+        <description>&lt;p&gt;There&#39;s much clamor nowadays concerning the outlook of software engineering in an AI-saturated world - and for good reason. Even just 5 years after their widespread advent, large language models have already revolutionized the way we work. Those using AI-assistants now code in a fundamentally different way than those who don&#39;t - likely just as much time is spent interacting with an AI as writing code.&lt;/p&gt;
+&lt;p&gt;This shift raises a number of questions, all of which I&#39;d argue are important:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What is this doing to our hard skills? Will our capacity to program atrophy as we delegate our programming tasks?&lt;/li&gt;
+&lt;li&gt;Does this even matter? Is this shift akin to &lt;a href=&quot;https://rleighturner.com/the-shallows/#:~:text=%E2%80%9CShould%20the%20Egyptians%20learn%20to%20write%E2%80%A6%20it%20will%20implant%20forgetfulness%20in%20their%20souls%3A%20they%20will%20cease%20to%20exercise%20memory%20because%20they%20rely%20on%20that%20which%20is%20written%E2%80%9D&quot;&gt;books&lt;/a&gt; or the &lt;a href=&quot;https://hackeducation.com/2015/03/12/calculators&quot;&gt;calculator&lt;/a&gt;, where initial skepticism about technology eroding particular skills was drowned out by the growing reality that those same skills were no longer necessary?&lt;/li&gt;
+&lt;li&gt;What does this mean for the field of software engineering? Is this a tool that will empower productivity gains or a technology that will replace entire jobs?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;While I would love to spend time on each of these questions (and perhaps I will soon), in this post I just want to look at the current state of software engineering, and what that means for us, for me, as a software engineer.&lt;/p&gt;
+&lt;h1&gt;Meta-Analysis&lt;/h1&gt;
+&lt;p&gt;Before we get too far ahead of ourselves trying to interpret the data at hand, I think it would be wise to try to reason through some of the dynamics at play in the current market. Who are the main actors? What impact does supply and demand have on the relationship between LLMs and software engineering? How might these influence future outcomes? Once we understand the nature of these dynamics, we can draw informed conclusions from the data.&lt;/p&gt;
+&lt;p&gt;Let&#39;s start by looking at supply and demand.&lt;/p&gt;
+&lt;p&gt;First, it&#39;s worth noting that looking at supply and demand for &lt;em&gt;software engineers&lt;/em&gt; is the wrong place to start. Fundamentally, the software market isn&#39;t focused on software engineers - it&#39;s focused on the product: &lt;em&gt;software&lt;/em&gt;. Therefore, when trying to understand how AI will impact the job market for software engineers, we should begin by thinking about what AI will do to impact the supply and demand of &lt;em&gt;software&lt;/em&gt; rather than &lt;em&gt;engineers&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Without looking at numbers quite yet, it&#39;s quite clear that AI will greatly increase the supply of software: even in my anecdotal experience using LLMs for programming I&#39;ve seen great boosts in productivity. What isn&#39;t clear quite yet is the impact of these tools on the &lt;em&gt;demand&lt;/em&gt; for software. It&#39;s relatively easy to imagine a future where AI has little to no effect on demand for software, keeping demand constant. It&#39;s just as easy, however, to posit that the increased accessibility and iteration speed of development will increase demand as new use-cases and applications are created or enabled.&lt;/p&gt;
+&lt;p&gt;Another dynamic at play, one which is more definitional than anything, is the nature of software engineering as a whole. Being a software engineer includes a great number of different responsibilities, many of which have changed even in the past few years. In a given day, a typical developer will likely code, yes, but they will also likely do a great number of other things like gather requirements, review / merge PRs, design systems, or support clients / applications. In its current state, it certainly seems like AI models are positioned to surpass human performance in &lt;em&gt;some&lt;/em&gt; of these applications, in &lt;em&gt;some&lt;/em&gt; cases. There are a couple of core questions to consider here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How many of these responsibilities is AI able to effectively &lt;strong&gt;replace&lt;/strong&gt;?&lt;/li&gt;
+&lt;li&gt;How long will it take for AI to replace areas that it currently can&#39;t?&lt;/li&gt;
+&lt;li&gt;Is the role of software engineer malleable enough to exist as an abstraction of these responsibilities, or as an orchestrator?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With all of these interactions in mind, let&#39;s turn our attention to the data.&lt;/p&gt;
+&lt;h1&gt;The Data&lt;/h1&gt;
+&lt;h2&gt;Supply and Demand&lt;/h2&gt;
+&lt;p&gt;Let&#39;s start by taking a look at the impact that LLMs have software supply and demand.&lt;/p&gt;
+&lt;h3&gt;Supply&lt;/h3&gt;
+&lt;p&gt;As suspected, current estimates suggest that AI coding assistants have &lt;em&gt;dramatically&lt;/em&gt; boosted the supply of software by increasing the output of developers. An oft-cited &lt;a href=&quot;https://arxiv.org/abs/2302.06590#:~:text=,transition%20into%20software%20development%20careers&quot;&gt;internal Microsoft study&lt;/a&gt; that hired random freelancers on Upwork to create a JavaScript http server found that those who used Copilot finished the task &lt;strong&gt;55.8% faster&lt;/strong&gt; than those who didn&#39;t. &lt;a href=&quot;https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4945566&quot;&gt;Another independent study&lt;/a&gt; conducted over the course of three experiments and 4,867 developers found that &lt;strong&gt;productivity&lt;/strong&gt; (measured by approved PRs) &lt;strong&gt;increased by 26.08%&lt;/strong&gt; on average, with less experienced developers benefitting from AI coding assistants most.&lt;/p&gt;
+&lt;p&gt;In spite of these mouth-watering metrics, the golden age of AI is not without naysayers. &lt;a href=&quot;https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/&quot;&gt;A 2025 study by METR&lt;/a&gt; found that although economists, ML experts, and developers forecast productivity gains of ~10-50%, the observed impact of AI assistants on open-source projects is actually a &lt;strong&gt;productivity loss of up to 40%&lt;/strong&gt;. This is an extremely compelling study - especially since it runs exactly against the current popular perception. I&#39;ve included the methodology of the study below.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/study-img.png&quot; alt=&quot;METR Study Methodology&quot;&gt;
+&lt;em&gt;Figure 1: METR Study Methodology - This shows how the study measured developer productivity&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Another &lt;a href=&quot;https://resources.uplevelteam.com/gen-ai-for-coding&quot;&gt;report from Uplevel&lt;/a&gt; claimed that real-world teams saw a &lt;strong&gt;41% increase in bugs&lt;/strong&gt; when using AI agents; something that likely doesn&#39;t come as much of a surprise to those who have used them.&lt;/p&gt;
+&lt;p&gt;It’s worth noting that both sets of studies are true in their own ways: AI clearly accelerates short, bounded tasks, but real-world productivity hinges on whether those tasks roll up into durable value.&lt;/p&gt;
+&lt;p&gt;So how do we parse this out? It&#39;s hard to pin down an objective and holistic measurement of what exactly counts as &amp;quot;productivity,&amp;quot; and for good reason. Oftentimes it seems like the most beneficial changes to a codebase are those that remove hundreds of lines rather than the opposite, so how do we capture this nuance in our measurements? My personal opinion is that the best measurements are the ones that get closest to capturing the final result or the entire product. That’s why, while the raw task-completion studies are compelling, I’d lean toward the longer-horizon measures like METR’s open-source findings when asking whether AI is really transforming supply.&lt;/p&gt;
+&lt;h3&gt;Demand&lt;/h3&gt;
+&lt;p&gt;Now let&#39;s take a look at demand for software. Just like the supply section, we&#39;ve got a couple of mixed signals - I&#39;ve chosen to use U.S. business applications, patent applications, and VC funding as a proxy for software demand.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/business_apps.png&quot; alt=&quot;Business Applications by Year&quot;&gt;
+&lt;em&gt;Figure 2: Information Business Application by Year - Shows the percentage of U.S. business applications that are in the &amp;quot;Information&amp;quot; sector year over year. (Taken from &lt;a href=&quot;https://www.census.gov/econ/bfs/data/weeklynaics.html&quot;&gt;census.gov&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/patents.png&quot; alt=&quot;Changes in CPC Patent Codes&quot;&gt;
+&lt;em&gt;Figure 3: Change in CPC Patent Codes From 2023-2024 - Shows percentage change of each patent code from 2023 to 2024. (&lt;a href=&quot;https://www.ificlaims.com/rankings/trends-2024/&quot;&gt;Source&lt;/a&gt;) &lt;strong&gt;G06F/G06T/G06N/G06Q/G06V&lt;/strong&gt; → Computing &amp;amp; AI.&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/vc_funding.png&quot; alt=&quot;VC funding for AI / ML&quot;&gt;
+&lt;em&gt;Figure 4: AI &amp;amp; ML VC deal activity as a share of all US VC deal activity (&lt;a href=&quot;https://nvca.org/wp-content/uploads/2025/03/2025-NVCA-Yearbook.pdf&quot;&gt;Source&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;There&#39;s a lot to take away from these numbers - by some measures (notably the number of US patents and business applications) it appears that the technology industry is stalling, but at the same time VC funding is booming with an unprecedented portion of deals being funneled into AI use cases. The overall implication of these numbers is uncertain, but it seems that demand for software is holding steady at a minimum.&lt;/p&gt;
+&lt;p&gt;If patents and business formations are proxies for grassroots innovation, the picture looks stagnant; but if VC allocation is a proxy for corporate conviction, demand looks bullish. The divergence itself is the signal: demand may not be expanding everywhere, but in the niches where AI unlocks new possibilities, it is intensifying.&lt;/p&gt;
+&lt;h2&gt;The Job Market&lt;/h2&gt;
+&lt;p&gt;So far, it looks like the supply of software has increased (albeit likely by a smaller amount than most people would have you believe) and the demand may be steady or increasing, but how does this translate to the job market? Let&#39;s start by looking at the number of job postings and headcount over the past 5 years:&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&quot;https://fred.stlouisfed.org/graph/fredgraph.png?g=1Mri8&amp;amp;height=490&quot; alt=&quot;Software Job Postings by Year&quot;&gt;
+&lt;em&gt;Figure 5: Software Development job postings on Indeed (&lt;a href=&quot;https://fred.stlouisfed.org/series/IHLIDXUSTPSOFTDEVE#:~:text=Indeed%20calculates%20the%20index%20change,new%20methodology%20applies%20a%20detrended&quot;&gt;Source&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/headcount.png&quot; alt=&quot;Software Headcount by Age Group&quot;&gt;
+&lt;em&gt;Figure 6: Headcount over time by age group for computer occupations. (&lt;a href=&quot;https://digitaleconomy.stanford.edu/publications/canaries-in-the-coal-mine/&quot;&gt;Source&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Off the bat, these numbers are pretty shocking. Headcount for early career software developers (age 22-25) has &lt;strong&gt;dropped by around 10%&lt;/strong&gt;, and the number of software development job postings on Indeed has fallen below pre-pandemic levels. While this isn&#39;t quite disastrous, it definitely makes you think. The authors of &lt;a href=&quot;https://digitaleconomy.stanford.edu/publications/canaries-in-the-coal-mine/&quot;&gt;the paper Figure 6 was sourced from&lt;/a&gt; hypothesize that AI is already beginning to automate the jobs of early-career software development and companies are eliminating these roles as a result.&lt;/p&gt;
+&lt;p&gt;Is this a sign of the times? Could the drop in early-career jobs be the first wave of many? It&#39;s possible, but unlikely, at least in the near-term. As show in Figure 7, AI progress has started to level out over the past year due to a number of key limitations such as processing power, and data exhaustion. It seems relatively unlikely that AI will be able to completely replace software engineers in the immediate future.&lt;/p&gt;
+&lt;p&gt;If this is true, I also wouldn&#39;t expect entry-level jobs to stay in recession for long - senior engineers aren&#39;t hatched from eggs, so if companies want experienced talent they will have to find a way to prevent fledgeling engineers from being disenfranchised. This could be any number of things - strong mentorship programs, more robust internships, or even extending academia further into adulthood, but a world without starter jobs eventually becomes a world with no jobs at all.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../assets/ai-progress.png&quot; alt=&quot;AI Progress Over Time&quot;&gt;
+&lt;em&gt;Figure 7: AI Progress vs. Human Performance Over Time (&lt;a href=&quot;https://hai.stanford.edu/ai-index/2025-ai-index-report&quot;&gt;Source&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;h1&gt;The Verdict&lt;/h1&gt;
+&lt;p&gt;Software engineering is not disappearing - but it is changing shape. The evidence suggests that AI has unquestionably boosted the &lt;em&gt;supply&lt;/em&gt; of software, though the magnitude depends on what we count as “productivity.” Demand, meanwhile, looks steady overall, with a curious split: grassroots innovation has slowed, while venture funding and corporate conviction in AI-driven software are accelerating. On the jobs side, the near-term squeeze on entry-level roles may be the single most important signal, hinting at how quickly firms are trying to restructure work around these tools.&lt;/p&gt;
+&lt;p&gt;What emerges from all this is less an obituary for the profession and more a redefinition of it. The next generation of engineers may spend fewer hours grinding out boilerplate and more hours orchestrating systems, curating AI output, and aligning software with business value. The job will likely involve as much &lt;em&gt;judgment&lt;/em&gt; as it does &lt;em&gt;code&lt;/em&gt; and look much more similar to that of a product manager.&lt;/p&gt;
+&lt;p&gt;That shift carries risks - especially if the industry neglects to invest in the pipeline of new talent - but it also carries opportunities. For engineers willing to adapt, the coming years may be less about fighting automation and more about learning to wield it well. Software engineering isn’t going away; it’s becoming something new. The only real question is whether we, as engineers, are willing to evolve with it.&lt;/p&gt;
+</description>
+        <pubDate>2025-09-19T00:00:00.000Z</pubDate>
+        <guid>https://ian-matson.com/blog/the-sunset-of-the-software-engineer/</guid>
+        
+          
+            
+          
+            
+              <category>technology</category>
+            
+          
+            
+              <category>ai</category>
             
           
         
