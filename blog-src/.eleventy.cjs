@@ -4,6 +4,29 @@ module.exports = function (eleventyConfig) {
 
   // Date filters
   eleventyConfig.addFilter('dateDisplay', function (date) {
+    // Handle timezone issues by using UTC methods for display
+    // This prevents local timezone conversion from shifting the date
+    if (date instanceof Date) {
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC',
+      });
+    }
+
+    // Handle string dates
+    if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      // For YYYY-MM-DD format, parse as local date to avoid UTC conversion
+      const [year, month, day] = date.split('-').map(Number);
+      return new Date(year, month - 1, day).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+
+    // For other date formats, use standard parsing
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -12,6 +35,13 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter('dateISO', function (date) {
+    // Handle date parsing to avoid timezone issues
+    if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      // For YYYY-MM-DD format, parse as local date to avoid UTC conversion
+      const [year, month, day] = date.split('-').map(Number);
+      return new Date(year, month - 1, day).toISOString();
+    }
+    // For other date formats, use standard parsing
     return new Date(date).toISOString();
   });
 
