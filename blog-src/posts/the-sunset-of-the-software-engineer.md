@@ -98,7 +98,7 @@ Off the bat, these numbers are pretty shocking. Headcount for early career softw
 
 Is this a sign of the times? Could the drop in early-career jobs be the first wave of many? It's possible, but unlikely, at least in the near-term. As show in Figure 7, AI progress has started to level out over the past year due to a number of key limitations such as processing power, and data exhaustion. It seems relatively unlikely that AI will be able to completely replace software engineers in the immediate future.
 
-If this is true, I also wouldn't expect entry-level jobs to stay in recession for long - senior engineers aren't hatched from eggs, so if companies want experienced talent they will have to find a way to prevent fledgeling engineers from being disenfranchised. This could be any number of things - strong mentorship programs, more robust internships, or even extending academia further into adulthood, but a world without starter jobs eventually becomes a world with no jobs at all.
+If this is true, I also wouldn't expect entry-level jobs to stay in recession for long - senior engineers aren't hatched from eggs, so if companies want experienced talent they will have to find a way to prevent fledgling engineers from being disenfranchised. This could be any number of things - strong mentorship programs, more robust internships, or even extending academia further into adulthood, but a world without starter jobs eventually becomes a world with no jobs at all.
 
 ![AI Progress Over Time](../assets/ai-progress.png)
 _Figure 7: AI Progress vs. Human Performance Over Time ([Source](https://hai.stanford.edu/ai-index/2025-ai-index-report))_
