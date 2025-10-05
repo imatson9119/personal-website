@@ -56,6 +56,8 @@ export class ProjectComponent extends LitElement {
 
   @state() private isTransitioning = false;
 
+  @state() private isImageLoading = false;
+
   constructor() {
     super();
 
@@ -73,7 +75,10 @@ export class ProjectComponent extends LitElement {
     this.right.classList.add(reverse ? 'slide-right' : 'slide-left');
 
     // Wait for animation
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise<void>(resolve => setTimeout(resolve, 500));
+
+    // Show loading placeholder immediately
+    this.isImageLoading = true;
 
     // Update content
     this.curProjectIndex =
@@ -85,8 +90,8 @@ export class ProjectComponent extends LitElement {
     await this.updateComplete;
 
     // Trigger reflow
-    void this.image.offsetWidth;
-    void this.right.offsetWidth;
+    this.image.offsetWidth;
+    this.right.offsetWidth;
 
     // Remove slide classes to animate back
     this.image.classList.remove(reverse ? 'slide-right' : 'slide-left');
@@ -161,11 +166,32 @@ export class ProjectComponent extends LitElement {
     updateBackground();
   }
 
+  private onImageLoad() {
+    this.isImageLoading = false;
+  }
+
+  private onImageError() {
+    this.isImageLoading = false;
+  }
+
   render() {
     return html`
       <div class="project-container">
         <div class="left">
-          <img src="${this.curProject.image}" alt="${this.curProject.title}" />
+          ${this.isImageLoading
+            ? html`
+                <div class="loading-placeholder">
+                  <div class="loading-spinner"></div>
+                </div>
+              `
+            : ''}
+          <img
+            src="${this.curProject.image}"
+            alt="${this.curProject.title}"
+            @load="${this.onImageLoad}"
+            @error="${this.onImageError}"
+            style="${this.isImageLoading ? 'opacity: 0;' : 'opacity: 1;'}"
+          />
         </div>
         <div class="right">
           <div class="project-header">

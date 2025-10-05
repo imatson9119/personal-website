@@ -34,13 +34,47 @@ export const ComponentStyles = css`
     justify-content: flex-start;
     overflow: hidden;
     box-sizing: border-box;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
   }
 
   .left img {
     width: 80%;
     border-radius: 12px;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+
+  .loading-placeholder {
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #333;
+    border-top: 3px solid #bbbe64;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   .right {
@@ -49,7 +83,9 @@ export const ComponentStyles = css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
   }
 
   .project-header {
@@ -75,7 +111,10 @@ export const ComponentStyles = css`
     background: #bbbe6433;
     padding: 0.5rem;
     border-radius: 8px;
-    transition: transform 0.3s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
+    transition:
+      transform 0.3s ease-out,
+      background-color 0.2s ease-out,
+      color 0.2s ease-out;
   }
 
   a:hover {
