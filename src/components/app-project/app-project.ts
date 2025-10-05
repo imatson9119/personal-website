@@ -19,6 +19,14 @@ export class ProjectComponent extends LitElement {
 
   projects: Project[] = [
     {
+      title: 'The Brain',
+      description:
+        'A full-stack,  AI powered apartment search assistant with user authentication, real-time data updates, and AI-powered search capabilities.',
+      date: 'Oct 2025',
+      link: 'https://theapartmentbrain.com/',
+      image: 'assets/projects/img3.png',
+    },
+    {
       title: 'Olive & Salt',
       description:
         'Landing website for a personal chef / meal prep business, simple frontend with minor backend integrations supporting contact flows.',
