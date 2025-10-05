@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { ComponentStyles } from './app-project.styles.js';
 import { isMobileDevice, MainStyles } from '../../styles.js';
+import { getAssetPath } from '../../utils.js';
 
 interface Project {
   title: string;
@@ -186,7 +187,7 @@ export class ProjectComponent extends LitElement {
               `
             : ''}
           <img
-            src="${this.curProject.image}"
+            src="${getAssetPath(this.curProject.image)}"
             alt="${this.curProject.title}"
             @load="${this.onImageLoad}"
             @error="${this.onImageError}"
