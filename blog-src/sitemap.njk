@@ -1,0 +1,56 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+# Note: This creates sitemap.xml at the project root (output: '..' in config)
+# The build script copies it to dist/sitemap.xml for deployment
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://ian-matson.com/</loc>
+    <lastmod>{{ buildDate | dateSitemap }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Blog index -->
+  <url>
+    <loc>https://ian-matson.com/blog/</loc>
+    <lastmod>{% if collections.posts[0] %}{{ collections.posts[0].date | dateSitemap }}{% else %}{{ buildDate | dateSitemap }}{% endif %}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog posts -->
+  {% for post in collections.posts %}
+  <url>
+    <loc>https://ian-matson.com{{ post.url }}</loc>
+    <lastmod>{{ post.date | dateSitemap }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {% endfor %}
+  
+  <!-- Blog tag pages -->
+  <url>
+    <loc>https://ian-matson.com/blog/tags/</loc>
+    <lastmod>{% if collections.posts[0] %}{{ collections.posts[0].date | dateSitemap }}{% else %}{{ buildDate | dateSitemap }}{% endif %}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  {% for tag in collections.tagList %}
+  {% set tagPosts = collections[tag] | filterDrafts | sortByDate %}
+  {% if tagPosts.length > 0 %}
+  {% set latestTagPost = tagPosts[0] %}
+  <url>
+    <loc>https://ian-matson.com/blog/tags/{{ tag | slug }}/</loc>
+    <lastmod>{{ latestTagPost.date | dateSitemap }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  {% endif %}
+  {% endfor %}
+</urlset>
+

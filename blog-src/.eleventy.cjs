@@ -45,6 +45,19 @@ module.exports = function (eleventyConfig) {
     return new Date(date).toISOString();
   });
 
+  // Date filter for sitemap (YYYY-MM-DD format)
+  eleventyConfig.addFilter('dateSitemap', function (date) {
+    if (!date) return new Date().toISOString().split('T')[0];
+    if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return date;
+    }
+    const d = date instanceof Date ? date : new Date(date);
+    return d.toISOString().split('T')[0];
+  });
+
+  // Add global data for current date
+  eleventyConfig.addGlobalData('buildDate', new Date());
+
   // URL filter for clean URLs
   eleventyConfig.addFilter('url', function (url) {
     // Ensure URLs start with / and don't have trailing slashes (except root)
@@ -109,6 +122,15 @@ module.exports = function (eleventyConfig) {
   // Filter to exclude draft posts
   eleventyConfig.addFilter('filterDrafts', function (collection) {
     return collection.filter(item => !item.data.draft);
+  });
+
+  // Sort posts by date (newest first)
+  eleventyConfig.addFilter('sortByDate', function (collection) {
+    return collection.sort((a, b) => {
+      const dateA = a.date instanceof Date ? a.date : new Date(a.date);
+      const dateB = b.date instanceof Date ? b.date : new Date(b.date);
+      return dateB - dateA; // Descending order (newest first)
+    });
   });
 
   return {

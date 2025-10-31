@@ -75,7 +75,18 @@
     "author": {
       "@type": "Person",
       "name": "Ian Matson",
-      "url": "https://ian-matson.com"
+      "url": "https://ian-matson.com",
+      "sameAs": [
+        "https://github.com/imatson9119",
+        "https://www.linkedin.com/in/ian-matson/"
+      ],
+      "jobTitle": "Software Engineer",
+      "knowsAbout": [
+        "Software Development",
+        "Full Stack Development",
+        "Artificial Intelligence",
+        "Machine Learning"
+      ]
     },
     "publisher": {
       "@type": "Person",
@@ -85,31 +96,62 @@
     "datePublished": "{{ date | dateISO }}",
     "dateModified": "{{ date | dateISO }}",
     "url": "https://ian-matson.com{{ page.url }}",
-    {% if image %}"image": {
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "articleSection": "{% if tags %}{{ tags[0] | capitalize }}{% else %}Technology{% endif %}"{% if image %},
+    "image": {
       "@type": "ImageObject",
       "url": "https://ian-matson.com{{ image }}",
       "width": 1200,
       "height": 630
-    },{% endif %}
+    }{% endif %},
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://ian-matson.com{{ page.url }}"
     }{% if tags %},
-    "keywords": [{% for tag in tags %}"{{ tag }}"{% if not loop.last %}, {% endif %}{% endfor %}]{% endif %}
+    "keywords": [{% for tag in tags %}"{{ tag }}"{% if not loop.last %}, {% endif %}{% endfor %}],
+    "about": [{% for tag in tags %}{
+      "@type": "Thing",
+      "name": "{{ tag | capitalize }}"
+    }{% if not loop.last %}, {% endif %}{% endfor %}]{% endif %}
   }
   </script>
   {% else %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Website",
+    "@type": "Blog",
     "name": "Ian Matson | Blog",
-    "description": "Software engineering insights, tutorials, and thoughts by Ian Matson.",
-    "url": "https://ian-matson.com",
+    "description": "Software engineering insights, tutorials, and thoughts by Ian Matson. Explore full-stack development, AI, and creative problem solving.",
+    "url": "https://ian-matson.com/blog",
+    "inLanguage": "en-US",
     "author": {
       "@type": "Person",
       "name": "Ian Matson",
+      "url": "https://ian-matson.com",
+      "sameAs": [
+        "https://github.com/imatson9119",
+        "https://www.linkedin.com/in/ian-matson/"
+      ],
+      "jobTitle": "Software Engineer",
+      "knowsAbout": [
+        "Software Development",
+        "Full Stack Development",
+        "Artificial Intelligence",
+        "Machine Learning"
+      ]
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Ian Matson",
       "url": "https://ian-matson.com"
+    },
+    "potentialAction": {
+      "@type": "ReadAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://ian-matson.com/blog/"
+      }
     }
   }
   </script>
