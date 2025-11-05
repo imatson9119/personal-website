@@ -10,7 +10,7 @@
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "prepare": "husky",
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js && cp -r assets dist/assets && npm run blog:build && cp -r blog dist/blog && (cp sitemap.xml dist/sitemap.xml 2>/dev/null || cp blog/sitemap.xml dist/sitemap.xml 2>/dev/null || true) && npm run analyze -- --exclude dist",
+    "build": "rimraf dist && tsc && rollup -c rollup.config.js && cp -r assets dist/assets && npm run blog:build && cp -r blog dist/blog && mkdir -p dist/card && cp dist/index.html dist/card/index.html && (cp sitemap.xml dist/sitemap.xml 2>/dev/null || cp blog/sitemap.xml dist/sitemap.xml 2>/dev/null || true) && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server --config web-dev-server.config.js\"",

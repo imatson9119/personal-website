@@ -261,8 +261,20 @@ export class CardComponent extends LitElement {
     const zoomBase = 5;
     const zoomScale = baseWidth / currentWidth;
     // Wider range: very narrow screens zoom out more, wide screens stay close
-    const minZoom = 10; // Increased for very narrow screens
-    const maxZoom = 5; // Stay close on wide screens
+    let minZoom = 10; // Increased for very narrow screens
+    let maxZoom = 5; // Stay close on wide screens
+
+    // Additional zoom out for mobile devices to make card smaller
+    if (isMobileDevice()) {
+      minZoom = 14; // Further zoom out on mobile
+      // Apply additional mobile scaling factor
+      const mobileMultiplier = 1.3; // Makes card 30% smaller on mobile
+      return Math.max(
+        minZoom,
+        Math.min(maxZoom, zoomBase * zoomScale * mobileMultiplier),
+      );
+    }
+
     return Math.max(minZoom, Math.min(maxZoom, zoomBase * zoomScale));
   }
 
