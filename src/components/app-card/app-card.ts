@@ -31,6 +31,8 @@ export class CardComponent extends LitElement {
 
   private mouseMoveHandler?: (e: MouseEvent) => void;
 
+  private mouseLeaveHandler?: (e: MouseEvent) => void;
+
   private resizeHandler?: () => void;
 
   private clickHandler?: (e: MouseEvent) => void;
@@ -59,6 +61,10 @@ export class CardComponent extends LitElement {
 
   private hasMoved = false;
 
+  private raycaster?: THREE.Raycaster;
+
+  private mouse = new THREE.Vector2();
+
   connectedCallback() {
     super.connectedCallback();
     this.updateComplete.then(() => {
@@ -71,11 +77,16 @@ export class CardComponent extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    // Reset cursor when component is removed
+    document.body.style.cursor = 'default';
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
     }
     if (this.mouseMoveHandler) {
       window.removeEventListener('mousemove', this.mouseMoveHandler);
+    }
+    if (this.mouseLeaveHandler && this.canvas) {
+      this.canvas.removeEventListener('mouseleave', this.mouseLeaveHandler);
     }
     if (this.resizeHandler) {
       window.removeEventListener('resize', this.resizeHandler);
@@ -126,12 +137,12 @@ export class CardComponent extends LitElement {
     const headerFont = '"Krona One", sans-serif';
     const bodyFont = '"Fira Mono", monospace';
 
-    // MODERN DARK PREMIUM DESIGN
-    // Deep charcoal base with vibrant accent
+    // MODERN CREAM PREMIUM DESIGN
+    // Soft cream base with vibrant accent
     const bgGradient = ctx.createLinearGradient(0, 0, width, height);
-    bgGradient.addColorStop(0, '#1a1a1a');
-    bgGradient.addColorStop(0.5, '#0f0f0f');
-    bgGradient.addColorStop(1, '#1a1a1a');
+    bgGradient.addColorStop(0, '#eaf0ce');
+    bgGradient.addColorStop(0.5, '#e5ebc9');
+    bgGradient.addColorStop(1, '#eaf0ce');
 
     ctx.fillStyle = bgGradient;
     ctx.beginPath();
@@ -147,16 +158,16 @@ export class CardComponent extends LitElement {
     ctx.closePath();
     ctx.fill();
 
-    // Accent color bar on left edge - using website theme colors
+    // Accent color bar on left edge - darker shade of card body
     const accentGradient = ctx.createLinearGradient(0, 0, 0, height);
-    accentGradient.addColorStop(0, '#d2d5a9'); // accent-light
-    accentGradient.addColorStop(0.5, '#bbbe64'); // accent
-    accentGradient.addColorStop(1, '#a0a35e'); // accent-dark
+    accentGradient.addColorStop(0, '#b5c099'); // darker cream
+    accentGradient.addColorStop(0.5, '#a5b089'); // darker cream middle
+    accentGradient.addColorStop(1, '#b5c099'); // darker cream
     ctx.fillStyle = accentGradient;
     ctx.fillRect(0, 0, width * 0.04, height);
 
     // Subtle geometric pattern overlay
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
     for (let i = 0; i < 20; i++) {
       const x = width * 0.1 + i * width * 0.04;
       const y = height * 0.15 + Math.sin(i * 0.5) * 20;
@@ -165,8 +176,8 @@ export class CardComponent extends LitElement {
       ctx.fill();
     }
 
-    // Name - Large, bold, white, left-aligned with proper spacing
-    ctx.fillStyle = '#ffffff';
+    // Name - Large, bold, dark, left-aligned with proper spacing
+    ctx.fillStyle = '#2d2537'; // Dark color for white background
     ctx.font = `bold ${width * 0.11}px ${headerFont}`;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
@@ -174,19 +185,16 @@ export class CardComponent extends LitElement {
     ctx.fillText('IAN', width * 0.08, height * 0.12);
     ctx.fillText('MATSON', width * 0.08, height * 0.12 + nameLineHeight);
 
-    // Title - Accent color, smaller, elegant with better spacing
-    ctx.fillStyle = '#bbbe64'; // Website accent color
-    ctx.font = `400 ${width * 0.022}px ${bodyFont}`;
+    // Title - Purple color from main page
+    ctx.fillStyle = '#443850'; // Main page purple color
+    ctx.font = `bold ${width * 0.022}px ${bodyFont}`;
     ctx.letterSpacing = '1px'; // Reduced from 2px for better readability
-    ctx.fillText(
-      'TECHNICAL PRODUCT PARTNER',
-      width * 0.08,
-      height * 0.12 + nameLineHeight * 2 + height * 0.02,
-    );
+    const subtitleY = height * 0.12 + nameLineHeight * 2 + height * 0.02;
+    ctx.fillText('TECHNICAL PRODUCT PARTNER', width * 0.08, subtitleY);
     ctx.letterSpacing = '0px';
 
     // Tagline - Subtle, refined with better line spacing
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+    ctx.fillStyle = 'rgba(45, 37, 55, 0.8)'; // Dark color with slight transparency
     ctx.font = `${width * 0.024}px ${bodyFont}`;
     const taglineLineHeight = width * 0.024 * 1.4; // Better line spacing
     const taglineStartY = height * 0.12 + nameLineHeight * 2 + height * 0.08;
@@ -202,14 +210,14 @@ export class CardComponent extends LitElement {
       taglineStartY + taglineLineHeight * 2,
     );
 
-    // Contact section - Right side, elegant with proper spacing
+    // Contact section - Right side, aligned with subtitle
     ctx.textAlign = 'right';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.font = `${width * 0.021}px ${bodyFont}`;
-    const contactLineHeight = width * 0.021 * 1.5; // Proper line spacing for contact info
+    ctx.fillStyle = 'rgba(45, 37, 55, 0.9)'; // Dark color for white background
+    ctx.font = `${width * 0.026}px ${bodyFont}`; // Increased from 0.021 to 0.026
+    const contactLineHeight = width * 0.026 * 1.5; // Proper line spacing for contact info
 
-    // Email
-    const contactStartY = height * 0.65;
+    // Email - aligned with subtitle
+    const contactStartY = subtitleY;
     ctx.fillText('howdy@ian-matson.com', width * 0.92, contactStartY);
 
     // Phone
@@ -219,20 +227,20 @@ export class CardComponent extends LitElement {
       contactStartY + contactLineHeight,
     );
 
-    // Portfolio link - Bottom right, accent color
-    ctx.fillStyle = '#bbbe64'; // Website accent color
-    ctx.font = `500 ${width * 0.02}px ${bodyFont}`;
+    // Portfolio link - Bottom right, purple color from main page
+    ctx.fillStyle = '#443850'; // Main page purple color
+    ctx.font = `500 ${width * 0.025}px ${bodyFont}`; // Increased from 0.02 to 0.025
     ctx.fillText('portfolio →', width * 0.92, height * 0.85);
 
     // Subtle highlight on accent bar
     const highlightGradient = ctx.createLinearGradient(0, 0, width * 0.04, 0);
-    highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
+    highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
     highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
     ctx.fillStyle = highlightGradient;
     ctx.fillRect(0, 0, width * 0.04, height);
 
     // Premium border
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)'; // Subtle dark border for white card
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(cornerRadius, 0);
@@ -332,18 +340,24 @@ export class CardComponent extends LitElement {
     this.scene.add(this.cardMesh);
 
     // Add click handler with raycasting
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
+    this.raycaster = new THREE.Raycaster();
 
     this.clickHandler = (event: MouseEvent) => {
-      if (!this.canvas || !this.camera || !this.scene || !this.cardMesh) return;
+      if (
+        !this.canvas ||
+        !this.camera ||
+        !this.scene ||
+        !this.cardMesh ||
+        !this.raycaster
+      )
+        return;
 
       const rect = this.canvas.getBoundingClientRect();
-      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-      raycaster.setFromCamera(mouse, this.camera);
-      const intersects = raycaster.intersectObject(this.cardMesh);
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      const intersects = this.raycaster.intersectObject(this.cardMesh);
 
       if (intersects.length > 0) {
         this.handleCardInteraction(intersects[0]);
@@ -353,33 +367,36 @@ export class CardComponent extends LitElement {
     this.canvas.addEventListener('click', this.clickHandler);
 
     // Premium lighting setup for enhanced depth and dimension
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
     this.scene.add(ambientLight);
 
     // Main key light - brighter and more directional
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
     keyLight.position.set(6, 6, 6);
     keyLight.castShadow = false;
     this.scene.add(keyLight);
 
     // Secondary light for balance
-    const fillLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.3);
     fillLight.position.set(-5, 4, 4);
     this.scene.add(fillLight);
 
     // Rim light for edge definition
-    const rimLight = new THREE.DirectionalLight(0xffffff, 0.7);
+    const rimLight = new THREE.DirectionalLight(0xffffff, 1.0);
     rimLight.position.set(-3, -3, -5);
     this.scene.add(rimLight);
 
     // Subtle back light for depth
-    const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.8);
     backLight.position.set(0, 0, -8);
     this.scene.add(backLight);
 
     // Mouse move handler (only on desktop)
     if (!isMobileDevice()) {
       this.mouseMoveHandler = (e: MouseEvent) => {
+        if (!this.canvas || !this.camera || !this.cardMesh || !this.raycaster)
+          return;
+
         // Normalize mouse position to -1 to 1
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -388,8 +405,81 @@ export class CardComponent extends LitElement {
         // Slightly reduced max rotation for smoother feel
         this.targetRotation.y = x * 0.25; // Max 0.25 radians (~14 degrees, was 0.3)
         this.targetRotation.x = y * 0.25;
+
+        // Check if hovering over clickable areas using raycasting
+        const rect = this.canvas.getBoundingClientRect();
+        this.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        this.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        const intersects = this.raycaster.intersectObject(this.cardMesh);
+
+        if (intersects.length > 0) {
+          const intersection = intersects[0];
+          let u = 0.5;
+          let v = 0.5;
+
+          if (intersection.uv) {
+            u = intersection.uv.x;
+            v = 1 - intersection.uv.y;
+          } else {
+            const localPoint = intersection.point.clone();
+            this.cardMesh.worldToLocal(localPoint);
+            const cardWidth = 5;
+            const cardHeight = 2.86;
+            u = (localPoint.x + cardWidth / 2) / cardWidth;
+            v = (localPoint.y + cardHeight / 2) / cardHeight;
+          }
+
+          // Check if hovering over clickable areas
+          // Text is right-aligned at u = 0.92, estimate left edge based on text width
+          const emailTop = 0.54; // Shifted down a bit more
+          const emailBottom = 0.62;
+          const emailLeft = 0.55; // Email text starts around here (expanded left)
+          const emailRight = 0.95; // Right edge with padding
+
+          const phoneTop = 0.61; // Shifted down a bit more
+          const phoneBottom = 0.69;
+          const phoneLeft = 0.6; // Phone text is shorter (expanded left)
+          const phoneRight = 0.95;
+
+          const portfolioTop = 0.82; // Shifted down to align with actual text position
+          const portfolioBottom = 0.92;
+          const portfolioLeft = 0.65; // Portfolio text is shorter (expanded left)
+          const portfolioRight = 0.95;
+
+          const isOverEmail =
+            v >= emailTop &&
+            v < emailBottom &&
+            u >= emailLeft &&
+            u <= emailRight;
+          const isOverPhone =
+            v >= phoneTop &&
+            v < phoneBottom &&
+            u >= phoneLeft &&
+            u <= phoneRight;
+          const isOverPortfolio =
+            v >= portfolioTop &&
+            v < portfolioBottom &&
+            u >= portfolioLeft &&
+            u <= portfolioRight;
+
+          if (isOverEmail || isOverPhone || isOverPortfolio) {
+            document.body.style.cursor = 'pointer';
+          } else {
+            document.body.style.cursor = 'default';
+          }
+        } else {
+          document.body.style.cursor = 'default';
+        }
       };
       window.addEventListener('mousemove', this.mouseMoveHandler);
+
+      // Reset cursor when mouse leaves canvas
+      this.mouseLeaveHandler = () => {
+        document.body.style.cursor = 'default';
+      };
+      this.canvas.addEventListener('mouseleave', this.mouseLeaveHandler);
     } else {
       // Mobile touch handlers for interactive 3D card
       this.touchStartHandler = (e: TouchEvent) => {
@@ -660,21 +750,51 @@ export class CardComponent extends LitElement {
     }
 
     // Determine which area was clicked/tapped based on V position (Y on texture)
-    // New layout: Email at ~0.65, Phone at ~0.70, Portfolio at ~0.85
+    // Email and phone are aligned with subtitle (at subtitleY)
+    // Portfolio is at height * 0.85
 
-    if (v >= 0.62 && v < 0.68) {
+    // Calculate actual positions based on texture coordinates
+    // subtitleY is approximately at height * 0.12 + nameLineHeight * 2 + height * 0.02
+    // With height = 1143, nameLineHeight ≈ 220, subtitleY ≈ 0.525
+    // Email is at subtitleY, Phone is at subtitleY + contactLineHeight
+    // Portfolio is at height * 0.85 = 0.85
+
+    const emailTop = 0.54; // Shifted down a bit more
+    const emailBottom = 0.62; // Email area
+    const emailLeft = 0.55; // Email text starts around here (expanded left)
+    const emailRight = 0.95; // Right edge with padding
+
+    const phoneTop = 0.61; // Shifted down a bit more
+    const phoneBottom = 0.69; // Phone area
+    const phoneLeft = 0.6; // Phone text is shorter (expanded left)
+    const phoneRight = 0.95;
+
+    const portfolioTop = 0.82; // Shifted down to align with actual text position
+    const portfolioBottom = 0.92; // Portfolio area
+    const portfolioLeft = 0.65; // Portfolio text is shorter (expanded left)
+    const portfolioRight = 0.95;
+
+    if (v >= emailTop && v < emailBottom && u >= emailLeft && u <= emailRight) {
       // Email area - copy to clipboard
       this.copyEmailToClipboard();
-    } else if (v >= 0.68 && v < 0.74) {
+    } else if (
+      v >= phoneTop &&
+      v < phoneBottom &&
+      u >= phoneLeft &&
+      u <= phoneRight
+    ) {
       // Phone area
       window.location.href = 'tel:+14697512467';
-    } else if (v >= 0.82 && v < 0.9) {
+    } else if (
+      v >= portfolioTop &&
+      v < portfolioBottom &&
+      u >= portfolioLeft &&
+      u <= portfolioRight
+    ) {
       // Portfolio link area
       window.location.href = '/';
-    } else {
-      // Default to email for any other click on card - copy to clipboard
-      this.copyEmailToClipboard();
     }
+    // No default action - only specific areas are clickable
   }
 
   private setupDeviceOrientation(): void {
@@ -767,8 +887,40 @@ export class CardComponent extends LitElement {
   render() {
     return html`
       <div class="card-container">
+        <div class="top-content">
+          <div class="content-wrapper">
+            <h2 class="section-title">Digital Business Card</h2>
+            <p class="section-description">
+              Hover over the card to interact, or click on contact information to connect.
+            </p>
+          </div>
+        </div>
         <canvas id="canvas"></canvas>
         <div class="toast-container"></div>
+        <div class="bottom-content">
+          <div class="content-wrapper">
+            <div class="bottom-grid">
+              <div class="bottom-item">
+                <h3 class="bottom-title">Let's Connect</h3>
+                <p class="bottom-text">
+                  Looking to collaborate on a project or have a question? 
+                  Click the card above to copy my email or call directly.
+                </p>
+              </div>
+              <div class="bottom-item">
+                <h3 class="bottom-title">Explore More</h3>
+                <p class="bottom-text">
+                  Check out my portfolio, read my blog, or connect on LinkedIn 
+                  to see more of my work and thoughts on software development.
+                </p>
+                <div class="bottom-links">
+                  <a href="/" class="bottom-link">View Portfolio</a>
+                  <a href="/blog" class="bottom-link">Read Blog</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="card-overlay">
           <div class="card-header">
             <h1 class="card-name">Ian Matson</h1>

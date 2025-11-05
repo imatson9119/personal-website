@@ -434,11 +434,11 @@ export class AboutComponent extends LitElement {
       ? mobileCameraOffset
       : defaultCameraOffset;
     // set ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
     scene.add(ambientLight);
 
     // set directional light
-    const light = new THREE.DirectionalLight(0xffffff, 3);
+    const light = new THREE.DirectionalLight(0xffffff, 4.0);
     light.position.set(0, 10, 5);
     scene.add(light);
 

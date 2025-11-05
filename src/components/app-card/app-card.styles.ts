@@ -29,15 +29,150 @@ export const ComponentStyles = css`
     overflow: hidden;
   }
 
+  .top-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 3rem 2rem 2rem;
+    background-color: transparent;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    pointer-events: auto;
+  }
+
+  .section-title {
+    font-family: var(--header-font-stack);
+    font-size: 2rem;
+    color: var(--secondary-one);
+    margin: 0 0 0.75rem 0;
+    font-weight: 400;
+  }
+
+  .section-description {
+    font-family: var(--font-stack);
+    font-size: 1rem;
+    color: rgba(234, 240, 206, 0.8);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
   #canvas {
     width: 100vw;
     height: 100vh;
     display: block;
   }
 
+  .bottom-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 3rem 2rem;
+    background-color: transparent;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .bottom-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    pointer-events: auto;
+  }
+
+  .bottom-title {
+    font-family: var(--header-font-stack);
+    font-size: 1.5rem;
+    color: var(--secondary-one);
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .bottom-text {
+    font-family: var(--font-stack);
+    font-size: 1rem;
+    color: rgba(234, 240, 206, 0.8);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .bottom-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .bottom-link {
+    font-family: var(--font-stack);
+    font-size: 1rem;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-weight: 500;
+  }
+
+  .bottom-link:hover {
+    color: var(--secondary-one);
+  }
+
   @media (max-width: 768px) {
     .card-container {
       padding: 0;
+    }
+
+    .top-content {
+      padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .section-description {
+      font-size: 0.9rem;
+    }
+
+    .bottom-content {
+      padding: 1.5rem 1rem;
+    }
+
+    .bottom-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .bottom-title {
+      font-size: 1rem;
+    }
+
+    .bottom-text {
+      font-size: 0.8rem;
+    }
+
+    .bottom-link {
+      font-size: 0.85rem;
+    }
+
+    .bottom-links {
+      gap: 1rem;
     }
   }
 
@@ -97,6 +232,7 @@ export const ComponentStyles = css`
     color: var(--primary);
     text-decoration: none;
     transition: color 0.2s ease;
+    cursor: pointer;
   }
 
   .contact-item a:hover {
@@ -122,6 +258,7 @@ export const ComponentStyles = css`
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
+    cursor: pointer;
   }
 
   .portfolio-link a:hover {
