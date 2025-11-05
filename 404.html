@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Ian Matson</title>
+    <script>
+      // GitHub Pages 404.html redirect for SPA routing
+      // When GitHub Pages serves this 404.html, the URL is still the original path (e.g., /card)
+      // We need to load index.html with the path preserved
+      // Store the current path before redirecting
+      sessionStorage.setItem('redirectPath', window.location.pathname + window.location.search + window.location.hash);
+      // Redirect to index.html
+      window.location.replace('/index.html');
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>
+
