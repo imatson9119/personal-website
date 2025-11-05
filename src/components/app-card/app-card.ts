@@ -45,8 +45,6 @@ export class CardComponent extends LitElement {
 
   private touchCancelHandler?: (e: TouchEvent) => void;
 
-  private orientationHandler?: (e: DeviceOrientationEvent) => void;
-
   private resizeTimeout?: number;
 
   private toastContainer?: HTMLDivElement;
@@ -107,9 +105,6 @@ export class CardComponent extends LitElement {
     }
     if (this.touchCancelHandler && this.canvas) {
       this.canvas.removeEventListener('touchcancel', this.touchCancelHandler);
-    }
-    if (this.orientationHandler) {
-      window.removeEventListener('deviceorientation', this.orientationHandler);
     }
     if (this.resizeTimeout) {
       window.clearTimeout(this.resizeTimeout);
@@ -669,33 +664,6 @@ export class CardComponent extends LitElement {
           }
         }, 100);
       }
-
-      // Device orientation support for tilt-based rotation (optional enhancement)
-      // Check if requestPermission exists (iOS 13+)
-      const DeviceOrientationEventConstructor =
-        window.DeviceOrientationEvent as typeof DeviceOrientationEvent & {
-          requestPermission?: () => Promise<PermissionState>;
-        };
-
-      if (
-        DeviceOrientationEventConstructor &&
-        typeof DeviceOrientationEventConstructor.requestPermission ===
-          'function'
-      ) {
-        // iOS 13+ requires permission
-        DeviceOrientationEventConstructor.requestPermission()
-          .then((response: PermissionState) => {
-            if (response === 'granted') {
-              this.setupDeviceOrientation();
-            }
-          })
-          .catch(() => {
-            // Permission denied or not available, that's okay
-          });
-      } else {
-        // Android and older iOS
-        this.setupDeviceOrientation();
-      }
     }
 
     // Handle resize - debounced to prevent excessive updates
@@ -844,32 +812,6 @@ export class CardComponent extends LitElement {
       );
     }
     // No default action - only specific areas are clickable
-  }
-
-  private setupDeviceOrientation(): void {
-    this.orientationHandler = (e: DeviceOrientationEvent) => {
-      if (!this.isTouching && e.beta !== null && e.gamma !== null) {
-        // Convert device orientation to card rotation
-        // beta: front-to-back tilt (-180 to 180)
-        // gamma: left-to-right tilt (-90 to 90)
-        const normalizedBeta = (e.beta || 0) / 90; // Normalize to -1 to 1
-        const normalizedGamma = (e.gamma || 0) / 90; // Normalize to -1 to 1
-
-        // Apply subtle rotation based on device tilt
-        // Clamp to prevent extreme rotations
-        this.targetRotation.x = Math.max(
-          -0.2,
-          Math.min(0.2, normalizedBeta * 0.15),
-        );
-        this.targetRotation.y = Math.max(
-          -0.2,
-          Math.min(0.2, normalizedGamma * 0.15),
-        );
-      }
-    };
-    if (this.orientationHandler) {
-      window.addEventListener('deviceorientation', this.orientationHandler);
-    }
   }
 
   private handleEmailClick = (e: Event): void => {
