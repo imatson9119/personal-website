@@ -2,11 +2,10 @@ import { css } from 'lit';
 
 export const ComponentStyles = css`
   .card-container {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     padding: 0;
     margin: 0;
     background-color: #393939;
@@ -25,20 +24,13 @@ export const ComponentStyles = css`
       -1px -1px,
       -1px -1px;
     box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   .top-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     padding: 3rem 2rem 2rem;
     background-color: transparent;
-    z-index: 10;
-    pointer-events: none;
   }
 
   .content-wrapper {
@@ -53,6 +45,20 @@ export const ComponentStyles = css`
     color: var(--secondary-one);
     margin: 0 0 0.75rem 0;
     font-weight: 400;
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: '';
+    background: rgba(234, 240, 206, 0.16);
+    position: absolute;
+    top: 50%;
+    z-index: -1;
+    left: 1rem;
+    right: -1rem;
+    height: 60%;
   }
 
   .section-description {
@@ -64,22 +70,29 @@ export const ComponentStyles = css`
     max-width: 600px;
   }
 
+  .canvas-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
   #canvas {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 1.75 / 1.3;
     display: block;
+    margin: 0 auto;
+    padding: 0;
   }
 
   .bottom-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     padding: 3rem 2rem;
     background-color: transparent;
-    z-index: 10;
-    pointer-events: none;
   }
 
   .bottom-grid {
@@ -95,6 +108,7 @@ export const ComponentStyles = css`
     flex-direction: column;
     gap: 1rem;
     pointer-events: auto;
+    align-items: flex-start;
   }
 
   .bottom-title {
@@ -103,6 +117,20 @@ export const ComponentStyles = css`
     color: var(--secondary-one);
     margin: 0;
     font-weight: 400;
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+  }
+
+  .bottom-title::after {
+    content: '';
+    background: rgba(234, 240, 206, 0.16);
+    position: absolute;
+    top: 50%;
+    z-index: -1;
+    left: 1rem;
+    right: -1rem;
+    height: 60%;
   }
 
   .bottom-text {
@@ -125,16 +153,36 @@ export const ComponentStyles = css`
     font-size: 1rem;
     color: var(--accent);
     text-decoration: none;
-    transition: color 0.2s ease;
-    font-weight: 500;
+    background: rgba(187, 190, 100, 0.2);
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition:
+      transform 0.3s ease-out,
+      background-color 0.2s ease-out,
+      color 0.2s ease-out;
   }
 
   .bottom-link:hover {
-    color: var(--secondary-one);
+    background: var(--accent);
+    color: white;
+  }
+
+  .blog-link {
+    background: rgba(175, 147, 204, 0.2);
+    color: #af93cc;
+  }
+
+  .blog-link:hover {
+    background: #af93cc;
+    color: white;
   }
 
   @media (max-width: 768px) {
     .card-container {
+      padding: 0;
+    }
+
+    .canvas-wrapper {
       padding: 0;
     }
 
@@ -267,7 +315,7 @@ export const ComponentStyles = css`
 
   @media (max-width: 768px) {
     .card-container {
-      padding: 1rem;
+      padding: 0;
     }
 
     .business-card {

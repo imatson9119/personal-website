@@ -198,7 +198,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Website: [ian-matson.com](https://ian-matson.com)
 - GitHub: [@imatson9119](https://github.com/imatson9119)
-- LinkedIn: [ian-matson](https://www.linkedin.com/in/ian-matson/)
+- LinkedIn: [ian-matson](https://www.linkedin.com/in/ianmatson/)
 
 ---
 

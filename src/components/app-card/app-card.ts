@@ -61,6 +61,8 @@ export class CardComponent extends LitElement {
 
   private hasMoved = false;
 
+  private lastTouchTime = 0;
+
   private raycaster?: THREE.Raycaster;
 
   private mouse = new THREE.Vector2();
@@ -187,7 +189,7 @@ export class CardComponent extends LitElement {
 
     // Title - Purple color from main page
     ctx.fillStyle = '#443850'; // Main page purple color
-    ctx.font = `bold ${width * 0.022}px ${bodyFont}`;
+    ctx.font = `bold ${width * 0.026}px ${bodyFont}`; // Increased from 0.022
     ctx.letterSpacing = '1px'; // Reduced from 2px for better readability
     const subtitleY = height * 0.12 + nameLineHeight * 2 + height * 0.02;
     ctx.fillText('TECHNICAL PRODUCT PARTNER', width * 0.08, subtitleY);
@@ -195,9 +197,9 @@ export class CardComponent extends LitElement {
 
     // Tagline - Subtle, refined with better line spacing
     ctx.fillStyle = 'rgba(45, 37, 55, 0.8)'; // Dark color with slight transparency
-    ctx.font = `${width * 0.024}px ${bodyFont}`;
-    const taglineLineHeight = width * 0.024 * 1.4; // Better line spacing
-    const taglineStartY = height * 0.12 + nameLineHeight * 2 + height * 0.08;
+    ctx.font = `${width * 0.028}px ${bodyFont}`; // Increased from 0.024
+    const taglineLineHeight = width * 0.028 * 1.4; // Better line spacing
+    const taglineStartY = height * 0.12 + nameLineHeight * 2 + height * 0.12; // Increased spacing from 0.08
     ctx.fillText('Turning ideas into', width * 0.08, taglineStartY);
     ctx.fillText(
       'high-quality products',
@@ -210,27 +212,65 @@ export class CardComponent extends LitElement {
       taglineStartY + taglineLineHeight * 2,
     );
 
-    // Contact section - Right side, aligned with subtitle
+    // Contact section - Right side, aligned with tagline
     ctx.textAlign = 'right';
     ctx.fillStyle = 'rgba(45, 37, 55, 0.9)'; // Dark color for white background
-    ctx.font = `${width * 0.026}px ${bodyFont}`; // Increased from 0.021 to 0.026
-    const contactLineHeight = width * 0.026 * 1.5; // Proper line spacing for contact info
+    ctx.font = `${width * 0.03}px ${bodyFont}`; // Increased from 0.026
+    const contactLineHeight = width * 0.035 * 1.5; // Proper line spacing for contact info
+    const underlineOffset = width * 0.035 * 0.8; // Much lower offset below text for underline
 
-    // Email - aligned with subtitle
-    const contactStartY = subtitleY;
-    ctx.fillText('howdy@ian-matson.com', width * 0.92, contactStartY);
+    // Email - aligned with tagline
+    const contactStartY = taglineStartY;
+    const emailText = 'Email';
+    ctx.fillText(emailText, width * 0.92, contactStartY);
+    // Draw underline for Email
+    const emailWidth = ctx.measureText(emailText).width;
+    ctx.strokeStyle = 'rgba(45, 37, 55, 0.9)'; // Dark color matching text
+    ctx.lineWidth = 2.5; // Thicker for better visibility
+    ctx.beginPath();
+    ctx.moveTo(width * 0.92 - emailWidth, contactStartY + underlineOffset);
+    ctx.lineTo(width * 0.92, contactStartY + underlineOffset);
+    ctx.stroke();
 
     // Phone
-    ctx.fillText(
-      '(469) 751-2467',
-      width * 0.92,
-      contactStartY + contactLineHeight,
+    const phoneText = 'Phone';
+    ctx.fillText(phoneText, width * 0.92, contactStartY + contactLineHeight);
+    // Draw underline for Phone
+    const phoneWidth = ctx.measureText(phoneText).width;
+    ctx.strokeStyle = 'rgba(45, 37, 55, 0.9)'; // Dark color matching text
+    ctx.lineWidth = 2.5; // Thicker for better visibility
+    ctx.beginPath();
+    ctx.moveTo(
+      width * 0.92 - phoneWidth,
+      contactStartY + contactLineHeight + underlineOffset,
     );
+    ctx.lineTo(
+      width * 0.92,
+      contactStartY + contactLineHeight + underlineOffset,
+    );
+    ctx.stroke();
 
-    // Portfolio link - Bottom right, purple color from main page
-    ctx.fillStyle = '#443850'; // Main page purple color
-    ctx.font = `500 ${width * 0.025}px ${bodyFont}`; // Increased from 0.02 to 0.025
-    ctx.fillText('portfolio →', width * 0.92, height * 0.85);
+    // LinkedIn
+    const linkedinText = 'LinkedIn';
+    ctx.fillText(
+      linkedinText,
+      width * 0.92,
+      contactStartY + contactLineHeight * 2,
+    );
+    // Draw underline for LinkedIn
+    const linkedinWidth = ctx.measureText(linkedinText).width;
+    ctx.strokeStyle = 'rgba(45, 37, 55, 0.9)'; // Dark color matching text
+    ctx.lineWidth = 2.5; // Thicker for better visibility
+    ctx.beginPath();
+    ctx.moveTo(
+      width * 0.92 - linkedinWidth,
+      contactStartY + contactLineHeight * 2 + underlineOffset,
+    );
+    ctx.lineTo(
+      width * 0.92,
+      contactStartY + contactLineHeight * 2 + underlineOffset,
+    );
+    ctx.stroke();
 
     // Subtle highlight on accent bar
     const highlightGradient = ctx.createLinearGradient(0, 0, width * 0.04, 0);
@@ -261,29 +301,30 @@ export class CardComponent extends LitElement {
   }
 
   private calculateZoom(): number {
-    // Calculate zoom based on device width (proportional scaling)
-    // Base width: 1920px (desktop) = zoom 5
-    // Narrower screens = further zoom out (higher z = more zoomed out, card appears smaller)
-    const baseWidth = 1920;
-    const currentWidth = this.canvas?.clientWidth || window.innerWidth;
-    const zoomBase = 5;
-    const zoomScale = baseWidth / currentWidth;
-    // Wider range: very narrow screens zoom out more, wide screens stay close
-    let minZoom = 10; // Increased for very narrow screens
-    let maxZoom = 5; // Stay close on wide screens
+    // Goal: Make card fill the canvas edge-to-edge regardless of canvas/window size
+    //
+    // Perspective camera with vertical FOV:
+    // - visible_height_at_distance_z = 2 × z × tan(FOV/2)
+    // - We want card height to match visible height
+    // - Card geometry: width=5, height=2.86 (aspect ratio 1.75:1)
+    //
+    // To fill canvas: visible_height = card_height
+    // So: z = card_height / (2 × tan(FOV/2))
+    //
+    // With FOV=50°: z = 2.86 / (2 × tan(25°)) = 2.86 / (2 × 0.466) ≈ 3.07
+    //
+    // For edge-to-edge, we want a bit of padding, so use ~3.5
+    // This is CONSTANT - doesn't depend on window size!
 
-    // Additional zoom out for mobile devices to make card smaller
-    if (isMobileDevice()) {
-      minZoom = 14; // Further zoom out on mobile
-      // Apply additional mobile scaling factor
-      const mobileMultiplier = 1.3; // Makes card 30% smaller on mobile
-      return Math.max(
-        minZoom,
-        Math.min(maxZoom, zoomBase * zoomScale * mobileMultiplier),
-      );
-    }
+    const cardHeight = 2.86; // From init3D
+    const fovRadians = (50 * Math.PI) / 180; // FOV in radians
+    const paddingFactor = 1.4; // Increased from 1.15 to zoom out more (40% padding)
 
-    return Math.max(minZoom, Math.min(maxZoom, zoomBase * zoomScale));
+    // Calculate distance to make card fill viewport with padding
+    const distance =
+      (cardHeight / (2 * Math.tan(fovRadians / 2))) * paddingFactor;
+
+    return distance;
   }
 
   private async init3D() {
@@ -295,8 +336,8 @@ export class CardComponent extends LitElement {
     // Create scene
     this.scene = new THREE.Scene();
 
-    // Create camera - zoom proportional to device width
-    const aspect = this.canvas.clientWidth / this.canvas.clientHeight;
+    // Create camera - fixed aspect ratio matching canvas (1.75 / 1.3 for more vertical space)
+    const aspect = 1.75 / 1.3;
     this.camera = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
     this.camera.position.z = this.calculateZoom();
 
@@ -307,6 +348,7 @@ export class CardComponent extends LitElement {
       antialias: true,
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
+    // Canvas maintains 1.75:1 aspect ratio via CSS, use actual dimensions
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
 
     // Create card geometry (business card ratio: 3.5" x 2" = 1.75:1)
@@ -351,6 +393,14 @@ export class CardComponent extends LitElement {
         !this.raycaster
       )
         return;
+
+      // Prevent double-firing on mobile (touch triggers both touch and click events)
+      // If a touch event was handled recently (within 500ms), ignore this click
+      const timeSinceLastTouch = Date.now() - this.lastTouchTime;
+      if (timeSinceLastTouch < 500) {
+        event.preventDefault();
+        return;
+      }
 
       const rect = this.canvas.getBoundingClientRect();
       this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -433,20 +483,22 @@ export class CardComponent extends LitElement {
 
           // Check if hovering over clickable areas
           // Text is right-aligned at u = 0.92, estimate left edge based on text width
-          const emailTop = 0.54; // Shifted down a bit more
-          const emailBottom = 0.62;
-          const emailLeft = 0.55; // Email text starts around here (expanded left)
+          // Contact section is now aligned with tagline (further down)
+          // All text is now short labels: "Email", "Phone", "LinkedIn"
+          const emailTop = 0.64; // Aligned with tagline
+          const emailBottom = 0.76; // Increased height for easier clicking
+          const emailLeft = 0.75; // Email text is shorter now
           const emailRight = 0.95; // Right edge with padding
 
-          const phoneTop = 0.61; // Shifted down a bit more
-          const phoneBottom = 0.69;
-          const phoneLeft = 0.6; // Phone text is shorter (expanded left)
+          const phoneTop = 0.71; // Phone after email
+          const phoneBottom = 0.83; // Increased height for easier clicking
+          const phoneLeft = 0.75; // Phone text is shorter now
           const phoneRight = 0.95;
 
-          const portfolioTop = 0.82; // Shifted down to align with actual text position
-          const portfolioBottom = 0.92;
-          const portfolioLeft = 0.65; // Portfolio text is shorter (expanded left)
-          const portfolioRight = 0.95;
+          const linkedinTop = 0.78; // LinkedIn after phone
+          const linkedinBottom = 0.9; // Increased height for easier clicking
+          const linkedinLeft = 0.7; // LinkedIn text
+          const linkedinRight = 0.95;
 
           const isOverEmail =
             v >= emailTop &&
@@ -458,13 +510,13 @@ export class CardComponent extends LitElement {
             v < phoneBottom &&
             u >= phoneLeft &&
             u <= phoneRight;
-          const isOverPortfolio =
-            v >= portfolioTop &&
-            v < portfolioBottom &&
-            u >= portfolioLeft &&
-            u <= portfolioRight;
+          const isOverLinkedin =
+            v >= linkedinTop &&
+            v < linkedinBottom &&
+            u >= linkedinLeft &&
+            u <= linkedinRight;
 
-          if (isOverEmail || isOverPhone || isOverPortfolio) {
+          if (isOverEmail || isOverPhone || isOverLinkedin) {
             document.body.style.cursor = 'pointer';
           } else {
             document.body.style.cursor = 'default';
@@ -546,6 +598,9 @@ export class CardComponent extends LitElement {
           this.isTouching = false;
 
           if (wasTap && e.changedTouches.length > 0 && this.canvas) {
+            // Mark that a touch event was just handled to prevent double-firing
+            this.lastTouchTime = Date.now();
+
             // Handle tap as click - trigger raycasting
             const touch = e.changedTouches[0];
             const rect = this.canvas.getBoundingClientRect();
@@ -655,7 +710,8 @@ export class CardComponent extends LitElement {
       const newZoom = this.calculateZoom();
 
       this.camera.position.z = newZoom;
-      this.camera.aspect = width / height;
+      // Maintain fixed aspect ratio (1.75 / 1.3 for more vertical space)
+      this.camera.aspect = 1.75 / 1.3;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(width, height);
     };
@@ -712,13 +768,6 @@ export class CardComponent extends LitElement {
       this.cardMesh.rotation.x = this.currentRotation.x;
       this.cardMesh.rotation.y = this.currentRotation.y;
 
-      // Automatic rotation back to center when idle (slower decay)
-      // Apply to both desktop and mobile for smooth return
-      if (!this.isTouching) {
-        this.targetRotation.x *= 0.98; // Slower decay (was 0.95)
-        this.targetRotation.y *= 0.98;
-      }
-
       // Render
       if (this.renderer && this.scene && this.camera) {
         this.renderer.render(this.scene, this.camera);
@@ -750,29 +799,25 @@ export class CardComponent extends LitElement {
     }
 
     // Determine which area was clicked/tapped based on V position (Y on texture)
-    // Email and phone are aligned with subtitle (at subtitleY)
-    // Portfolio is at height * 0.85
+    // Contact section is now aligned with tagline (further down)
 
     // Calculate actual positions based on texture coordinates
-    // subtitleY is approximately at height * 0.12 + nameLineHeight * 2 + height * 0.02
-    // With height = 1143, nameLineHeight ≈ 220, subtitleY ≈ 0.525
-    // Email is at subtitleY, Phone is at subtitleY + contactLineHeight
-    // Portfolio is at height * 0.85 = 0.85
+    // Contact section is aligned with taglineStartY
 
-    const emailTop = 0.54; // Shifted down a bit more
-    const emailBottom = 0.62; // Email area
-    const emailLeft = 0.55; // Email text starts around here (expanded left)
+    const emailTop = 0.64; // Aligned with tagline
+    const emailBottom = 0.76; // Email area - increased height for easier clicking
+    const emailLeft = 0.75; // Email text is shorter now
     const emailRight = 0.95; // Right edge with padding
 
-    const phoneTop = 0.61; // Shifted down a bit more
-    const phoneBottom = 0.69; // Phone area
-    const phoneLeft = 0.6; // Phone text is shorter (expanded left)
+    const phoneTop = 0.71; // Phone after email
+    const phoneBottom = 0.83; // Phone area - increased height for easier clicking
+    const phoneLeft = 0.75; // Phone text is shorter now
     const phoneRight = 0.95;
 
-    const portfolioTop = 0.82; // Shifted down to align with actual text position
-    const portfolioBottom = 0.92; // Portfolio area
-    const portfolioLeft = 0.65; // Portfolio text is shorter (expanded left)
-    const portfolioRight = 0.95;
+    const linkedinTop = 0.78; // LinkedIn after phone
+    const linkedinBottom = 0.9; // Increased height for easier clicking
+    const linkedinLeft = 0.7; // LinkedIn text is shorter now
+    const linkedinRight = 0.95;
 
     if (v >= emailTop && v < emailBottom && u >= emailLeft && u <= emailRight) {
       // Email area - copy to clipboard
@@ -786,13 +831,17 @@ export class CardComponent extends LitElement {
       // Phone area
       window.location.href = 'tel:+14697512467';
     } else if (
-      v >= portfolioTop &&
-      v < portfolioBottom &&
-      u >= portfolioLeft &&
-      u <= portfolioRight
+      v >= linkedinTop &&
+      v < linkedinBottom &&
+      u >= linkedinLeft &&
+      u <= linkedinRight
     ) {
-      // Portfolio link area
-      window.location.href = '/';
+      // LinkedIn area
+      window.open(
+        'https://linkedin.com/in/ianmatson',
+        '_blank',
+        'noopener,noreferrer',
+      );
     }
     // No default action - only specific areas are clickable
   }
@@ -891,31 +940,34 @@ export class CardComponent extends LitElement {
           <div class="content-wrapper">
             <h2 class="section-title">Digital Business Card</h2>
             <p class="section-description">
-              Hover over the card to interact, or click on contact information to connect.
+              Hover over the card to interact, or click on contact information
+              to connect.
             </p>
           </div>
         </div>
-        <canvas id="canvas"></canvas>
+        <div class="canvas-wrapper">
+          <canvas id="canvas"></canvas>
+        </div>
         <div class="toast-container"></div>
         <div class="bottom-content">
           <div class="content-wrapper">
             <div class="bottom-grid">
               <div class="bottom-item">
-                <h3 class="bottom-title">Let's Connect</h3>
+                <h3 class="bottom-title">🤝 Let's Connect</h3>
                 <p class="bottom-text">
-                  Looking to collaborate on a project or have a question? 
-                  Click the card above to copy my email or call directly.
+                  Looking to collaborate on a project or have a question? Click
+                  the card above to copy my email or call directly.
                 </p>
               </div>
               <div class="bottom-item">
-                <h3 class="bottom-title">Explore More</h3>
+                <h3 class="bottom-title">🚀 Explore More</h3>
                 <p class="bottom-text">
-                  Check out my portfolio, read my blog, or connect on LinkedIn 
+                  Check out my portfolio, read my blog, or connect on LinkedIn
                   to see more of my work and thoughts on software development.
                 </p>
                 <div class="bottom-links">
                   <a href="/" class="bottom-link">View Portfolio</a>
-                  <a href="/blog" class="bottom-link">Read Blog</a>
+                  <a href="/blog" class="bottom-link blog-link">Read Blog</a>
                 </div>
               </div>
             </div>
@@ -963,9 +1015,6 @@ export class CardComponent extends LitElement {
               </svg>
               <a href="tel:+14697512467">(469)-751-2467</a>
             </div>
-          </div>
-          <div class="portfolio-link">
-            <a href="/">View Portfolio →</a>
           </div>
         </div>
       </div>
