@@ -1,7 +1,6 @@
 import { css } from 'lit';
 
 export const ComponentStyles = css`
-
   .main-container {
     display: flex;
     flex-direction: column;
@@ -10,12 +9,23 @@ export const ComponentStyles = css`
     width: 100%;
     position: relative;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: clip;
     color: var(--secondary-one);
     background-color: #393939;
-    background-image:  linear-gradient(#3F3F3F 2px, transparent 2px), linear-gradient(90deg, #3F3F3F 2px, transparent 2px), linear-gradient(#3F3F3F 1px, transparent 1px), linear-gradient(90deg, #3F3F3F 1px, #393939 1px);
-    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+    background-image: linear-gradient(#3f3f3f 2px, transparent 2px),
+      linear-gradient(90deg, #3f3f3f 2px, transparent 2px),
+      linear-gradient(#3f3f3f 1px, transparent 1px),
+      linear-gradient(90deg, #3f3f3f 1px, #393939 1px);
+    background-size:
+      100px 100px,
+      100px 100px,
+      20px 20px,
+      20px 20px;
+    background-position:
+      -2px -2px,
+      -2px -2px,
+      -1px -1px,
+      -1px -1px;
     border: 3px solid var(--secondary-one);
   }
 
@@ -60,7 +70,6 @@ export const ComponentStyles = css`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
   }
 
   app-navbar {
@@ -72,12 +81,13 @@ export const ComponentStyles = css`
   }
 
   app-portfolio {
-    margin-bottom: 20vw
+    margin-bottom: 30vw;
   }
 
   .wave-container {
     position: relative;
     width: 100%;
+    z-index: 20;
   }
 
   .wave {
@@ -95,7 +105,7 @@ export const ComponentStyles = css`
   }
 
   .wave.bottom svg {
-    bottom: 0; 
+    bottom: 0;
   }
 
   .wave.top svg {
@@ -115,7 +125,7 @@ export const ComponentStyles = css`
     position: absolute;
     height: calc(var(--offset));
     width: 100%;
-    background: #EAF0CE1a;
+    background: #eaf0ce1a;
     transform: translateY(100%);
   }
 
@@ -124,7 +134,7 @@ export const ComponentStyles = css`
     position: absolute;
     height: calc(var(--offset));
     width: 100%;
-    background: #EAF0CE1a;
+    background: #eaf0ce1a;
   }
 
   .wave-text {
@@ -155,7 +165,9 @@ export const ComponentStyles = css`
     vector-effect: non-scaling-stroke;
   }
 
-  #wave-curve1, #wave-curve2, #wave-curve3 {
+  #wave-curve1,
+  #wave-curve2,
+  #wave-curve3 {
     fill: none;
     stroke: none;
   }
@@ -181,7 +193,7 @@ export const ComponentStyles = css`
       margin-bottom: 50vw;
     }
   }
-  
+
   /* Additional media queries for the logo on smaller screens */
   @media (max-width: 768px) {
     .logo {
@@ -190,7 +202,7 @@ export const ComponentStyles = css`
       padding: 0.4rem;
     }
   }
-  
+
   @media (max-width: 512px) {
     .logo {
       top: 15px;
@@ -199,7 +211,7 @@ export const ComponentStyles = css`
       font-size: 0.9em;
     }
   }
-  
+
   @media (max-width: 375px) {
     .logo {
       top: 12px;

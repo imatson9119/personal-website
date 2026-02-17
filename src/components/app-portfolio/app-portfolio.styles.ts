@@ -16,6 +16,7 @@ export const ComponentStyles = css`
 
   .text {
     padding-top: 30vw;
+    padding-bottom: 6vw;
     width: 50%;
     display: flex;
     flex-direction: column;

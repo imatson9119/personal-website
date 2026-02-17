@@ -60,10 +60,6 @@ export class PortfolioComponent extends LitElement {
         </div>
       </div>
       <app-project></app-project>
-      <div class='wave-container bottom'>
-        <div class='rectangle bottom one'></div>
-        <div class='rectangle bottom two'></div>
-      </div>
     `;
   }
 }
