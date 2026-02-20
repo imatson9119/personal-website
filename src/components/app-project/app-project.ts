@@ -321,8 +321,10 @@ export class ProjectComponent extends LitElement {
     const bx = this.lerpedMouse[0] / window.innerWidth;
     const by = this.lerpedMouse[1] / window.innerHeight;
     const borderOffset = 3;
-    this.stickyViewport.style.backgroundPosition =
-      `${-bx * 50 + borderOffset}px ${-by * 50 + borderOffset}px`;
+    const rect = this.stickyViewport.getBoundingClientRect();
+    const gridX = borderOffset - bx * 50 - rect.left;
+    const gridY = borderOffset - window.scrollY - by * 50 - rect.top;
+    this.stickyViewport.style.backgroundPosition = `${gridX}px ${gridY}px`;
   }
 
   private applySceneParallax() {
@@ -369,7 +371,10 @@ export class ProjectComponent extends LitElement {
     if (!this.outerWrapper) return;
 
     const rect = this.outerWrapper.getBoundingClientRect();
-    const isInScrollZone = rect.top <= 0 && rect.bottom >= window.innerHeight;
+    const scrollZonePadding = 2;
+    const isInScrollZone =
+      rect.top <= scrollZonePadding &&
+      rect.bottom >= window.innerHeight - scrollZonePadding;
     if (!isInScrollZone) return;
 
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {

@@ -339,6 +339,7 @@ export const ComponentStyles = css`
       margin-left: 0;
       z-index: auto;
       overflow: visible;
+      background: none;
     }
 
     .horizontal-track {
