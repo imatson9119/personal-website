@@ -5,8 +5,8 @@
     <link>https://ian-matson.com/blog/</link>
     <description>Software engineering insights, tutorials, and thoughts by Ian Matson</description>
     <language>en-us</language>
-    <pubDate>2025-09-19T00:00:00.000Z</pubDate>
-    <lastBuildDate>2025-09-19T00:00:00.000Z</lastBuildDate>
+    <pubDate>2026-03-14T00:00:00.000Z</pubDate>
+    <lastBuildDate>2026-03-14T00:00:00.000Z</lastBuildDate>
     <atom:link href="https://ian-matson.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     
     
@@ -68,6 +68,31 @@
           
             
               <category>ai</category>
+            
+          
+        
+      </item>
+    
+      <item>
+        <title>Introducing Cosmonaut: Interactive Fiction, Reimagined</title>
+        <link>https://ian-matson.com/blog/introducing-cosmonaut-interactive-fiction-reimagined/</link>
+        <description>Today I&#39;m launching Cosmonaut into open beta — an interactive fiction platform powered by generative AI where every story is unique, every world is dynamic, and every choice actually matters.</description>
+        <pubDate>2026-03-14T00:00:00.000Z</pubDate>
+        <guid>https://ian-matson.com/blog/introducing-cosmonaut-interactive-fiction-reimagined/</guid>
+        
+          
+            
+          
+            
+              <category>technology</category>
+            
+          
+            
+              <category>ai</category>
+            
+          
+            
+              <category>cosmonaut</category>
             
           
         
