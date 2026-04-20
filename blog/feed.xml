@@ -5,8 +5,8 @@
     <link>https://ian-matson.com/blog/</link>
     <description>Software engineering insights, tutorials, and thoughts by Ian Matson</description>
     <language>en-us</language>
-    <pubDate>2026-03-14T00:00:00.000Z</pubDate>
-    <lastBuildDate>2026-03-14T00:00:00.000Z</lastBuildDate>
+    <pubDate>2026-04-20T00:00:00.000Z</pubDate>
+    <lastBuildDate>2026-04-20T00:00:00.000Z</lastBuildDate>
     <atom:link href="https://ian-matson.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     
     
@@ -93,6 +93,31 @@
           
             
               <category>cosmonaut</category>
+            
+          
+        
+      </item>
+    
+      <item>
+        <title>What I&#39;m doing with OpenClaw</title>
+        <link>https://ian-matson.com/blog/what-i-m-doing-with-openclaw/</link>
+        <description>A few months of tinkering with OpenClaw, the three use cases that have actually stuck, and an honest take on what it is and isn&#39;t good for right now.</description>
+        <pubDate>2026-04-20T00:00:00.000Z</pubDate>
+        <guid>https://ian-matson.com/blog/what-i-m-doing-with-openclaw/</guid>
+        
+          
+            
+          
+            
+              <category>technology</category>
+            
+          
+            
+              <category>ai</category>
+            
+          
+            
+              <category>openclaw</category>
             
           
         
