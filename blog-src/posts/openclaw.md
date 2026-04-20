@@ -4,7 +4,7 @@ date: 2026-04-20
 description: "A few months of tinkering with OpenClaw, the three use cases that have actually stuck, and an honest take on what it is and isn't good for right now."
 tags: ['technology', 'ai', 'openclaw']
 image: '/blog/assets/openclaw.webp'
-draft: true
+draft: false
 ---
 
 When OpenClaw first released, like many of you, I was quick to throw it on a spare computer and try it out. It seemed like it had a great deal of potential to change the way I lived - people were constantly posting use-cases and ways it was "revolutionizing" their lives.
