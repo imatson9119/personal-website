@@ -3,6 +3,7 @@ import { customElement, queryAll } from 'lit/decorators.js';
 import { ComponentStyles } from './app-project.styles.js';
 import { MainStyles } from '../../styles.js';
 import { getAssetPath } from '../../utils.js';
+import posthog from '../../posthog.js';
 
 const MOBILE_BREAKPOINT = 1024;
 
@@ -304,10 +305,8 @@ export class ProjectComponent extends LitElement {
 
   private startParallaxLoop() {
     const update = () => {
-      this.lerpedMouse[0] +=
-        (this.mousePos[0] - this.lerpedMouse[0]) * 0.03;
-      this.lerpedMouse[1] +=
-        (this.mousePos[1] - this.lerpedMouse[1]) * 0.03;
+      this.lerpedMouse[0] += (this.mousePos[0] - this.lerpedMouse[0]) * 0.03;
+      this.lerpedMouse[1] += (this.mousePos[1] - this.lerpedMouse[1]) * 0.03;
 
       this.syncBackgroundPosition();
       this.applySceneParallax();
@@ -479,6 +478,11 @@ export class ProjectComponent extends LitElement {
                       ${project.link
                         ? html`<a
                             @mousemove=${this.buttonHoverAnimation}
+                            @click=${() =>
+                              posthog.capture('project link clicked', {
+                                project_title: project.title,
+                                project_url: project.link,
+                              })}
                             class="link"
                             href="${project.link}"
                             target="_blank"
@@ -489,6 +493,11 @@ export class ProjectComponent extends LitElement {
                       ${project.github
                         ? html`<a
                             @mousemove=${this.buttonHoverAnimation}
+                            @click=${() =>
+                              posthog.capture('project github clicked', {
+                                project_title: project.title,
+                                github_url: project.github,
+                              })}
                             class="github"
                             href="${project.github}"
                             target="_blank"

@@ -24,3 +24,5 @@
 storybook-static
 custom-elements.json
 .obsidian
+.env
+/src/env.ts

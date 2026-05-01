@@ -10,10 +10,11 @@
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "prepare": "husky",
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js && cp -r assets dist/assets && npm run blog:build && cp -r blog dist/blog && mkdir -p dist/card && cp dist/index.html dist/card/index.html && (cp sitemap.xml dist/sitemap.xml 2>/dev/null || cp blog/sitemap.xml dist/sitemap.xml 2>/dev/null || true) && npm run analyze -- --exclude dist",
+    "generate:env": "node scripts/generate-env.mjs",
+    "build": "node scripts/generate-env.mjs && rimraf dist && tsc && rollup -c rollup.config.js && cp -r assets dist/assets && npm run blog:build && cp -r blog dist/blog && mkdir -p dist/card && cp dist/index.html dist/card/index.html && (cp sitemap.xml dist/sitemap.xml 2>/dev/null || cp blog/sitemap.xml dist/sitemap.xml 2>/dev/null || true) && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
-    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server --config web-dev-server.config.js\"",
+    "start": "node scripts/generate-env.mjs && tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server --config web-dev-server.config.js\"",
     "deploy": "yarn build && gh-pages -d dist --cname ian-matson.com",
     "dev": "concurrently -k -r \"yarn blog:dev\" \"yarn start\"",
     "blog:dev": "cd blog-src && npx @11ty/eleventy --config=.eleventy.cjs --watch --serve=false",
@@ -23,10 +24,11 @@
   },
   "dependencies": {
     "lit": "^3.1.4",
+    "posthog-js": "^1.372.6",
     "three": "^0.169.0"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy": "^3.1.5",
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@open-wc/eslint-config": "^12.0.3",
     "@rollup/plugin-babel": "^6.0.4",

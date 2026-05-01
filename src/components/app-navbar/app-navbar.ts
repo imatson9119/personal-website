@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { ComponentStyles } from './app-navbar.styles.js';
 import { MainStyles } from '../../styles.js';
+import posthog from '../../posthog.js';
 
 @customElement('app-navbar')
 export class NavbarComponent extends LitElement {
@@ -17,15 +18,18 @@ export class NavbarComponent extends LitElement {
     return html`
       <div class="navbar">
         <div class="links">
-          <a href="https://github.com/imatson9119">
+          <a
+            href="https://github.com/imatson9119"
+            @click=${() => posthog.capture('github profile clicked')}
+          >
             <button @mousemove=${this.buttonHoverAnimation}>github</button>
           </a>
-          <a href="/blog">
+          <a href="/blog" @click=${() => posthog.capture('blog clicked')}>
             <button @mousemove=${this.buttonHoverAnimation}>blog</button>
           </a>
           <button
             @mousemove=${this.buttonHoverAnimation}
-            @click=${() => this.navigate('contact')}
+            @click=${() => this.navigateAndTrack('contact')}
           >
             contact
           </button>
@@ -42,6 +46,11 @@ export class NavbarComponent extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  navigateAndTrack(id: string) {
+    posthog.capture('contact section opened');
+    this.navigate(id);
   }
 
   buttonHoverAnimation(event: MouseEvent) {

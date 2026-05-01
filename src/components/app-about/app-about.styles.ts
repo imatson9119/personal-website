@@ -1,6 +1,13 @@
 import { css } from 'lit';
 
 export const ComponentStyles = css`
+  :host {
+    display: block;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
   .about-container {
     display: flex;
     flex-direction: row;
@@ -13,16 +20,17 @@ export const ComponentStyles = css`
 
   #canvas {
     width: 50%;
+    flex-shrink: 0;
   }
 
   .text {
-    width: 50%;
-    padding: 2rem;
+    flex: 1;
+    min-width: 0;
+    padding: 2rem 4rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding-right: 6rem;
   }
 
   .title {

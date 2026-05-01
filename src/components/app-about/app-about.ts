@@ -5,6 +5,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MainStyles, isMobileDevice } from '../../styles.js';
 import { ComponentStyles } from './app-about.styles.js';
 import { getAssetPath } from '../../utils.js';
+import posthog from '../../posthog.js';
 
 const imageFaceNames = ['Cube001_2', 'Cube001_3', 'Cube001_4'];
 
@@ -427,6 +428,7 @@ export class AboutComponent extends LitElement {
       undefined,
       error => {
         console.error(error);
+        posthog.captureException(error);
       },
     );
 
@@ -454,13 +456,16 @@ export class AboutComponent extends LitElement {
   }
 
   boostSpin() {
+    posthog.capture('mug spin boosted');
     this.spinSpeed += this.spinBoostSpeed;
   }
 
   getCanvasWidth() {
-    return isMobileDevice()
-      ? this.mainContainer.clientWidth
-      : this.mainContainer.clientWidth / 2;
+    const containerWidth = Math.min(
+      this.mainContainer.clientWidth,
+      window.innerWidth,
+    );
+    return isMobileDevice() ? containerWidth : containerWidth / 2;
   }
 
   shuffleArray(array: number[]): number[] {
