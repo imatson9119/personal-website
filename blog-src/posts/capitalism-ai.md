@@ -4,7 +4,6 @@ date: 2026-05-21
 description: "Much of the worry about AI and capitalism focuses on jobs and inequality, but I think this misses the deeper issue - alignment."
 tags: ['ai', 'tech', 'capitalism', 'alignment']
 draft: false
-permalink: false
 image: '/blog/assets/ai_capitalism.webp'
 ---
 
