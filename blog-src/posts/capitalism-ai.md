@@ -7,8 +7,6 @@ draft: false
 image: '/blog/assets/ai_capitalism.webp'
 ---
 
-# Capitalism is only the first of our problems
-
 I've been thinking a lot about the impact of AI on the job market recently, and as a result, I ended up reading quite a few papers/articles on the threat that AI poses to capitalism. However, the more I read, the more it seemed to me that the authors of these papers were missing a key assumption in their proposed solutions to this issue - that every positive outcome, for capitalism for for humanity, is predicated first on the alignment of AI to the best interests of humankind.
 ### The Threat to Capitalism
 
