@@ -1,13 +1,17 @@
 ---
-title: 'Capitalism is the least of our problems'
+title: 'Capitalism is only the first of our problems'
 date: 2026-05-21
-description: ''
+description: "Much of the worry about AI and capitalism focuses on jobs and inequality, but I think this misses the deeper issue - alignment."
 tags: ['ai', 'tech', 'capitalism', 'alignment']
 draft: false
 permalink: false
+image: '/blog/assets/ai_capitalism.webp'
 ---
 
-### State of the Union
+# Capitalism is only the first of our problems
+
+I've been thinking a lot about the impact of AI on the job market recently, and as a result, I ended up reading quite a few papers/articles on the threat that AI poses to capitalism. However, the more I read, the more it seemed to me that the authors of these papers were missing a key assumption in their proposed solutions to this issue - that every positive outcome, for capitalism for for humanity, is predicated first on the alignment of AI to the best interests of humankind.
+### The Threat to Capitalism
 
 With the meteoric rise of AI over the past few years, many people have expressed worry over the future of capitalism, and for good reason. As AI displaces workers through automation, wealth is already beginning to concentrate towards those with AI assets. This rising wealth inequality is further exacerbated by a growing class of workers finding their skillsets have become de-valued due to AI-fueled supply.
 
@@ -33,7 +37,7 @@ I say this not to fear-monger, but to be pragmatic about the risks we're facing 
 
 You may object - "What of the systems and principles that we mentioned just before? Surely, if we play our cards right and implement UBI or pre-distribution or whatever it may be *perfectly* - there's hope!?" And I would actually agree - I think that if we manage AI well, the potential for the betterment of humankind is great. I think of Keynes' 1930 essay "Economic Possibilities for our Grandchildren"[^10] or Amodei's "Machines of Loving Grace"[^11] as visions of how everything can play out in a way that benefits humanity.
 
-However, in both scenarios, the elephant in the room is this: *we are no longer in the driver's seat*. 
+However, in both scenarios, the elephant in the room is this: *we are no longer in the driver's seat*. The threat further down the road is not inequality between human beings, it is *inequality between human beings and AI.*
 
 There's a reason that "seize the means of production" became a battle cry for Marxists in the 19th century, and it's the same reason I think we should think carefully about how we plan on employing AI. As AI agency grows, there will pass a point of no return upon which we will have willingly ceded the means of production. I don't want to wait until then to think about where the ship is sailing.
 ### Alignment as the Focus
@@ -43,7 +47,7 @@ Currently it seems like the direction of the vast majority of AI development is 
 
 This doesn't necessarily have to play out poorly - the thing that separates Amodei's *Machines of Loving Grace* from *2001: A Space Odyssey* is not the presence of powerful AI, but its values. The same capability pointed in different directions creates radically different futures - and the direction isn't decided by the capability. It's decided by us, now, in the way we build and train these systems.
 
-This is what makes alignment the central concern rather than a peripheral one. Today, we have found ourselves alive during a slim window of opportunity wherein we still have the agency to influence how this all plays out, long after we're gone. If we plan on abdicating so much of our agency as human beings, or even if there's a small risk of that, we need to be taking alignment more seriously, not just at AI companies, but as a society.
+This is what makes alignment the central concern rather than a peripheral one. Focusing on capitalism, or the job market, or inherent bias within AI certainly isn't a bad thing to do, but we must keep in mind that none of these solutions will matter if we don't get alignment right first. Today, we have found ourselves alive during a slim window of opportunity wherein we still have the agency to influence how this all plays out, long after we're gone. If we plan on abdicating so much of our agency as human beings, or even if there's a small risk of that, we need to be taking alignment more seriously, not just at AI companies, but as a society.
 
 [^1]: https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf
 
