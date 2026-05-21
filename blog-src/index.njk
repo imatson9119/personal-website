@@ -18,7 +18,7 @@ permalink: "{% if pagination.pageNumber == 0 %}/blog/{% else %}/blog/page/{{ pag
         <div class="post-item-image">
             <div class="post-preview-image">
               <a href="{{ post.url }}">
-                <img src="{{ post.data.image }}" alt="{{ post.data.title }}" />
+                <img src="{{ post.data.image }}" alt="{{ post.data.title }}" loading="lazy" width="180" height="180" />
               </a>
             </div>
         </div>
