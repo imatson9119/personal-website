@@ -282,11 +282,36 @@
     }
     .post-item + .post-item { border-top: 1px solid var(--border); }
     
-    .post-item-image img{
+    .post-item-image {
+      flex: none;
+      width: 180px;
+      height: 180px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background: var(--tag-bg);
+    }
+
+    @keyframes shimmer {
+      from { background-position: -180px 0; }
+      to { background-position: 180px 0; }
+    }
+
+    .post-item-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
+      background-size: 360px 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+    }
+
+    .post-item-image img {
       max-height: 180px;
       height: 180px;
       width: 180px;
-      max-width: auto;
+      max-width: none;
+      position: relative;
     }
 
     
