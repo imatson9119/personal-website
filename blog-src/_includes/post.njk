@@ -15,18 +15,7 @@ layout: layout.njk
     <h1 class="post-title">{{ title }}</h1>
     <div class="post-meta">
       <time datetime="{{ date.toISOString() }}">{{ date | dateDisplay }}</time>
-      {% if tags and tags.length > 0 %}
-        <span> • </span>
-        {% for tag in tags %}
-          {% if tag != "posts" %}
-            <a href="/blog/tags/{{ tag | slug }}/" class="tag">#{{ tag }}</a>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
     </div>
-    {% if description %}
-      <p style="font-style: italic; color: #666; margin-top: 1rem;">{{ description }}</p>
-    {% endif %}
   </header>
 
   <div class="post-body">
