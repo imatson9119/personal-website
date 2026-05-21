@@ -19,21 +19,21 @@
   <!-- Blog posts -->
   
   <url>
-    <loc>https://ian-matson.comfalse</loc>
+    <loc>https://ian-matson.com/blog/capitalism-is-only-the-first-of-our-problems/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://ian-matson.com/blog/what-i-m-doing-with-openclaw/</loc>
+    <loc>https://ian-matson.com/blog/what-i&#39;m-doing-with-openclaw/</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://ian-matson.com/blog/introducing-cosmonaut-interactive-fiction-reimagined/</loc>
+    <loc>https://ian-matson.com/blog/introducing-cosmonaut:-interactive-fiction-reimagined/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://ian-matson.com/blog/linkedin-games-as-a-recruiting-metric-continued/</loc>
+    <loc>https://ian-matson.com/blog/linkedin-games-as-a-recruiting-metric-(continued)/</loc>
     <lastmod>2025-09-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
