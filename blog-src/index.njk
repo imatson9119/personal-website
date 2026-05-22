@@ -42,7 +42,7 @@ permalink: "{% if pagination.pageNumber == 0 %}/blog/{% else %}/blog/page/{{ pag
           {% else %}
             <p class="post-description">{{ post.templateContent | excerpt(200) }}</p>
           {% endif %}
-          <a href="{{ post.url }}">Read more →</a>
+          <a class="read-more" href="{{ post.url }}">Read more →</a>
         </div>
       </li>
     {% endfor %}

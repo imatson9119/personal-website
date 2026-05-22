@@ -18,7 +18,7 @@
     "deploy": "yarn build && gh-pages -d dist --cname ian-matson.com",
     "dev": "concurrently -k -r \"yarn blog:dev\" \"yarn start\"",
     "blog:dev": "cd blog-src && npx @11ty/eleventy --config=.eleventy.cjs --watch --serve=false",
-    "blog:build": "cd blog-src && npx @11ty/eleventy --config=.eleventy.cjs",
+    "blog:build": "rimraf blog && cd blog-src && npx @11ty/eleventy --config=.eleventy.cjs",
     "blog:serve": "cd blog-src && npx @11ty/eleventy --serve --config=.eleventy.cjs --port=8081",
     "blog:watch": "cd blog-src && npx @11ty/eleventy --watch --config=.eleventy.cjs --quiet"
   },
