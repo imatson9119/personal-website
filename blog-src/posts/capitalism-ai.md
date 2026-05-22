@@ -47,23 +47,13 @@ This doesn't necessarily have to play out poorly - the thing that separates Amod
 This is what makes alignment the central concern rather than a peripheral one. Focusing on capitalism, or the job market, or inherent bias within AI certainly isn't a bad thing to do, but we must keep in mind that none of these solutions will matter if we don't get alignment right first. Today, we have found ourselves alive during a slim window of opportunity wherein we still have the agency to influence how this all plays out, long after we're gone. If we plan on abdicating so much of our agency as human beings, or even if there's a small risk of that, we need to be taking alignment more seriously, not just at AI companies, but as a society.
 
 [^1]: https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf
-
 [^2]: https://www.innovativehumancapital.com/article/342k-tech-jobs-lost-as-us-economy-hits-all-time-high-payroll
-
 [^3]: https://blogs.lse.ac.uk/businessreview/2025/04/29/universal-basic-income-as-a-new-social-contract-for-the-age-of-ai-1/
-
 [^4]: https://arxiv.org/pdf/2505.18687
-
 [^5]: https://www.agisocialcontract.org/anthology/windfall
-
 [^6]: https://www.noemamag.com/heres-how-to-share-ais-future-wealth/
-
 [^7]: https://www.cip.org/blog/predistribution-over-redistribution-beyond-the-windfall-clause
-
 [^8]: https://www.usworker.coop/what-is-a-worker-cooperative/
-
 [^9]: https://andonlabs.com/evals/vending-bench-2
-
 [^10]: https://www.almendron.com/tribuna/wp-content/uploads/2024/03/intro-and-section-i.pdf
-
 [^11]: https://www.darioamodei.com/essay/machines-of-loving-grace
