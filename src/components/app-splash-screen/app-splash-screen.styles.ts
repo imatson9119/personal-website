@@ -18,7 +18,7 @@ export const ComponentStyles = css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding-bottom: 25vw;
+    padding-bottom: 35vw;
     border-left: 3px solid;
     padding-left: 10px;
   }

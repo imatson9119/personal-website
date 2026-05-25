@@ -507,9 +507,9 @@ export class AboutComponent extends LitElement {
           </div>
           <br />
           <p>
-            I'm a freelance software engineer born and raised in Dallas, TX. I'm
-            always looking to learn, and have a deep appreciation for a good
-            challenge. Reach out and say hi!
+            I love to create beautiful things. I'm a software engineer by trade,
+            but I've worn many hats over the years and love a good challenge.
+            Got one for me? Hit that contact button!
           </p>
         </div>
       </div>

@@ -31,6 +31,8 @@ export class MainComponent extends LitElement {
 
   private resizeHandler?: () => void;
 
+  private waveAnimationFrameIds: number[] = [];
+
   static styles = [MainStyles, ComponentStyles];
 
   // Configuration for the three wave texts
@@ -140,6 +142,10 @@ export class MainComponent extends LitElement {
     if (this.resizeHandler) {
       window.removeEventListener('resize', this.resizeHandler);
     }
+    for (const animationFrameId of this.waveAnimationFrameIds) {
+      cancelAnimationFrame(animationFrameId);
+    }
+    this.waveAnimationFrameIds = [];
   }
 
   private finishedResizing() {
@@ -162,13 +168,15 @@ export class MainComponent extends LitElement {
 
     if (!textPath || !path) return;
 
-    textPath.textContent = config.baseText;
     const pathLength = path.getTotalLength();
-    const initialTextLength = textPath.getComputedTextLength();
+    const unitLength = measureWaveTextUnitLength(textPath, config.baseText);
 
-    config.repetitions = Math.ceil(pathLength / initialTextLength) + 1;
-    textPath.textContent = textPath.textContent!.repeat(config.repetitions);
-    config.unitLength = textPath.getComputedTextLength() / config.repetitions;
+    config.unitLength = unitLength;
+    config.repetitions = getWaveTextRepetitions(
+      pathLength,
+      config.unitLength,
+    );
+    textPath.textContent = config.baseText.repeat(config.repetitions);
   }
 
   backgroundAnimation() {
@@ -205,17 +213,11 @@ export class MainComponent extends LitElement {
     // Get the length of the text and path
     const pathLength = path.getTotalLength();
 
-    // Set initial text content (just one instance for measurement)
-    textPath.textContent = config.baseText;
-
-    // Force a reflow to ensure text is rendered before measuring
-    this.offsetHeight;
-
-    // Now measure the text length
-    const initialTextLength = textPath.getComputedTextLength();
-
-    // Calculate how many repetitions are needed
-    config.repetitions = Math.ceil(pathLength / initialTextLength) + 1;
+    config.unitLength = measureWaveTextUnitLength(textPath, config.baseText);
+    config.repetitions = getWaveTextRepetitions(
+      pathLength,
+      config.unitLength,
+    );
 
     // Now set the repeated text
     textPath.textContent = config.baseText.repeat(config.repetitions);
@@ -223,10 +225,7 @@ export class MainComponent extends LitElement {
     // Force another reflow to ensure the repeated text is rendered
     this.offsetHeight;
 
-    // Calculate unit length based on repeated text
-    config.unitLength = textPath.getComputedTextLength() / config.repetitions;
-
-    let lastTime = performance.now();
+    const startTime = performance.now();
     const speed = 100;
 
     // Set initial offset based on direction
@@ -237,35 +236,18 @@ export class MainComponent extends LitElement {
     }
 
     const animate = (currentTime: number) => {
-      const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
-      lastTime = currentTime;
-
-      const currentOffset = parseFloat(
-        textPath.getAttribute('startOffset') || '0',
-      );
-      const pixelsToMove = speed * deltaTime;
-
-      let newOffset;
-      if (config.direction === 'positive') {
-        // For positive direction, start at -unitLength and move in positive direction
-        // Reset when reaching 0
-        newOffset =
-          currentOffset >= 0
-            ? -config.unitLength
-            : currentOffset + pixelsToMove;
-      } else {
-        // For negative direction, move in negative direction and reset when reaching negative unit length
-        newOffset =
-          currentOffset <= -config.unitLength
-            ? 0
-            : currentOffset - pixelsToMove;
-      }
+      const elapsedSeconds = (currentTime - startTime) / 1000;
+      const distance = (elapsedSeconds * speed) % config.unitLength;
+      const newOffset =
+        config.direction === 'positive'
+          ? distance - config.unitLength
+          : -distance;
 
       textPath.setAttribute('startOffset', `${newOffset}`);
-      requestAnimationFrame(animate);
+      this.waveAnimationFrameIds[waveIndex] = requestAnimationFrame(animate);
     };
 
-    requestAnimationFrame(animate);
+    this.waveAnimationFrameIds[waveIndex] = requestAnimationFrame(animate);
   }
 
   scrollToId(id: string) {
@@ -467,4 +449,19 @@ export class MainComponent extends LitElement {
       </div>
     `;
   }
+}
+
+function getWaveTextRepetitions(pathLength: number, unitLength: number) {
+  return Math.ceil((pathLength + unitLength) / unitLength) + 1;
+}
+
+function measureWaveTextUnitLength(
+  textPath: SVGTextPathElement,
+  baseText: string,
+) {
+  textPath.textContent = baseText;
+  const singleTextLength = textPath.getComputedTextLength();
+
+  textPath.textContent = baseText.repeat(2);
+  return textPath.getComputedTextLength() - singleTextLength;
 }

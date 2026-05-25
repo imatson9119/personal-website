@@ -65,9 +65,9 @@ export class SplashScreenComponent extends LitElement {
           <br />
           <p>I'm <span class="accent">Ian Matson</span>.</p>
           <p>
-            If you're looking for a
-            <span class="accent">software developer</span> who loves to create,
-            you're in the right place. Let's
+            If you're looking for an AI-native
+            <span class="accent">founding engineer</span> who loves to move
+            fast, you're in the right place. Let's
             <span class="accent">build something amazing</span> together!
           </p>
         </div>
