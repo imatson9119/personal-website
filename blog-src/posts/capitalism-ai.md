@@ -7,7 +7,7 @@ draft: false
 image: '/blog/assets/ai_capitalism.webp'
 ---
 
-I've been thinking a lot about the impact of AI on the job market recently, and as a result, I ended up reading quite a few papers/articles on the threat that AI poses to capitalism. However, the more I read, the more it seemed to me that the authors of these papers were missing a key assumption in their proposed solutions to this issue - that every positive outcome, for capitalism for for humanity, is predicated first on the alignment of AI to the best interests of humankind.
+I've been thinking a lot about the impact of AI on the job market recently, and as a result, I ended up reading quite a few papers/articles on the threat that AI poses to capitalism. However, the more I read, the more it seemed to me that the authors of these papers were missing a key assumption in their proposed solutions to this issue - that every positive outcome, for capitalism and for humanity, is predicated first on the alignment of AI to the best interests of humankind.
 ### The Threat to Capitalism
 
 With the meteoric rise of AI over the past few years, many people have expressed worry over the future of capitalism, and for good reason. As AI displaces workers through automation, wealth is already beginning to concentrate towards those with AI assets. This rising wealth inequality is further exacerbated by a growing class of workers finding their skillsets have become de-valued due to AI-fueled supply.
